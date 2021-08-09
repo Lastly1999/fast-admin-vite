@@ -1,4 +1,4 @@
-import { defineConfig } from "vite"
+import {defineConfig} from "vite"
 import vue from "@vitejs/plugin-vue"
 import styleImport from "vite-plugin-style-import"
 // jsx plugin
@@ -21,6 +21,8 @@ export default defineConfig({
             utils: path.resolve(__dirname, "src/utils"),
             // api层路径别名
             api: path.resolve(__dirname, "src/apis"),
+            // 类型层文件别名
+            typings: path.resolve(__dirname, "src/typings"),
         },
     },
     plugins: [

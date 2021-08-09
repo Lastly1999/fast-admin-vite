@@ -5,7 +5,7 @@
             <el-form-item prop="userName" label="用户名">
                 <el-input placeholder="用户名" v-model="loginForm.userName" autocomplete="off">
                     <template #prefix>
-                        <i class="el-icon-user" />
+                        <i class="el-icon-user"/>
                     </template>
                 </el-input>
             </el-form-item>
@@ -13,28 +13,39 @@
                 <el-input placeholder="密码" type="passWord" v-model="loginForm.passWord" autocomplete="off">
                     <template #prefix>
                         <div>
-                            <i class="el-icon-view" />
+                            <i class="el-icon-view"/>
                         </div>
                     </template>
                 </el-input>
             </el-form-item>
         </el-form>
         <div class="form-btn-login">
-            <el-button style="width: 100%" type="primary" round>LOG IN</el-button>
+            <el-button style="width: 100%" type="primary" round @click="onSubmit">LOG IN</el-button>
         </div>
     </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from "vue"
+import {defineComponent, reactive, toRefs} from "vue"
 
 export default defineComponent({
-    setup() {
-        const loginForm = reactive({
-            userName: "",
-            passWord: "",
+    emits: {
+        submit: (val) => {
+            return val
+        }
+    },
+    setup(props, {emit}) {
+        // 登录 reactive
+        const login = reactive({
+            loginForm: {
+                userName: "",
+                passWord: "",
+            },
+            onSubmit: () => {
+                emit('submit', login.loginForm)
+            }
         })
         return {
-            loginForm,
+            ...toRefs(login)
         }
     },
 })
