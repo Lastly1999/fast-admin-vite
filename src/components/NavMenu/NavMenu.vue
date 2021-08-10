@@ -31,12 +31,11 @@ import {defineComponent, ref} from "vue";
 export default defineComponent({
     setup() {
         const activeIndex2 = ref('1')
-        const handleSelect = (key, keyPath) => {
+        const handleSelect = (key: string, keyPath: string) => {
             console.log(key, keyPath);
         }
         return {
             handleSelect,
-            activeIndex,
             activeIndex2
         };
     }

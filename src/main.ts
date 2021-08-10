@@ -19,9 +19,7 @@ app.use(router)
 app.use(ElementPlus)
 
 // layout 统一注册 配置组件别名
-console.log(layouts)
 layouts.map((item: Component) => {
-    console.log(`Fast${(item.name as string)}`)
     app.component(`Fast${(item.name as string)}`, item)
 })
 

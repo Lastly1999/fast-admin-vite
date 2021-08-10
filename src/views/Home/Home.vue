@@ -1,12 +1,12 @@
 <template>
-    <FastContainer>
+    <FastContainer style="height:100%">
         <FastAside>
             header
         </FastAside>
         <FastContainer>
             <FastHeader>Header</FastHeader>
-            <FastMain>Main</FastMain>
-            <FasttFooter>Footer</FasttFooter>
+            <FastContent>Main</FastContent>
+            <FastFooter>Footer</FastFooter>
         </FastContainer>
     </FastContainer>
 </template>
