@@ -9,3 +9,4 @@ declare module '*.vue' {
 declare module "@/*"
 declare module "utils/*"
 declare module "typings/*"
+declare module "services/*"

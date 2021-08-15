@@ -5,8 +5,20 @@ import styleImport from "vite-plugin-style-import"
 import vueJsx from "@vitejs/plugin-vue-jsx"
 import path from "path"
 
+const api_url = 'http://127.0.0.1:5600/'
+const api_base = 'v1'
+
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig({ // ...
+    server: {
+        proxy: {
+            '/api': {
+                target: `${api_url}${api_base}`,
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, '')
+            },
+        }
+    },
     resolve: {
         alias: {
             // 路径别名配置
@@ -20,7 +32,7 @@ export default defineConfig({
             // 工具类路径别名
             utils: path.resolve(__dirname, "src/utils"),
             // api层路径别名
-            api: path.resolve(__dirname, "src/apis"),
+            services: path.resolve(__dirname, "src/services"),
             // 类型层文件别名
             typings: path.resolve(__dirname, "src/typings"),
         },

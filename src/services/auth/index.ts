@@ -6,7 +6,7 @@ import httpRequest from "utils/axios/service";
  */
 export const checkAuthUser = <T>(data: T) => {
     return httpRequest({
-        methods: 'post',
+        method: 'post',
         path: '/auth/login',
         data
     })

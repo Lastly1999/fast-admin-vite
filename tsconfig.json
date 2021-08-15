@@ -11,12 +11,28 @@
     "lib": [
       "esnext",
       "dom"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@": [
+        "src"
+      ],
+      "@/*": [
+        "src/*"
+      ],
+      "utils": [
+        "utils"
+      ],
+      "utils/*": [
+        "uitls/*"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts",
     "utils/**/*.ts",
     "typings/**/*.ts",
+    "service/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",

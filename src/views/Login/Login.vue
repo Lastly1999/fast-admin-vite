@@ -12,14 +12,16 @@
 <script lang="ts">
 import {defineComponent} from "vue"
 import LoginFormContainer from "./components/LoginFormContainer/LoginFormContainer.vue"
+import {checkAuthUser} from "@/services/auth"
 
 export default defineComponent({
     components: {
         LoginFormContainer,
     },
     setup() {
-        const loginAction = (form: any) => {
-            console.log(form)
+        const loginAction = async (form: any) => {
+            const res = await checkAuthUser(form)
+            console.log(res)
         }
         return {
             loginAction
