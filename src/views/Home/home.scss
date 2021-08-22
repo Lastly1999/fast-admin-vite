@@ -1,0 +1,12 @@
+.fast-header {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  height: 50px;
+
+  .setup-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+}

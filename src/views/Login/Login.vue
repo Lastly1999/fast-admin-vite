@@ -11,17 +11,26 @@
 </template>
 <script lang="ts">
 import {defineComponent} from "vue"
+import {useRouter} from "vue-router"
+// components
 import LoginFormContainer from "./components/LoginFormContainer/LoginFormContainer.vue"
+// apis
 import {checkAuthUser} from "@/services/auth"
+// typings
+import {HttpResponse} from "@/typings/response/response"
+import {LoginForm} from "@/views/Login/login"
 
 export default defineComponent({
     components: {
         LoginFormContainer,
     },
     setup() {
-        const loginAction = async (form: any) => {
-            const res = await checkAuthUser(form)
-            console.log(res)
+        const router = useRouter()
+        const loginAction = async (form: LoginForm) => {
+            const {code}: HttpResponse<T> = await checkAuthUser<LoginForm>(form)
+            if (code === 200) {
+                await router.push('/home')
+            }
         }
         return {
             loginAction

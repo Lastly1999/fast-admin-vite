@@ -6,7 +6,7 @@ import layouts from '@/layout'
 
 // element-plus
 import ElementPlus from "element-plus"
-import "@/assets/theme/elementTheme/index.css"
+import "./element-variables.scss"
 
 // 路由实例
 import router from "@/router"

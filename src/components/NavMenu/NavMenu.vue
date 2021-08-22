@@ -2,7 +2,6 @@
     <el-menu
         :default-active="activeIndex2"
         @select="handleSelect"
-        background-color="#30426a"
         text-color="#b2bfdc"
         active-text-color="#fff"
     >
