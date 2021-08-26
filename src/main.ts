@@ -1,12 +1,9 @@
-import {createApp, Component} from "vue"
+import {createApp} from "vue"
 import App from "./App"
 
-// fast-admin 自定义组件
-import layouts from '@/layout'
-
-// element-plus
-import ElementPlus from "element-plus"
-import "./element-variables.scss"
+// antd
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
 
 // 路由实例
 import router from "@/router"
@@ -16,12 +13,8 @@ const app = createApp(App)
 
 // 中间件使用
 app.use(router)
-app.use(ElementPlus)
-
-// layout 统一注册 配置组件别名
-layouts.map((item: Component) => {
-    app.component(`Fast${(item.name as string)}`, item)
-})
+// antd
+app.use(Antd)
 
 // 挂载
 app.mount("#app")

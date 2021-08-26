@@ -1,39 +1,103 @@
 <template>
-    <el-menu
-        :default-active="activeIndex2"
-        @select="handleSelect"
-        text-color="#b2bfdc"
-        active-text-color="#fff"
-    >
-        <el-menu-item index="1">处理中心</el-menu-item>
-        <el-submenu index="2">
-            <template #title>我的工作台</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-            <el-submenu index="2-4">
-                <template #title>选项4</template>
-                <el-menu-item index="2-4-1">选项1</el-menu-item>
-                <el-menu-item index="2-4-2">选项2</el-menu-item>
-                <el-menu-item index="2-4-3">选项3</el-menu-item>
-            </el-submenu>
-        </el-submenu>
-    </el-menu>
+  <a-menu
+      :default-selected-keys="['1']"
+      :default-open-keys="['2']"
+      mode="inline"
+      theme="dark"
+      :inline-collapsed="collapsed"
+  >
+    <template v-for="item in list" :key="item.key">
+      <template v-if="!item?.children">
+        <a-menu-item :key="item.key">
+          <template #icon>
+            <PieChartOutlined/>
+          </template>
+          {{ item.title }}
+        </a-menu-item>
+      </template>
+      <template v-else>
+        <sub-menu :menu-info="item" :key="item.key"/>
+      </template>
+    </template>
+  </a-menu>
 </template>
-
 <script lang="ts">
-import {defineComponent, ref} from "vue";
+import {defineComponent, ref} from 'vue';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  PieChartOutlined,
+  MailOutlined,
+} from '@ant-design/icons-vue';
 
+// you can rewrite it to a single file component, if not, you should config vue alias to vue/dist/vue.esm-bundler.js
+const SubMenu = {
+  name: 'SubMenu',
+  props: {
+    menuInfo: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  template: `
+    <a-sub-menu :key="menuInfo.key">
+      <template #icon><MailOutlined /></template>
+      <template #title>{{ menuInfo.title }}</template>
+      <template v-for="item in menuInfo.children" :key="item.key">
+        <template v-if="!item.children">
+          <a-menu-item :key="item.key">
+            <template #icon>
+              <PieChartOutlined />
+            </template>
+            {{ item.title }}
+          </a-menu-item>
+        </template>
+        <template v-else>
+          <sub-menu :menu-info="item" :key="item.key" />
+        </template>
+      </template>
+    </a-sub-menu>
+  `,
+  components: {
+    PieChartOutlined,
+    MailOutlined,
+  },
+};
+const list = [
+  {
+    key: '1',
+    title: 'Option 1',
+  },
+  {
+    key: '2',
+    title: 'Navigation 2',
+    children: [
+      {
+        key: '2.1',
+        title: 'Navigation 3',
+        children: [{key: '2.1.1', title: 'Option 2.1.1'}],
+      },
+    ],
+  },
+];
 export default defineComponent({
-    setup() {
-        const activeIndex2 = ref('1')
-        const handleSelect = (key: string, keyPath: string) => {
-            console.log(key, keyPath);
-        }
-        return {
-            handleSelect,
-            activeIndex2
-        };
-    }
-})
+  setup() {
+    const collapsed = ref<boolean>(false);
+
+    const toggleCollapsed = () => {
+      collapsed.value = !collapsed.value;
+    };
+    return {
+      list,
+      collapsed,
+      toggleCollapsed,
+    };
+  },
+  components: {
+    'sub-menu': SubMenu,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    PieChartOutlined,
+  },
+});
 </script>

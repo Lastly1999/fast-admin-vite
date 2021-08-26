@@ -1,11 +1,12 @@
 import {defineConfig} from "vite"
 import vue from "@vitejs/plugin-vue"
-import styleImport from "vite-plugin-style-import"
+import styleImport from 'vite-plugin-style-import'
+
 // jsx plugin
 import vueJsx from "@vitejs/plugin-vue-jsx"
 import path from "path"
 
-const api_url = 'http://127.0.0.1:5600/'
+const api_url = 'http://159.75.22.114:5600/'
 const api_base = 'v1'
 
 // https://vitejs.dev/config/
@@ -19,8 +20,21 @@ export default defineConfig({ // ...
             },
         }
     },
+    css: {
+        preprocessorOptions: {
+            less: {
+                modifyVars: { // 更改主题在这里
+                    'primary-color': '#000',
+                    'link-color': '#1DA57A',
+                    'border-radius-base': '2px'
+                },
+                javascriptEnabled: true
+            }
+        }
+    },
     resolve: {
         alias: {
+            'vue': 'vue/dist/vue.esm-bundler.js', // 定义vue的别名，如果使用其他的插件，可能会用到别名
             // 路径别名配置
             "@": path.resolve(__dirname, "src"),
             // 组件路径别名
@@ -40,23 +54,16 @@ export default defineConfig({ // ...
     plugins: [
         vueJsx(),
         vue(),
-        // element plus 按需引入配置
-        // 说明见 https://element-plus.gitee.io/#/zh-CN/component/quickstart
         styleImport({
             libs: [
                 {
-                    libraryName: "element-plus",
+                    libraryName: 'ant-design-vue',
                     esModule: true,
-                    ensureStyleFile: true,
                     resolveStyle: (name) => {
-                        name = name.slice(3)
-                        return `element-plus/packages/theme-chalk/src/${name}.scss`
-                    },
-                    resolveComponent: (name) => {
-                        return `element-plus/lib/${name}`
-                    },
-                },
-            ],
+                        return `ant-design-vue/es/${name}/style/index`
+                    }
+                }
+            ]
         }),
     ],
 })

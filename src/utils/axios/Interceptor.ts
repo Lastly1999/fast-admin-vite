@@ -1,7 +1,5 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios"
 
-import {notice} from '@/utils/element/message'
-
 // axios instance
 const axiosInstance = axios.create({
     timeout: 10000
@@ -25,11 +23,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     console.log(response)
     return response.data
 }, (err: any) => {
-    notice({
-        type: 'error',
-        title: "请求错误",
-        message: JSON.stringify(err.message)
-    })
+   // todo
 })
 
 export default axiosInstance

@@ -2,7 +2,7 @@
   "name": "fast-admin-vite",
   "version": "0.0.0",
   "scripts": {
-    "dev": "node console.ts && vite --host",
+    "fast:run": "node console.ts && vite --host",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
@@ -12,12 +12,13 @@
     "@types/node": "^16.7.1",
     "@vitejs/plugin-vue-jsx": "^1.1.7",
     "@vue/babel-plugin-jsx": "^1.0.6",
+    "ant-design-vue": "^2.2.6",
     "axios": "^0.21.1",
-    "element-plus": "^1.0.2-beta.70",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
     "sass": "^1.37.5",
     "sass-loader": "^12.1.0",
+    "vite-plugin-element-plus": "^0.0.9",
     "vue": "^3.0.5",
     "vue-router": "4",
     "vuex": "^4.0.2"
