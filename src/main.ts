@@ -3,7 +3,7 @@ import App from "./App"
 
 // antd
 import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css'
+import "./theme/fast-theme.less"
 
 // 路由实例
 import router from "@/router"

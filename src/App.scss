@@ -1,10 +1,22 @@
+/*
+ ************ 全局样式重写 *************
+ * 全局样式处理 这里负责处理一些组件库的样式重写以及一些全局样式
+ * @author lastly
+ * @date 2021年8月25日22:04:51
+ *************************************
+ */
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
+
 body,
 html,
 #app {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
+}
+
+.el-menu {
+  border-right: none!important;
 }

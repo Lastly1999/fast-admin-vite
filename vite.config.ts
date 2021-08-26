@@ -24,9 +24,9 @@ export default defineConfig({ // ...
         preprocessorOptions: {
             less: {
                 modifyVars: { // 更改主题在这里
-                    'primary-color': '#000',
-                    'link-color': '#1DA57A',
-                    'border-radius-base': '2px'
+                    // 'primary-color': '#52c41a',
+                    // 'link-color': '#1DA57A',
+                    // 'border-radius-base': '2px'
                 },
                 javascriptEnabled: true
             }
@@ -54,6 +54,8 @@ export default defineConfig({ // ...
     plugins: [
         vueJsx(),
         vue(),
+        // element plus 按需引入配置
+        // 说明见 https://element-plus.gitee.io/#/zh-CN/component/quickstart
         styleImport({
             libs: [
                 {

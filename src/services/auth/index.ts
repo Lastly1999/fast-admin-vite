@@ -11,3 +11,14 @@ export const checkAuthUser = <T>(data: T) => {
         data
     })
 }
+
+/**
+ * 获取系统权限菜单
+ * @param id 
+ */
+export const getSysMenus = (id: number | string) => {
+    return httpRequest({
+        method: 'get',
+        path: `/auth/sys/${id}`
+    })
+}

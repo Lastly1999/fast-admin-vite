@@ -1,0 +1,27 @@
+{
+    "vetur.completion.scaffoldSnippetSources": {
+        "workspace": "💼",
+        "user": "🗒️",
+        "vetur": "✌"
+    },
+    "vetur.validation.template": false,
+    "editor.wordWrap": "on",
+    "editor.wordWrapColumn": 800,
+    "[markdown]": {
+        "editor.wordWrap": "on",
+        "editor.quickSuggestions": false
+    },
+    // 解决Vue换行问题
+    "vetur.format.defaultFormatter.html": "js-beautify-html",
+    "vetur.format.defaultFormatterOptions": {
+        "js-beautify-html": {
+            "wrap_attributes": "auto"
+        },
+        "prettyhtml": {
+            "printWidth": 100,
+            "singleQuote": false,
+            "wrapAttributes": false,
+            "sortAttributes": false
+        }
+    },
+}

@@ -1,54 +1,51 @@
 <template>
-    <div class="login-form-container">
-        <h2 class="form-title">您好！欢迎登录</h2>
-        <el-form :model="loginForm" status-icon ref="ruleForm" label-position="top">
-            <el-form-item prop="userName" label="用户名">
-                <el-input placeholder="用户名" v-model="loginForm.userName" autocomplete="off">
-                    <template #prefix>
-                        <i class="el-icon-user"/>
-                    </template>
-                </el-input>
-            </el-form-item>
-            <el-form-item prop="passWord" label="密码">
-                <el-input placeholder="密码" type="passWord" v-model="loginForm.passWord" autocomplete="off">
-                    <template #prefix>
-                        <div>
-                            <i class="el-icon-view"/>
-                        </div>
-                    </template>
-                </el-input>
-            </el-form-item>
-        </el-form>
-        <div class="form-btn-login">
-            <el-button style="width: 100%" type="primary" round @click="onSubmit">LOG IN</el-button>
-        </div>
-    </div>
+  <div class="login-form-container">
+    <h2 class="form-title">您好！欢迎登录</h2>
+    <a-form :model="loginForm" @finish="onSubmit" @finishFailed="handleFinishFailed">
+      <a-form-item>
+        <a-input v-model:value="loginForm.userName" placeholder="userName">
+          <template #prefix>
+            <UserOutlined style="color: rgba(0, 0, 0, 0.25)" />
+          </template>
+        </a-input>
+      </a-form-item>
+      <a-form-item>
+        <a-input v-model:value="loginForm.passWord" type="password" placeholder="Password">
+          <template #prefix>
+            <LockOutlined style="color: rgba(0, 0, 0, 0.25)" />
+          </template>
+        </a-input>
+      </a-form-item>
+      <a-form-item>
+        <a-button type="primary" html-type="submit" :disabled="loginForm.userName === '' || loginForm.passWord === ''">Log in</a-button>
+      </a-form-item>
+    </a-form>
+  </div>
 </template>
-<script lang="ts">
-import {defineComponent, reactive, toRefs} from "vue"
-
+<script lang="ts" >
+import { defineComponent, reactive, toRefs } from "vue";
 export default defineComponent({
-    emits: {
-        submit: (val) => {
-            return val
-        }
-    },
-    setup(props, {emit}) {
-        // 登录 reactive
-        const login = reactive({
-            loginForm: {
-                userName: "",
-                passWord: "",
-            },
-            onSubmit: () => {
-                emit('submit', login.loginForm)
-            }
-        })
-        return {
-            ...toRefs(login)
-        }
-    },
-})
+  emits: {
+    submit: val => {
+      return val;
+    }
+  },
+  setup(props, { emit }) {
+    // 登录 reactive
+    const login = reactive({
+      loginForm: {
+        userName: "",
+        passWord: ""
+      },
+      onSubmit: () => {
+        emit("submit", login.loginForm);
+      }
+    });
+    return {
+      ...toRefs(login)
+    };
+  }
+});
 </script>
 <style lang="scss" scoped>
 @import "./index.scss";

@@ -1,22 +1,15 @@
-import {defineComponent} from "vue"
-import NavMenu from "@/components/NavMenu/NavMenu.vue"
+import { defineComponent } from "vue"
 import "./App.scss"
 
+/**
+ * 首页应用主入口
+ * @author lastly
+ * @date 2021年8月26日21:50:29
+ */
 export default defineComponent({
-    components: {
-        NavMenu
-    },
     render() {
         return (
-            <a-layout style={{minHeight: '100vh'}}>
-                <a-layout-sider>
-                    <NavMenu/>
-                </a-layout-sider>
-                <a-layout>
-                    <a-layout-header style={{background: '#fff', padding: 0}}/>
-                    test
-                </a-layout>
-            </a-layout>
+            <router-view />
         )
     },
 })

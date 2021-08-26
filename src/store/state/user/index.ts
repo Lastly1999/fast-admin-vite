@@ -1,5 +1,3 @@
-import {Store} from 'vuex'
-
 // typings
 export type IUserState = {
     userInfo: IUserInfo

@@ -1,4 +1,4 @@
-import {createStore} from "vuex"
+import {createStore, Store} from "vuex"
 
 // 分装仓库 非module式
 import State from './state/install'
@@ -14,7 +14,7 @@ import Modules from './modules/install'
  * @author lastly
  * @date 2021年8月10日00:36:37
  */
-const store = createStore({
+const store: Store<any> = createStore({
     state: {...State} as any,
     actions: {...Actions} as any,
     mutations: {...Mutations} as any,

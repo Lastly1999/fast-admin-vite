@@ -26,12 +26,14 @@ export default defineComponent({
     },
     setup() {
         const router = useRouter()
-        const loginAction = async (form: LoginForm) => {
-            const {code}: HttpResponse<T> = await checkAuthUser<LoginForm>(form)
+
+        const loginAction: Function = async (form: LoginForm): Promise<any> => {
+            const {code}: HttpResponse<any> = await checkAuthUser<LoginForm>(form)
             if (code === 200) {
                 await router.push('/home')
             }
         }
+
         return {
             loginAction
         }
