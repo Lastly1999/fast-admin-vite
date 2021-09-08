@@ -1,5 +1,5 @@
 <template>
-  <div>tools</div>
+    <div style="background:#fff">components</div>
 </template>
 
 <script lang="ts" setup>

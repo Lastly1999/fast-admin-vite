@@ -11,20 +11,8 @@
     </a-layout>
   </a-layout>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
-
-// components
+<script lang="ts" setup>
 import NavMenu from "@/components/NavMenu/NavMenu.vue";
-import FastBreadcrumb from "@/components/FastBreadcrumb/FastBreadcrumb.vue";
-
-export default defineComponent({
-  components: {
-    NavMenu,
-    FastBreadcrumb
-  },
-  setup() {}
-});
 </script>
 <style lang="scss">
 @import "./home.scss";

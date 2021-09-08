@@ -1,4 +1,4 @@
-import {defineConfig} from "vite"
+import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import styleImport from 'vite-plugin-style-import'
 
@@ -23,7 +23,8 @@ export default defineConfig({ // ...
     css: {
         preprocessorOptions: {
             less: {
-                modifyVars: { // 更改主题在这里
+                modifyVars: {
+                    // 更改主题在这里
                     // 'primary-color': '#52c41a',
                     // 'link-color': '#1DA57A',
                     // 'border-radius-base': '2px'
@@ -56,16 +57,16 @@ export default defineConfig({ // ...
         vue(),
         // element plus 按需引入配置
         // 说明见 https://element-plus.gitee.io/#/zh-CN/component/quickstart
-        styleImport({
-            libs: [
-                {
-                    libraryName: 'ant-design-vue',
-                    esModule: true,
-                    resolveStyle: (name) => {
-                        return `ant-design-vue/es/${name}/style/index`
-                    }
-                }
-            ]
-        }),
+        // styleImport({
+        //     libs: [
+        //         {
+        //             libraryName: 'ant-design-vue',
+        //             esModule: true,
+        //             resolveStyle: (name) => {
+        //                 return `ant-design-vue/es/${name}/style/index`
+        //             }
+        //         }
+        //     ]
+        // }),
     ],
 })

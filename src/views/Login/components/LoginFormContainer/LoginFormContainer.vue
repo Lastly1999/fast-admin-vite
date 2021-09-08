@@ -1,7 +1,7 @@
 <template>
   <div class="login-form-container">
     <h2 class="form-title">您好！欢迎登录</h2>
-    <a-form :model="loginForm" @finish="onSubmit" @finishFailed="handleFinishFailed">
+    <a-form :model="loginForm" @finish="onSubmit">
       <a-form-item>
         <a-input v-model:value="loginForm.userName" placeholder="userName">
           <template #prefix>
@@ -17,34 +17,39 @@
         </a-input>
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" html-type="submit" :disabled="loginForm.userName === '' || loginForm.passWord === ''">Log in</a-button>
+        <a-button
+          type="primary"
+          html-type="submit"
+          :disabled="loginForm.userName === '' || loginForm.passWord === ''"
+        >Log in</a-button>
       </a-form-item>
     </a-form>
   </div>
 </template>
-<script lang="ts" >
-import { defineComponent, reactive, toRefs } from "vue";
+<script lang="ts">
+import { defineComponent, ref, toRefs } from 'vue'
+import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
+
 export default defineComponent({
-  emits: {
-    submit: val => {
-      return val;
+  emits: ['change', 'update'],
+  setup(_props, { emit }) {
+
+    const loginForm = ref({
+      userName: "",
+      passWord: ""
+    })
+
+    const onSubmit = () => {
+      emit("change", loginForm.value);
     }
-  },
-  setup(props, { emit }) {
-    // 登录 reactive
-    const login = reactive({
-      loginForm: {
-        userName: "",
-        passWord: ""
-      },
-      onSubmit: () => {
-        emit("submit", login.loginForm);
-      }
-    });
+
     return {
-      ...toRefs(login)
+      LockOutlined,
+      UserOutlined,
+      loginForm,
+      onSubmit,
     };
-  }
+  },
 });
 </script>
 <style lang="scss" scoped>

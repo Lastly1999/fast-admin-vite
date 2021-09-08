@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios"
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 
 // axios instance
 const axiosInstance = axios.create({
@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     console.log(response)
     return response.data
 }, (err: any) => {
-   // todo
+    // todo
 })
 
 export default axiosInstance

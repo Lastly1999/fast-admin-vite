@@ -1,14 +1,7 @@
 <template>
-  <div>
-    components
-  </div>
+  <div>components</div>
 </template>
 
-<script>
-import { defineComponent } from "vue"
-export default defineComponent({
-  setup() {
-    return {}
-  }
-})
+<script lang="ts" setup>
+
 </script>

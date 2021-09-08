@@ -7,7 +7,8 @@ import {
     Router,
     RouteRecordRaw
 } from "vue-router"
-import { routesConf } from '@/config/router.config'
+// import { routesConf } from '@/config/router.config'
+import routesStoreModules from "./modules"
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -23,11 +24,7 @@ const routes: RouteRecordRaw[] = [
         path: "/login",
         component: () => import("views/Login/Login.vue"),
     },
-    {
-        path: "/home",
-        component: () => import("views/Home/Home.vue"),
-        children: routesConf
-    },
+    ...routesStoreModules
 ]
 
 // 构建路由栈
@@ -45,7 +42,7 @@ router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormali
         // 进行用户id请求权限菜单操作
         await store.dispatch('sysModule/API_GET_SYS_MENUS', 1)
         const roleMenus = JSON.parse(JSON.stringify(store.getters['sysModule/getSysMenus']))
-        
+
         next()
     }
     // nprogress start...

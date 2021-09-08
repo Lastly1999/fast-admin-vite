@@ -1,44 +1,43 @@
 <template>
     <div class="login-container">
         <div class="element-container-left">
-            <img src="@/assets/login/element1.png"/>
+            <img src="@/assets/login/element1.png" />
         </div>
         <div class="element-container-right">
-            <img src="@/assets/login/element2.png"/>
+            <img src="@/assets/login/element2.png" />
         </div>
-        <LoginFormContainer @submit="loginAction"/>
+        <LoginFormContainer @change="loginAction" />
     </div>
 </template>
 <script lang="ts">
-import {defineComponent} from "vue"
-import {useRouter} from "vue-router"
-// components
-import LoginFormContainer from "./components/LoginFormContainer/LoginFormContainer.vue"
-// apis
-import {checkAuthUser} from "@/services/auth"
-// typings
-import {HttpResponse} from "@/typings/response/response"
-import {LoginForm} from "@/views/Login/login"
+import { useRouter, Router } from 'vue-router'
+import LoginFormContainer from './components/LoginFormContainer/LoginFormContainer.vue'
+import { checkAuthUser } from '@/services/auth'
+import { HttpResponse } from '@/typings/response/response'
+import { LoginForm } from '@/views/Login/login'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
     components: {
-        LoginFormContainer,
+        LoginFormContainer
     },
     setup() {
-        const router = useRouter()
-
+        // 路由实例
+        const router: Router = useRouter()
+        // 登录方法
         const loginAction: Function = async (form: LoginForm): Promise<any> => {
-            const {code}: HttpResponse<any> = await checkAuthUser<LoginForm>(form)
+            const { code }: HttpResponse<any> = await checkAuthUser<LoginForm>(
+                form
+            )
             if (code === 200) {
-                await router.push('/home')
+                await router.push('/dashboard/panel')
             }
         }
-
         return {
-            loginAction
-        }
+            loginAction,
+        };
     },
-})
+});
 </script>
 <style lang="scss" scoped>
 @import "./index.scss";
