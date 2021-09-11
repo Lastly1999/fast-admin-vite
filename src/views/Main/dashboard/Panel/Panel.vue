@@ -7,6 +7,5 @@
 </template>
 
 <script lang="ts" setup>
-import UserInfoPanel from './components/UserInfoPanel/UserInfoPanel.vue'
 
 </script>

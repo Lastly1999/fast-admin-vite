@@ -5,7 +5,8 @@ import {
     NavigationGuardNext,
     NavigationFailure,
     Router,
-    RouteRecordRaw
+    RouteRecordRaw,
+    RouteComponent
 } from "vue-router"
 // import { routesConf } from '@/config/router.config'
 import routesStoreModules from "./modules"
@@ -14,6 +15,10 @@ import 'nprogress/nprogress.css'
 
 // vuex
 import store from '@/store'
+
+// 路由白名单表
+const routerAuthList = ["HOME:PANEL:VIEW"]
+
 
 const routes: RouteRecordRaw[] = [
     {
@@ -33,6 +38,21 @@ const router: Router = createRouter({
     routes,
 })
 
+
+const authEachArrays = (routesStore: RouteRecordRaw[]) => {
+    const each = () => {
+        routesStore.map(item => {
+            // 增加权限标识
+            if (routerAuthList.includes(item.meta?.role as string)) {
+                (item as any).isAuth = true
+            } else {
+                (item.meta as any).isAuth = false
+            }
+        })
+    }
+    each()
+}
+
 router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormalized, next: NavigationGuardNext) => {
     // 如果是登录页 默认放行 不进行权限验证
     if (to.path === '/login') {
@@ -42,12 +62,15 @@ router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormali
         // 进行用户id请求权限菜单操作
         await store.dispatch('sysModule/API_GET_SYS_MENUS', 1)
         const roleMenus = JSON.parse(JSON.stringify(store.getters['sysModule/getSysMenus']))
-
+        authEachArrays(routesStoreModules)
+        console.log(roleMenus)
+        console.log(routesStoreModules)
         next()
     }
     // nprogress start...
     nprogress.start()
 })
+
 
 router.afterEach((to: RouteLocationNormalized, form: RouteLocationNormalized, next: void | NavigationFailure | undefined) => {
     // nprogress end...
