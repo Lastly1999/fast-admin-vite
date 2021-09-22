@@ -42,7 +42,6 @@ router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormali
         // 进行用户id请求权限菜单操作
         await store.dispatch('sysModule/API_GET_SYS_MENUS', 1)
         const roleMenus = JSON.parse(JSON.stringify(store.getters['sysModule/getSysMenus']))
-
         next()
     }
     // nprogress start...

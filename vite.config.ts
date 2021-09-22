@@ -6,7 +6,7 @@ import styleImport from 'vite-plugin-style-import'
 import vueJsx from "@vitejs/plugin-vue-jsx"
 import path from "path"
 
-const api_url = 'http://159.75.22.114:5600/'
+const api_url = 'http://localhost:5600/'
 const api_base = 'v1'
 
 // https://vitejs.dev/config/

@@ -1,11 +1,13 @@
 <template>
-    <Sider theme="light" class="system-sider" width="220" collapsible>
-        <NavMenu />
+    <Sider theme="dark" class="system-sider" width="220" collapsible>
+        <NavMenu :list="roleMenus" />
     </Sider>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
+import { useStore } from 'vuex'
+
 import { Layout } from 'ant-design-vue'
 
 // layout tools
@@ -17,7 +19,11 @@ export default defineComponent({
         NavMenu,
     },
     setup() {
-        return {}
+        const store = useStore()
+        const roleMenus = store.getters['sysModule/getSysMenus']
+        return {
+            roleMenus,
+        }
     },
 })
 </script>

@@ -1,6 +1,6 @@
 <template>
-    <a-menu :default-selected-keys="['1']" :default-open-keys="['2']" mode="inline" theme="light" :inline-collapsed="collapsed" @select="selectMenuItem">
-        <template v-for="item in list" :key="item.key">
+    <a-menu :default-selected-keys="['1']" :default-open-keys="['2']" mode="inline" theme="dark" :inline-collapsed="collapsed" @select="selectMenuItem">
+        <template v-for="item in $props.list" :key="item.key">
             <template v-if="!item?.children">
                 <a-menu-item :key="item.key">
                     <template #icon>
@@ -59,33 +59,39 @@ const SubMenu = {
         MailOutlined,
     },
 }
-const list = [
-    {
-        key: '1',
-        title: '工作台',
-        children: [
-            {
-                key: '/dashboard/panel',
-                title: '工作面板',
-            },
-            {
-                key: '/dashboard/info',
-                title: '系统信息',
-            },
-        ],
-    },
-    {
-        key: '2',
-        title: '组件',
-        children: [
-            {
-                key: '2.1',
-                title: '表格',
-            },
-        ],
-    },
-]
+// const list = [
+//     {
+//         key: '1',
+//         title: '工作台',
+//         children: [
+//             {
+//                 key: '/dashboard/panel',
+//                 title: '工作面板',
+//             },
+//             {
+//                 key: '/dashboard/info',
+//                 title: '系统信息',
+//             },
+//         ],
+//     },
+//     {
+//         key: '2',
+//         title: '组件',
+//         children: [
+//             {
+//                 key: '2.1',
+//                 title: '表格',
+//             },
+//         ],
+//     },
+// ]
 export default defineComponent({
+    props: {
+        list: {
+            type: Array,
+            default: () => [],
+        },
+    },
     setup() {
         const router = useRouter()
         const collapsed = ref<boolean>(false)
@@ -97,7 +103,6 @@ export default defineComponent({
             router.push(item.key)
         }
         return {
-            list,
             collapsed,
             toggleCollapsed,
             selectMenuItem,
