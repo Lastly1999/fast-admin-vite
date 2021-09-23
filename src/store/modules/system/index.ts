@@ -1,6 +1,8 @@
 
 import { Store } from 'vuex'
 import { getSysMenus } from 'services/auth'
+import { listToTree } from "utils/loadsh/data"
+
 
 export type SystemState = {
     sysMenus: []
@@ -32,7 +34,8 @@ const systemModule: SysStemModule = {
     actions: {
         async API_GET_SYS_MENUS({ commit }: Store<any>, id: string | number) {
             const { code, data } = await getSysMenus(id)
-            if (code === 200) commit('SET_SYS_MENUS', data.menus)
+            // 转换树状结构后commit修改
+            if (code === 200) commit('SET_SYS_MENUS', listToTree(data.menus))
         }
     },
     mutations: {

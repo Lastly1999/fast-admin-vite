@@ -5,8 +5,7 @@ import {
     NavigationGuardNext,
     NavigationFailure,
     Router,
-    RouteRecordRaw,
-    RouteComponent
+    RouteRecordRaw
 } from "vue-router"
 // import { routesConf } from '@/config/router.config'
 import routesStoreModules from "./modules"
@@ -20,7 +19,7 @@ import store from '@/store'
 const routerAuthList = ["HOME:PANEL:VIEW"]
 
 
-const routes: RouteRecordRaw[] = [
+export const routes: RouteRecordRaw[] = [
     {
         path: "/",
         redirect: "/login",
@@ -41,30 +40,33 @@ const router: Router = createRouter({
 
 const authEachArrays = (routesStore: RouteRecordRaw[]) => {
     const each = () => {
-        routesStore.map(item => {
+        routesStore.map((item: RouteRecordRaw) => {
             // 增加权限标识
             if (routerAuthList.includes(item.meta?.role as string)) {
                 (item as any).isAuth = true
             } else {
                 (item.meta as any).isAuth = false
             }
+            if (item.children) {
+                authEachArrays(item.children)
+            }
         })
     }
     each()
 }
+
+
+// todo 权限验证在除开登录页之外pages处理
+// 进行用户id请求权限菜单操作
+await store.dispatch('sysModule/API_GET_SYS_MENUS', 1)
+const roleMenus = JSON.parse(JSON.stringify(store.getters['sysModule/getSysMenus']))
+authEachArrays(routesStoreModules)
 
 router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormalized, next: NavigationGuardNext) => {
     // 如果是登录页 默认放行 不进行权限验证
     if (to.path === '/login') {
         next()
     } else {
-        // todo 权限验证在除开登录页之外pages处理
-        // 进行用户id请求权限菜单操作
-        await store.dispatch('sysModule/API_GET_SYS_MENUS', 1)
-        const roleMenus = JSON.parse(JSON.stringify(store.getters['sysModule/getSysMenus']))
-        authEachArrays(routesStoreModules)
-        console.log(roleMenus)
-        console.log(routesStoreModules)
         next()
     }
     // nprogress start...

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent } from 'vue'
 import { useStore } from 'vuex'
 
 import { Layout } from 'ant-design-vue'

@@ -1,26 +1,21 @@
+
+<script lang="ts" setup>
+
+</script>
+
 <template>
-    <PageContent class="system-content">
+    <div class="system-content">
         <router-view v-slot="{ Component, route }">
-            <transition name="fade" mode="out-in">
+            <!-- <transition name="fade" mode="out-in"> -->
                 <keep-alive v-if="route.meta.keepAlive">
                     <component :is="Component" />
                 </keep-alive>
-                <component :is="Component" v-else />
-            </transition>
+                <component v-else :is="Component" />
+            <!-- </transition> -->
         </router-view>
-    </PageContent>
+    </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { Layout } from 'ant-design-vue'
-
-export default defineComponent({
-    components: {
-        PageContent: Layout.Content,
-    },
-})
-</script>
 <style lang="less" scoped>
 @import "./index.less";
 </style>

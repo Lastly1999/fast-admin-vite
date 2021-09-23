@@ -5,26 +5,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, watch } from "vue"
-import { useRoute, RouteLocationMatched } from "vue-router"
+import { defineComponent, reactive, toRefs, watch } from 'vue'
+import { useRoute, RouteLocationMatched } from 'vue-router'
 
 export default defineComponent({
     setup() {
         const route = useRoute()
 
         const breadcrumbConfig = reactive({
-            routerArrs: [] as RouteLocationMatched[] | undefined
+            routerArrs: [] as RouteLocationMatched[] | undefined,
         })
 
-        watch(() => route.matched, (ov, nv) => {
-            breadcrumbConfig.routerArrs = nv
-        }, {
-            deep: true,
-            immediate: true
-        })
+        watch(
+            () => route.matched,
+            (ov, _) => {
+                breadcrumbConfig.routerArrs = ov
+            },
+            {
+                deep: true,
+                immediate: true,
+            }
+        )
         return {
-            ...toRefs(breadcrumbConfig)
+            ...toRefs(breadcrumbConfig),
         }
-    }
+    },
 })
 </script>

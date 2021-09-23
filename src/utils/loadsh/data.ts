@@ -11,8 +11,9 @@ export const toTree = <T>(data: T[], pidKey: string, idKey: string) => {
         delete (item as any).children
     });
 
-    const map: any = { }
+    const map: any = {}
     data.forEach((item: T) => {
+        console.log(item)
         map[(item as any)[idKey]] = item;
     });
 
@@ -20,6 +21,7 @@ export const toTree = <T>(data: T[], pidKey: string, idKey: string) => {
 
     data.forEach((item: T) => {
         const parent = map[(item as any)[pidKey]];
+        console.log(parent);
         if (parent) {
             (parent.children || (parent.children = [])).push(item)
         } else {
@@ -27,4 +29,18 @@ export const toTree = <T>(data: T[], pidKey: string, idKey: string) => {
         }
     });
     return val
+}
+
+export const listToTree = (list: any[]) => {
+    //遍历整个列表
+    return list.filter((cur: { id: any; children: any; pId: number; }) => {
+        // 获取当前节点的子节点
+        let children = list.filter((item: { pId: any; }) => item.pId === cur.id);
+        if (children.length > 0) {
+            console.log(cur)
+            cur.children = children;
+        }
+        //只返回顶级节点
+        return cur.pId == 0;
+    });
 }

@@ -23,6 +23,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     console.log(response)
     return response.data
 }, (err: any) => {
+    console.log(err)
     // todo
 })
 

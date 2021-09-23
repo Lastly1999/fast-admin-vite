@@ -1,7 +1,7 @@
-<template>
-  <div>tools</div>
-</template>
 
 <script lang="ts" setup>
 
 </script>
+<template>
+  <div>tools</div>
+</template>
