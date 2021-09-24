@@ -4,16 +4,14 @@
 </script>
 
 <template>
-    <div class="system-content">
+    <a-layout-content class="system-content">
         <router-view v-slot="{ Component, route }">
-            <!-- <transition name="fade" mode="out-in"> -->
-                <keep-alive v-if="route.meta.keepAlive">
-                    <component :is="Component" />
-                </keep-alive>
-                <component v-else :is="Component" />
-            <!-- </transition> -->
+            <keep-alive v-if="route.meta.keepAlive">
+                <component :is="Component" />
+            </keep-alive>
+            <component v-else :is="Component" />
         </router-view>
-    </div>
+    </a-layout-content>
 </template>
 
 <style lang="less" scoped>

@@ -3,7 +3,9 @@ import { onMounted, ref } from "vue"
 // components
 import WorkInfoPanel from './components/WorkInfoPanel/WorkInfoPanel.vue'
 import TodoPanel from "./components/TodoPanel/TodoPanel.vue"
-import codingImg from "@/assets/coding.png"
+import WorkBannerPanel from "./components/WorkBannerPanel/WorkBannerPanel.vue"
+import TimeLinePanel from "./components/TimeLinePanel/TimeLinePanel.vue"
+import QuickMenusPanel from "./components/QuickMenusPanel/QuickMenusPanel.vue"
 
 const panelLoading = ref(true)
 
@@ -17,15 +19,15 @@ onMounted(() => {
 
 <template>
     <a-skeleton active :loading="panelLoading">
-        <a-row :gutter="[10, 10]" justify="start">
-            <a-col :span="16">
+        <a-row :gutter="[10, 10]" justify="start" :wrap="true">
+            <a-col :span="18">
                 <WorkInfoPanel />
                 <TodoPanel />
+                <TimeLinePanel />
             </a-col>
-            <a-col :span="8">
-                <div style="background-color: #fff">
-                    <img style="width:100%;" :src="codingImg" alt="#" />
-                </div>
+            <a-col :span="6">
+                <WorkBannerPanel />
+                <QuickMenusPanel />
             </a-col>
         </a-row>
     </a-skeleton>

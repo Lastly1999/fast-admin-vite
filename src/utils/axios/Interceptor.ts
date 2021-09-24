@@ -1,8 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import { alertMsg } from '../antd/antd'
 
 // axios instance
 const axiosInstance = axios.create({
-    timeout: 10000
+    timeout: 5000
 })
 
 /**
@@ -23,8 +24,8 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     console.log(response)
     return response.data
 }, (err: any) => {
-    console.log(err)
-    // todo
+    alertMsg('error', "请求超时，服务器异常")
+    Promise.reject(err)
 })
 
 export default axiosInstance

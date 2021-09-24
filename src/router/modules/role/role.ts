@@ -13,7 +13,17 @@ const roleRoutesConf: RouteRecordRaw = {
     meta: {
         title: "权限"
     },
-    children: []
+    children: [
+        {
+            path: "permissions",
+            name: "role",
+            component: () => import("@/views/Main/Role/Permissions/Permissions.vue"),
+            meta: {
+                title: "角色权限",
+                role: "ROLE:ROLE:PERMISSIONS"
+            }
+        }
+    ]
 }
 
 export default roleRoutesConf

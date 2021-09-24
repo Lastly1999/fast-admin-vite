@@ -28,5 +28,6 @@ export default defineComponent({
     background: #fff;
     display: flex;
     padding:15px;
+    box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
 }
 </style>
