@@ -24,6 +24,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     console.log(response)
     return response.data
 }, (err: any) => {
+    console.log(JSON.stringify(err))
     alertMsg('error', "请求超时，服务器异常")
     Promise.reject(err)
 })

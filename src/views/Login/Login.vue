@@ -26,10 +26,11 @@ export default defineComponent({
         const router: Router = useRouter()
         // 登录方法
         const loginAction: Function = async (form: LoginForm): Promise<any> => {
-            const { code }: HttpResponse<any> = await checkAuthUser<LoginForm>(
+            const { code, data: { token } }: HttpResponse<any> = await checkAuthUser<LoginForm>(
                 form
             )
             if (code === 200) {
+                console.log(token)
                 await router.push('/dashboard/panel')
             }
         }
