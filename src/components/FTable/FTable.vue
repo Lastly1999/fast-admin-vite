@@ -19,14 +19,18 @@ const rowClassName = (record: any, index: number) => {
 </script>
 <template>
     <a-table
+        style="word-break: break-all"
         class="ant-table-striped"
         {...$props}
         :pagination="false"
-        :scroll="{ x: 1500, y: tableHeight - 10 }"
+        :scroll="{ x: 'max-content', y: tableHeight - 10 }"
         :rowClassName="rowClassName"
     >
         <template #action>
-            <a>action</a>
+            <slot name="action"></slot>
+        </template>
+        <template #tags="{ text }">
+            <slot name="tags" :data="text"></slot>
         </template>
     </a-table>
 </template>

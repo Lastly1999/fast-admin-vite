@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import { alertMsg } from '../antd/antd'
+import router from "@/router"
 
 // axios instance
 const axiosInstance = axios.create({
@@ -11,7 +12,7 @@ const axiosInstance = axios.create({
  * @date 2021年8月9日19:44:07
  */
 axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosRequestConfig => {
-    // todo
+    config.headers['authorization'] = localStorage.getItem("system-token")
     return config
 })
 
@@ -24,9 +25,23 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     console.log(response)
     return response.data
 }, (err: any) => {
-    console.log(JSON.stringify(err))
-    alertMsg('error', "请求超时，服务器异常")
-    Promise.reject(err)
+    const { data } = err.response
+    // 错误处理
+    errorsHandler(data)
+    // 异常抛出
+    return Promise.reject(err.response)
 })
+
+// 错误处理
+function errorsHandler(data: any) {
+    switch (data.code) {
+        case 20001:
+            alertMsg("error", data.data)
+            router.push('/login')
+        case 20002:
+            alertMsg("error", data.data)
+            router.push('/login')
+    }
+}
 
 export default axiosInstance
