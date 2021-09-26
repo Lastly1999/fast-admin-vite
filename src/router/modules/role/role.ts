@@ -11,7 +11,7 @@ const roleRoutesConf: RouteRecordRaw = {
     name: "Role",
     component: Layout,
     meta: {
-        title: "权限"
+        title: "权限管理"
     },
     children: [
         {

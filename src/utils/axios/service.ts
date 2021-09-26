@@ -7,7 +7,7 @@ const api_url = "/api"
 export type HttpRequestOptions<T> = {
     method: Method;
     path: string;
-    data: T
+    data?: T
 }
 
 /**

@@ -26,8 +26,8 @@ const rowClassName = (record: any, index: number) => {
         :scroll="{ x: 'max-content', y: tableHeight - 10 }"
         :rowClassName="rowClassName"
     >
-        <template #action>
-            <slot name="action"></slot>
+        <template #action="{ text }">
+            <slot name="action" :data="text"></slot>
         </template>
         <template #tags="{ text }">
             <slot name="tags" :data="text"></slot>

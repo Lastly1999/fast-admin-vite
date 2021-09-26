@@ -1,4 +1,4 @@
-import httpRequest from "utils/axios/service";
+import httpRequest from "@/utils/axios/service"
 
 /**
  * 鉴权登录
@@ -14,11 +14,32 @@ export const checkAuthUser = <T>(data: T) => {
 
 /**
  * 获取系统权限菜单
- * @param id 
+ * @param id
  */
-export const getSysMenus = (id: number | string) => {
+export const getSysMenus = (id: number | string | undefined) => {
     return httpRequest({
         method: 'get',
         path: `/auth/sys/${id}`
+    })
+}
+
+/**
+ * 获取全部系统权限菜单
+ */
+export const getAllSysMenus = () => {
+    return httpRequest({
+        method: 'get',
+        path: `/auth/sys`
+    })
+}
+
+/**
+ * 获取用户所持系统ids
+ * @param userId
+ */
+export const getUserMenuIds = (userId: number | string | undefined) => {
+    return httpRequest({
+        method: 'get',
+        path: `/auth/menu/${userId}`
     })
 }

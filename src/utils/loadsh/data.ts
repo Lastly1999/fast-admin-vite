@@ -1,9 +1,9 @@
 /**
  * 递归生成树
  * @param data
- * @param 
- * @param T 
- * @returns 
+ * @param pidKey
+ * @param idKey
+ * @returns
  */
 export const toTree = <T>(data: T[], pidKey: string, idKey: string) => {
     // 删除 所有 children,以防止多次调用
@@ -13,7 +13,6 @@ export const toTree = <T>(data: T[], pidKey: string, idKey: string) => {
 
     const map: any = {}
     data.forEach((item: T) => {
-        console.log(item)
         map[(item as any)[idKey]] = item;
     });
 

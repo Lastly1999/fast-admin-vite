@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import { alertMsg } from '../antd/antd'
+import axios, {AxiosRequestConfig, AxiosResponse} from "axios"
+import {alertMsg} from '../antd/antd'
 import router from "@/router"
 
 // axios instance
@@ -25,7 +25,8 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     console.log(response)
     return response.data
 }, (err: any) => {
-    const { data } = err.response
+    const {data} = err.response
+    console.log(data)
     // 错误处理
     errorsHandler(data)
     // 异常抛出
@@ -34,14 +35,18 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
 
 // 错误处理
 function errorsHandler(data: any) {
+    let errorMsg = null
     switch (data.code) {
         case 20001:
-            alertMsg("error", data.data)
-            router.push('/login')
+            errorMsg = data.data
+            router.push('/login').then(r => r)
         case 20002:
-            alertMsg("error", data.data)
-            router.push('/login')
+            errorMsg = data.data
+            router.push('/login').then(r => r)
+        case 500:
+            errorMsg = data.data
     }
+    alertMsg("error", data.data)
 }
 
 export default axiosInstance

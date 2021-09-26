@@ -1,13 +1,22 @@
 <script lang="ts" setup>
-import { reactive, computed } from "vue"
+import { reactive } from "vue"
 
+const emit = defineEmits<{
+  (event: "add"): void,
+  (event: "search"): void,
+  (event: "reset"): void,
+}>()
 
-const onSubmit = (): void => {
-  console.log('search')
+const append = (): void => {
+  emit("add")
 }
 
-const resetFields = (): void => {
+const search = (): void => {
+  emit("search")
+}
 
+const resetFields = () => {
+  emit("reset")
 }
 
 const modelRef = reactive({
@@ -30,7 +39,8 @@ const modelRef = reactive({
         </a-select>
       </a-form-item>
       <a-form-item class="error-infos">
-        <a-button type="primary" @click.prevent="onSubmit">查询</a-button>
+        <a-button type="primary" @click.prevent="append">新增</a-button>
+        <a-button style="margin-left: 10px" type="primary" @click.prevent="search">查询</a-button>
         <a-button style="margin-left: 10px" @click="resetFields">重置</a-button>
       </a-form-item>
     </a-form>

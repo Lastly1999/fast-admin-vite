@@ -34,17 +34,19 @@ import "./index.scss"
 .setup-select-title {
   margin-left: 5px;
 }
-.ant-popover-inner-content {
-  padding: 0;
-  .setup-select-item {
-    padding: 6px 0 6px 16px;
-    transition: 0.2s linear;
-    .setup-select-item-title {
-      margin-left: 4px;
-    }
-    &:hover {
-      cursor: pointer;
-      background-color: #f0f2f5;
+.system-setup {
+  .ant-popover-inner-content {
+    padding: 0;
+    .setup-select-item {
+      padding: 6px 0 6px 16px;
+      transition: 0.2s linear;
+      .setup-select-item-title {
+        margin-left: 4px;
+      }
+      &:hover {
+        cursor: pointer;
+        background-color: #f0f2f5;
+      }
     }
   }
 }

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits } from "vue"
 
 const props = defineProps({
   value: {
@@ -58,8 +57,8 @@ const onSubmit = () => {
         zIndex: 1,
       }"
     >
-      <a-button style="margin-right: 8px" @click="onClose">Cancel</a-button>
-      <a-button type="primary" @click="onSubmit">Submit</a-button>
+      <a-button style="margin-right: 8px" @click="onClose">取消</a-button>
+      <a-button type="primary" @click="onSubmit">保存</a-button>
     </div>
   </a-drawer>
 </template>

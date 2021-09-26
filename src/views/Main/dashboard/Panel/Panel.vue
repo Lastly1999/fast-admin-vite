@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref } from "vue"
+import {onMounted, ref} from "vue"
 // components
 import WorkInfoPanel from './components/WorkInfoPanel/WorkInfoPanel.vue'
 import TodoPanel from "./components/TodoPanel/TodoPanel.vue"
@@ -22,16 +22,16 @@ onMounted(() => {
         <a-row :gutter="[10, 10]" justify="start" :wrap="true">
             <a-col :span="18">
                 <a-skeleton active :loading="panelLoading">
-                    <WorkInfoPanel />
-                    <TodoPanel />
-                    <TimeLinePanel />
+                    <WorkInfoPanel/>
+                    <TodoPanel/>
+                    <TimeLinePanel/>
                 </a-skeleton>
             </a-col>
             <a-col :span="6">
                 <a-skeleton active :loading="panelLoading">
-                    <WorkBannerPanel />
+                    <WorkBannerPanel/>
                 </a-skeleton>
-                <QuickMenusPanel />
+                <QuickMenusPanel/>
             </a-col>
         </a-row>
     </a-skeleton>
