@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import {defineProps, PropType} from "vue"
+import { defineProps } from "vue"
+import type { PropType } from "vue"
 import FModal from "@/components/FModal/FModal.vue"
 import RoleTree from "@/components/RoleTree/RoleTree.vue"
 
@@ -38,6 +39,11 @@ const close = () => {
 
 <template>
 	<FModal v-model:value="value" @close="close" title="权限树">
-		<RoleTree :data="data" v-model:expandedKeys="expandedKeys" v-model:selectedKeys="selectedKeys" v-model:checkedKeys="checkedKeys"/>
+		<RoleTree
+			:data="data"
+			v-model:expandedKeys="expandedKeys"
+			v-model:selectedKeys="selectedKeys"
+			v-model:checkedKeys="checkedKeys"
+		/>
 	</FModal>
 </template>

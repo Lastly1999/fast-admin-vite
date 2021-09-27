@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import {ref, onMounted} from "vue"
-import {alertMsg} from "@/utils/antd/antd"
+import { ref, onMounted } from "vue"
+import { alertMsg } from "@/utils/antd/antd"
 // apis
-import {getRoles, editRole, delRole, appendRole} from "services/role"
-import {getAllSysMenus, getUserMenuIds} from "@/services/auth"
-import {toTree} from "@/utils/loadsh/data"
+import { getRoles, editRole, delRole, appendRole } from "services/role"
+import { getAllSysMenus, getUserMenuIds } from "@/services/auth"
+import { toTree } from "@/utils/loadsh/data"
 
 // components
 import PermissionsFilter from "./components/PermissionsFilter/PermissionsFilter.vue"
 import FTable from "@/components/FTable/FTable.vue"
 import RoleInfoDrawerForm from "./components/RoleInfoDrawerForm/RoleInfoDrawerForm.vue"
 import RoleTreeModal from "./components/RoleTreeModal/RoleTreeModal.vue"
-import type {RoleForm} from "@/services/model/response/role"
+import type { RoleForm } from "@/services/model/response/role"
 
 onMounted(() => {
 	getRoleTableList()
@@ -27,7 +27,7 @@ const roleTableLoading = ref<boolean>(false);
 // 获取角色列表
 const getRoleTableList = async () => {
 	roleTableLoading.value = true
-	const {data} = await getRoles()
+	const { data } = await getRoles()
 	roleData.value = data.list
 	roleTableLoading.value = false
 	visibleRoleInfoDrawer.value = false
@@ -43,20 +43,20 @@ const columns = [
 			return data.index + 1;
 		},
 	},
-	{title: "角色名称", dataIndex: "roleName", key: "0", width: 120},
-	{title: "角色别名", dataIndex: "describe", key: "1", width: 220},
-	{title: "创建时间", dataIndex: "createDate", key: "2", width: 280},
+	{ title: "角色名称", dataIndex: "roleName", key: "0", width: 120 },
+	{ title: "角色别名", dataIndex: "describe", key: "1", width: 220 },
+	{ title: "创建时间", dataIndex: "createDate", key: "2", width: 280 },
 	{
 		title: "状态",
 		key: "3",
 		width: 110,
-		slots: {customRender: "tags"},
+		slots: { customRender: "tags" },
 	},
 	{
 		title: "操作",
 		key: "4",
 		fixed: "right",
-		slots: {customRender: "action"},
+		slots: { customRender: "action" },
 	},
 ];
 
@@ -92,7 +92,7 @@ const onSubmit = async (form: RoleForm) => {
 			await getRoleTableList();
 		}
 	}
-	
+
 };
 // 删除角色
 const removeRoleRow = async (role: RoleForm) => {
@@ -155,25 +155,33 @@ const getRoleIds = async (id: number | string | undefined): Promise<void> => {
 <template>
 	<a-layout style="height: 100%; overflow: hidden">
 		<!-- 角色列表筛选 -->
-		<PermissionsFilter class="system-box-shadow" @add="addRole"/>
+		<PermissionsFilter class="system-box-shadow" @add="addRole" />
 		<a-layout-content class="page-content system-box-shadow">
 			<!-- 角色列表 -->
-			<FTable bordered size="middle" :loading="roleTableLoading" :columns="columns" :data-source="roleData">
+			<FTable
+				bordered
+				size="middle"
+				:loading="roleTableLoading"
+				:columns="columns"
+				:data-source="roleData"
+			>
 				<template #action="{ data }">
 					<a @click="editRoleDrawer(data)">修改</a>
-					<a-divider type="vertical"/>
+					<a-divider type="vertical" />
 					<a @click="previewRoleTree(data)">查看权限树</a>
+					<a-divider type="vertical" />
+					<a @click="removeRoleRow(data)">删除</a>
 				</template>
 				<template #tags="{ data }">
 					<a-tag v-if="data.state === 1" color="success">
 						<template #icon>
-							<check-circle-outlined/>
+							<check-circle-outlined />
 						</template>
 						启用
 					</a-tag>
 					<a-tag v-else color="error">
 						<template #icon>
-							<close-circle-outlined/>
+							<close-circle-outlined />
 						</template>
 						禁用
 					</a-tag>
@@ -181,9 +189,14 @@ const getRoleIds = async (id: number | string | undefined): Promise<void> => {
 			</FTable>
 		</a-layout-content>
 	</a-layout>
-	<RoleInfoDrawerForm v-model:value="visibleRoleInfoDrawer" :form="roleInfoForm" @submit="onSubmit"/>
-	<RoleTreeModal v-model:value="visibleRoleTree" :data="roleTreeData" v-model:expandedKeys="expandedKeys"
-				   v-model:selectedKeys="selectedKeys" v-model:checkedKeys="checkedKeys"/>
+	<RoleInfoDrawerForm v-model:value="visibleRoleInfoDrawer" :form="roleInfoForm" @submit="onSubmit" />
+	<RoleTreeModal
+		v-model:value="visibleRoleTree"
+		:data="roleTreeData"
+		v-model:expandedKeys="expandedKeys"
+		v-model:selectedKeys="selectedKeys"
+		v-model:checkedKeys="checkedKeys"
+	/>
 </template>
 
 <style scoped>
