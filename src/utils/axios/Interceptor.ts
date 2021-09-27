@@ -1,6 +1,7 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios"
 import {alertMsg} from '../antd/antd'
 import router from "@/router"
+import type {HttpResponse} from "@/services/model/request/public"
 
 // axios instance
 const axiosInstance = axios.create({
@@ -21,8 +22,8 @@ axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosReques
  * @date 2021年8月9日19:44:12
  */
 axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse => {
+    serveResponseErrHandler(response)
     requestHandler(response)
-    console.log()
     return response.data
 }, (err: any) => {
     const {data} = err.response
@@ -32,12 +33,25 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     return Promise.reject(err.response)
 })
 
-function requestHandler(response: AxiosResponse<any>) {
-    let httpStr = `[http-info] request-url:${JSON.stringify(response.config.url)} method:${response.config.method}`
-    console.log(httpStr)
+function serveResponseErrHandler(res: AxiosResponse<HttpResponse>) {
+    const statusCode: number = res.data.code
+    const errorMsg: string = res.data.data
+    console.log(statusCode)
+    if (statusCode !== 200) {
+        alertMsg("error", errorMsg)
+    }
 }
 
-// 错误处理
+function requestHandler(response: AxiosResponse<HttpResponse>) {
+    let httpStr = `request-url:${JSON.stringify(response.config.url)} method:${response.config.method}`
+    console.log(`%c[fast-http-info]`, "color: #fff; font-weight: bold;background-color:green;padding:5px", httpStr)
+}
+
+/**
+ * server error handler
+ * @author lastly
+ * @param data
+ */
 function errorsHandler(data: any) {
     let errorMsg = null
     switch (data.code) {

@@ -34,16 +34,13 @@ const replaceFields = {
 	key: 'id'
 };
 
-watch(props.expandedKeys, (val) => {
-	console.log(val)
+watch(() => props.expandedKeys, (val) => {
 	emit("update:expandedKeys", props.expandedKeys)
 }, {deep: true})
-watch(props.selectedKeys, (val) => {
-	console.log(val)
+watch(() => props.selectedKeys, (val) => {
 	emit("update:selectedKeys", props.selectedKeys)
 }, {deep: true})
-watch(props.checkedKeys, (val) => {
-	console.log(val)
+watch(() => props.checkedKeys, (val) => {
 	emit("update:checkedKeys", props.checkedKeys)
 }, {deep: true})
 
@@ -51,8 +48,6 @@ watch(props.checkedKeys, (val) => {
 const treeSelect = (tree: TreeDataItem, info: any) => {
 	// 已勾选子节点以及半勾选状态的父节点
 	tree = tree.concat(info.halfCheckedKeys)
-	console.log(tree)
-	
 }
 
 </script>

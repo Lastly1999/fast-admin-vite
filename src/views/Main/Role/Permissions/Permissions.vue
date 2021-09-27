@@ -2,7 +2,8 @@
 import {onMounted, ref} from "vue"
 import {alertMsg} from "@/utils/antd/antd"
 // apis
-import {appendRole, delRole, editRole, getRoles} from "services/role"
+import {appendRole, delRole, editRole, getRoles, editPermission} from "@/services/role"
+import type {RolePermissionParam} from "@/services/model/response/role"
 import {getAllSysMenus, getUserMenuIds} from "@/services/auth"
 import {toTree} from "@/utils/loadsh/data"
 
@@ -19,7 +20,7 @@ onMounted(() => {
 })
 
 // 角色列表
-let roleData = ref<RoleForm[]>([]);
+const roleData = ref<RoleForm[]>([]);
 
 // 角色列表加载状态
 const roleTableLoading = ref<boolean>(false);
@@ -61,7 +62,9 @@ const columns = [
 ];
 
 // 角色信息drawer显示状态
-const visibleRoleInfoDrawer = ref(false);
+const visibleRoleInfoDrawer = ref<boolean>(false)
+
+const roleFormBtnLoading = ref<boolean>(false)
 
 // 角色表单信息
 const roleInfoForm = ref({
@@ -79,6 +82,7 @@ const editRoleDrawer = (data: any) => {
 
 // 修改角色信息
 const onSubmit = async (form: RoleForm) => {
+	roleFormBtnLoading.value = true
 	if (form.roleId) {
 		const body = await editRole(form);
 		if (body.code === 200) {
@@ -92,8 +96,9 @@ const onSubmit = async (form: RoleForm) => {
 			await getRoleTableList();
 		}
 	}
-	
-};
+	roleFormBtnLoading.value = false
+}
+
 // 删除角色
 const removeRoleRow = async (role: RoleForm) => {
 	const body = await delRole(role.roleId)
@@ -103,8 +108,11 @@ const removeRoleRow = async (role: RoleForm) => {
 	}
 }
 
+// 当前选中人权限id
+const roleId = ref<number | null>(null)
 // 查看权限树
 const previewRoleTree = (role: RoleForm) => {
+	roleId.value = role.roleId
 	getRoleIds(role.roleId)
 	getRoleTreeData()
 	visibleRoleTree.value = true
@@ -143,21 +151,31 @@ const checkedKeys = ref([])
 const getRoleIds = async (id: number | string | undefined): Promise<void> => {
 	const body = await getUserMenuIds(id)
 	if (body.code === 200 && body.data.roleIds) {
-		// selectedKeys.value = body.data.roleIds
 		expandedKeys.value = body.data.roleIds
 		checkedKeys.value = body.data.roleIds
 		return
 	}
-	selectedKeys.value = []
 	expandedKeys.value = []
 	checkedKeys.value = []
 }
 
-const roleTreeSubmit = () => {
-	console.log(selectedKeys.value)
-	console.log(expandedKeys.value)
-	console.log(checkedKeys.value)
-	visibleRoleTree.value = false
+
+// 权限树modal按钮加载状态
+const confirmLoading = ref(false)
+
+const roleTreeSubmit = async () => {
+	confirmLoading.value = true
+	const param: RolePermissionParam = {
+		roleId: roleId.value,
+		permissionId: checkedKeys.value
+	}
+	const body = await editPermission(param)
+	if (body.code === 200) {
+		confirmLoading.value = false
+		visibleRoleTree.value = false
+	}
+	const check: boolean = body.code === 200
+	alertMsg(check ? "success" : "error", check ? "修改角色权限菜单成功!" : "修改失败 o(╥﹏╥)o")
 }
 
 
@@ -174,6 +192,15 @@ const roleTreeSubmit = () => {
 					<a @click="editRoleDrawer(data)">修改</a>
 					<a-divider type="vertical"/>
 					<a @click="previewRoleTree(data)">查看权限树</a>
+					<a-divider type="vertical"/>
+					<a-popconfirm
+						title="你确定要删除该角色吗?"
+						ok-text="是的"
+						cancel-text="算了吧"
+						@confirm="removeRoleRow(data)"
+					>
+						<a>删除</a>
+					</a-popconfirm>
 				</template>
 				<template #tags="{ data }">
 					<a-tag v-if="data.state === 1" color="success">
@@ -192,9 +219,11 @@ const roleTreeSubmit = () => {
 			</FTable>
 		</a-layout-content>
 	</a-layout>
-	<RoleInfoDrawerForm v-model:value="visibleRoleInfoDrawer" :form="roleInfoForm" @submit="onSubmit"/>
+	<RoleInfoDrawerForm v-model:value="visibleRoleInfoDrawer" :form="roleInfoForm" @submit="onSubmit"
+						:loading="roleFormBtnLoading"/>
 	<RoleTreeModal v-model:value="visibleRoleTree" :data="roleTreeData" v-model:expandedKeys="expandedKeys"
-				   v-model:selectedKeys="selectedKeys" v-model:checkedKeys="checkedKeys" @submit="roleTreeSubmit"/>
+				   v-model:selectedKeys="selectedKeys" v-model:checkedKeys="checkedKeys" @submit="roleTreeSubmit"
+				   v-model:confirmLoading="confirmLoading"/>
 </template>
 
 <style scoped>
