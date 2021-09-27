@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import {ref, onMounted} from "vue"
+import {onMounted, ref} from "vue"
 import {alertMsg} from "@/utils/antd/antd"
 // apis
-import {getRoles, editRole, delRole, appendRole} from "services/role"
+import {appendRole, delRole, editRole, getRoles} from "services/role"
 import {getAllSysMenus, getUserMenuIds} from "@/services/auth"
 import {toTree} from "@/utils/loadsh/data"
 
@@ -142,11 +142,22 @@ const checkedKeys = ref([])
 // getAllSysMenus
 const getRoleIds = async (id: number | string | undefined): Promise<void> => {
 	const body = await getUserMenuIds(id)
-	if (body.code === 200) {
-		selectedKeys.value = body.data.roleIds
+	if (body.code === 200 && body.data.roleIds) {
+		// selectedKeys.value = body.data.roleIds
 		expandedKeys.value = body.data.roleIds
 		checkedKeys.value = body.data.roleIds
+		return
 	}
+	selectedKeys.value = []
+	expandedKeys.value = []
+	checkedKeys.value = []
+}
+
+const roleTreeSubmit = () => {
+	console.log(selectedKeys.value)
+	console.log(expandedKeys.value)
+	console.log(checkedKeys.value)
+	visibleRoleTree.value = false
 }
 
 
@@ -183,7 +194,7 @@ const getRoleIds = async (id: number | string | undefined): Promise<void> => {
 	</a-layout>
 	<RoleInfoDrawerForm v-model:value="visibleRoleInfoDrawer" :form="roleInfoForm" @submit="onSubmit"/>
 	<RoleTreeModal v-model:value="visibleRoleTree" :data="roleTreeData" v-model:expandedKeys="expandedKeys"
-				   v-model:selectedKeys="selectedKeys" v-model:checkedKeys="checkedKeys"/>
+				   v-model:selectedKeys="selectedKeys" v-model:checkedKeys="checkedKeys" @submit="roleTreeSubmit"/>
 </template>
 
 <style scoped>

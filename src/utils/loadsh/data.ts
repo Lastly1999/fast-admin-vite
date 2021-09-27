@@ -20,7 +20,6 @@ export const toTree = <T>(data: T[], pidKey: string, idKey: string) => {
 
     data.forEach((item: T) => {
         const parent = map[(item as any)[pidKey]];
-        console.log(parent);
         if (parent) {
             (parent.children || (parent.children = [])).push(item)
         } else {
@@ -36,7 +35,6 @@ export const listToTree = (list: any[]) => {
         // 获取当前节点的子节点
         let children = list.filter((item: { pId: any; }) => item.pId === cur.id);
         if (children.length > 0) {
-            console.log(cur)
             cur.children = children;
         }
         //只返回顶级节点

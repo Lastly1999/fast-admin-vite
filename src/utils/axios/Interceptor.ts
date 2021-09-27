@@ -21,17 +21,21 @@ axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosReques
  * @date 2021年8月9日19:44:12
  */
 axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse => {
-    // todo
-    console.log(response)
+    requestHandler(response)
+    console.log()
     return response.data
 }, (err: any) => {
     const {data} = err.response
-    console.log(data)
     // 错误处理
     errorsHandler(data)
     // 异常抛出
     return Promise.reject(err.response)
 })
+
+function requestHandler(response: AxiosResponse<any>) {
+    let httpStr = `[http-info] request-url:${JSON.stringify(response.config.url)} method:${response.config.method}`
+    console.log(httpStr)
+}
 
 // 错误处理
 function errorsHandler(data: any) {
