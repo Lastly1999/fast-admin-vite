@@ -10,29 +10,29 @@ import QuickMenusPanel from "./components/QuickMenusPanel/QuickMenusPanel.vue"
 const panelLoading = ref(true)
 
 onMounted(() => {
-    setTimeout(() => {
-        panelLoading.value = false
-    }, 500)
+  setTimeout(() => {
+    panelLoading.value = false
+  }, 500)
 })
 
 </script>
 
 <template>
-    <a-skeleton active :loading="panelLoading">
-        <a-row :gutter="[10, 10]" justify="start" :wrap="true">
-            <a-col :span="18">
-                <a-skeleton active :loading="panelLoading">
-                    <WorkInfoPanel/>
-                    <TodoPanel/>
-                    <TimeLinePanel/>
-                </a-skeleton>
-            </a-col>
-            <a-col :span="6">
-                <a-skeleton active :loading="panelLoading">
-                    <WorkBannerPanel/>
-                </a-skeleton>
-                <QuickMenusPanel/>
-            </a-col>
-        </a-row>
-    </a-skeleton>
+  <a-skeleton active :loading="panelLoading">
+    <a-row :gutter="[10, 10]" justify="start" :wrap="true">
+      <a-col :span="18">
+        <a-skeleton active :loading="panelLoading">
+          <WorkInfoPanel/>
+          <TodoPanel/>
+          <TimeLinePanel/>
+        </a-skeleton>
+      </a-col>
+      <a-col :span="6">
+        <a-skeleton active :loading="panelLoading">
+          <WorkBannerPanel/>
+        </a-skeleton>
+        <QuickMenusPanel/>
+      </a-col>
+    </a-row>
+  </a-skeleton>
 </template>

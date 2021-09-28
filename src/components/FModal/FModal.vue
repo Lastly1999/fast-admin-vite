@@ -8,6 +8,10 @@ const prop = defineProps({
 	title: {
 		type: String,
 		default: () => ""
+	},
+	confirmLoading: {
+		type: Boolean,
+		default: () => false
 	}
 })
 
@@ -28,7 +32,7 @@ const cancel = () => {
 
 </script>
 <template>
-	<a-modal v-model:visible="value" :title="title" @ok="handleOk" @cancel="cancel">
+	<a-modal v-model:visible="value" :title="title" @ok="handleOk" @cancel="cancel" :confirmLoading="confirmLoading">
 		<slot></slot>
 	</a-modal>
 </template>

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { ref, onMounted } from "vue"
+import { onMounted, ref } from "vue"
 import { alertMsg } from "@/utils/antd/antd"
 // apis
-import { getRoles, editRole, delRole, appendRole } from "services/role"
+import { appendRole, delRole, editRole, getRoles, editPermission } from "@/services/role"
+import type { RolePermissionParam } from "@/services/model/response/role"
 import { getAllSysMenus, getUserMenuIds } from "@/services/auth"
 import { toTree } from "@/utils/loadsh/data"
 
@@ -19,7 +20,7 @@ onMounted(() => {
 })
 
 // 角色列表
-let roleData = ref<RoleForm[]>([]);
+const roleData = ref<RoleForm[]>([]);
 
 // 角色列表加载状态
 const roleTableLoading = ref<boolean>(false);
@@ -61,10 +62,13 @@ const columns = [
 ];
 
 // 角色信息drawer显示状态
-const visibleRoleInfoDrawer = ref(false);
+const visibleRoleInfoDrawer = ref<boolean>(false)
+
+const roleFormBtnLoading = ref<boolean>(false)
 
 // 角色表单信息
 const roleInfoForm = ref({
+	roleId: null,
 	roleName: "",
 	describe: "",
 	createDate: "",
@@ -79,6 +83,7 @@ const editRoleDrawer = (data: any) => {
 
 // 修改角色信息
 const onSubmit = async (form: RoleForm) => {
+	roleFormBtnLoading.value = true
 	if (form.roleId) {
 		const body = await editRole(form);
 		if (body.code === 200) {
@@ -92,8 +97,9 @@ const onSubmit = async (form: RoleForm) => {
 			await getRoleTableList();
 		}
 	}
+	roleFormBtnLoading.value = false
+}
 
-};
 // 删除角色
 const removeRoleRow = async (role: RoleForm) => {
 	const body = await delRole(role.roleId)
@@ -103,8 +109,11 @@ const removeRoleRow = async (role: RoleForm) => {
 	}
 }
 
+// 当前选中人权限id
+const roleId = ref<number | null>(null)
 // 查看权限树
 const previewRoleTree = (role: RoleForm) => {
+	roleId.value = role.roleId
 	getRoleIds(role.roleId)
 	getRoleTreeData()
 	visibleRoleTree.value = true
@@ -113,6 +122,7 @@ const previewRoleTree = (role: RoleForm) => {
 // 新增角色
 const addRole = () => {
 	roleInfoForm.value = {
+		roleId: null,
 		roleName: "",
 		describe: "",
 		createDate: "",
@@ -142,11 +152,32 @@ const checkedKeys = ref([])
 // getAllSysMenus
 const getRoleIds = async (id: number | string | undefined): Promise<void> => {
 	const body = await getUserMenuIds(id)
-	if (body.code === 200) {
-		selectedKeys.value = body.data.roleIds
+	if (body.code === 200 && body.data.roleIds) {
 		expandedKeys.value = body.data.roleIds
 		checkedKeys.value = body.data.roleIds
+		return
 	}
+	expandedKeys.value = []
+	checkedKeys.value = []
+}
+
+
+// 权限树modal按钮加载状态
+const confirmLoading = ref(false)
+
+const roleTreeSubmit = async () => {
+	confirmLoading.value = true
+	const param: RolePermissionParam = {
+		roleId: roleId.value,
+		permissionId: checkedKeys.value
+	}
+	const body = await editPermission(param)
+	if (body.code === 200) {
+		confirmLoading.value = false
+		visibleRoleTree.value = false
+	}
+	const check: boolean = body.code === 200
+	alertMsg(check ? "success" : "error", check ? "修改角色权限菜单成功!" : "修改失败 o(╥﹏╥)o")
 }
 
 
@@ -171,6 +202,15 @@ const getRoleIds = async (id: number | string | undefined): Promise<void> => {
 					<a @click="previewRoleTree(data)">查看权限树</a>
 					<a-divider type="vertical" />
 					<a @click="removeRoleRow(data)">删除</a>
+					<a-divider type="vertical" />
+					<a-popconfirm
+						title="你确定要删除该角色吗?"
+						ok-text="是的"
+						cancel-text="算了吧"
+						@confirm="removeRoleRow(data)"
+					>
+						<a>删除</a>
+					</a-popconfirm>>>>>>>> 218ee8d4d74cdddc0f481392149a8a5097c5ff5a
 				</template>
 				<template #tags="{ data }">
 					<a-tag v-if="data.state === 1" color="success">

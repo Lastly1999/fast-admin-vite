@@ -25,14 +25,14 @@ export default defineComponent({
         const router: Router = useRouter()
         // 登录方法
         const loginAction: Function = async (form: LoginForm): Promise<any> => {
-            const { code, data: { token } } = await checkAuthUser<LoginForm>(
-                form
-            )
-            if (code === 200) {
-                localStorage.setItem("system-token", token)
-                console.log(token)
-                await router.push('/dashboard/panel')
-            }
+            // const { code, data: { token } } = await checkAuthUser<LoginForm>(
+            //     form
+            // )
+            // if (code === 200) {
+            //     localStorage.setItem("system-token", token)
+            //     console.log(token)
+            //     await router.push('/dashboard/panel')
+            // }
         }
         return {
             loginAction,
