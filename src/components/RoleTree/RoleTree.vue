@@ -1,31 +1,25 @@
 <script lang="ts" setup>
-import {watch} from "vue"
-import type {PropType} from "vue"
-import type {TreeDataItem} from 'ant-design-vue/es/tree/Tree'
+import type { PropType } from "vue"
+import type { TreeDataItem, CheckEvent } from 'ant-design-vue/es/tree/Tree'
+
+export type TreeChecked = {
+	checked: number[];
+	halfChecked: number;
+}
 
 const props = defineProps({
 	data: {
 		type: Array as PropType<TreeDataItem>,
 		default: () => []
 	},
-	expandedKeys: {
-		type: Array as PropType<string[]>,
-		default: () => []
-	},
-	selectedKeys: {
-		type: Array as PropType<string[]>,
-		default: () => []
-	},
 	checkedKeys: {
-		type: Array as PropType<string[]>,
+		type: Array as PropType<number[]>,
 		default: () => []
 	}
 })
 
 const emit = defineEmits<{
-	(event: "update:expandedKeys", expandedKeys: string[]): void,
-	(event: "update:selectedKeys", selectedKeys: string[]): void,
-	(event: "update:checkedKeys", checkedKeys: string[]): void,
+	(event: "check", data: TreeChecked): void,
 }>()
 
 const replaceFields = {
@@ -34,33 +28,20 @@ const replaceFields = {
 	key: 'id'
 };
 
-watch(() => props.expandedKeys, (val) => {
-	emit("update:expandedKeys", props.expandedKeys)
-}, {deep: true})
-watch(() => props.selectedKeys, (val) => {
-	emit("update:selectedKeys", props.selectedKeys)
-}, {deep: true})
-watch(() => props.checkedKeys, (val) => {
-	emit("update:checkedKeys", props.checkedKeys)
-}, {deep: true})
-
-
-const treeSelect = (tree: TreeDataItem, info: any) => {
+const treeSelect = (checkedKeys: TreeChecked) => {
 	// 已勾选子节点以及半勾选状态的父节点
-	tree = tree.concat(info.halfCheckedKeys)
+	emit("check", checkedKeys)
 }
-
 </script>
 
 <template>
 	<a-tree
 		checkable
+		checkStrictly
+		defaultExpandAll
 		:replaceFields="replaceFields"
 		:tree-data="data"
-		@check="treeSelect"
-		v-model:expandedKeys="expandedKeys"
-		v-model:selectedKeys="selectedKeys"
 		v-model:checkedKeys="checkedKeys"
-	>
-	</a-tree>
+		@check="treeSelect"
+	></a-tree>
 </template>

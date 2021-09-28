@@ -1,3 +1,25 @@
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
+import type { LoginForm } from "@/services/model/response/role"
+
+const emit = defineEmits<{
+  (event: "change", form: LoginForm): void
+}>()
+
+const loginForm = ref({
+  userName: "",
+  passWord: ""
+})
+
+const onSubmit = () => {
+  emit("change", loginForm.value);
+}
+
+</script>
+
+
 <template>
   <div class="login-form-container">
     <h2 class="form-title">您好！欢迎登录</h2>
@@ -26,32 +48,7 @@
     </a-form>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, ref, toRefs } from 'vue'
-import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
 
-export default defineComponent({
-  emits: ['change', 'update'],
-  setup(_props, { emit }) {
-
-    const loginForm = ref({
-      userName: "",
-      passWord: ""
-    })
-
-    const onSubmit = () => {
-      emit("change", loginForm.value);
-    }
-
-    return {
-      LockOutlined,
-      UserOutlined,
-      loginForm,
-      onSubmit,
-    };
-  },
-});
-</script>
 <style lang="scss" scoped>
 @import "./index.scss";
 </style>

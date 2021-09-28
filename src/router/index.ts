@@ -69,7 +69,8 @@ router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormali
     } else {
         // todo 权限验证在除开登录页之外pages处理
         // 进行用户id请求权限菜单操作
-        await store.dispatch('sysModule/API_GET_SYS_MENUS', 1)
+        const userInfo: any = JSON.parse(localStorage.getItem("system-user-info") as any)
+        await store.dispatch('sysModule/API_GET_SYS_MENUS', userInfo.id)
         next()
     }
     // nprogress start...

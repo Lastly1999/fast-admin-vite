@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import type { PropType } from "vue"
 import FModal from "@/components/FModal/FModal.vue"
 import RoleTree from "@/components/RoleTree/RoleTree.vue"
-import { watch } from "vue";
+
+import type { PropType } from "vue"
+import type { TreeChecked } from "@/components/RoleTree/RoleTree.vue"
 
 const props = defineProps({
 	value: {
@@ -13,16 +14,8 @@ const props = defineProps({
 		type: Array,
 		default: () => []
 	},
-	expandedKeys: {
-		type: Array as PropType<string[]>,
-		default: () => []
-	},
-	selectedKeys: {
-		type: Array as PropType<string[]>,
-		default: () => []
-	},
 	checkedKeys: {
-		type: Array as PropType<string[]>,
+		type: Array as PropType<number[]>,
 		default: () => []
 	},
 	confirmLoading: {
@@ -31,25 +24,12 @@ const props = defineProps({
 	}
 })
 
+
 const emit = defineEmits<{
-	(event: "update:expandedKeys", expandedKeys: string[]): void,
-	(event: "update:selectedKeys", selectedKeys: string[]): void,
-	(event: "update:checkedKeys", checkedKeys: string[]): void,
 	(event: "update:value", show: boolean): void,
+	(event: "check", data: TreeChecked): void,
 	(event: "submit"): void
 }>()
-
-
-watch(() => props.expandedKeys, (val) => {
-	emit("update:expandedKeys", props.expandedKeys)
-}, { deep: true })
-watch(() => props.selectedKeys, (val) => {
-	emit("update:selectedKeys", props.selectedKeys)
-}, { deep: true })
-watch(() => props.checkedKeys, (val) => {
-	console.log(val)
-	emit("update:checkedKeys", props.checkedKeys)
-}, { deep: true })
 
 
 const close = () => {
@@ -60,22 +40,19 @@ const okSubmit = () => {
 	emit("submit")
 }
 
-
-</script>
+const treeCheck = (checkedKeys: TreeChecked) => {
+	emit("check", checkedKeys)
+}
+</script>																								  																																																																																															
 
 <template>
 	<FModal
 		v-model:value="value"
-		@close="close"
 		title="权限树"
-		@ok="okSubmit"
 		:confirmLoading="confirmLoading"
+		@close="close"
+		@ok="okSubmit"
 	>
-		<RoleTree
-			:data="data"
-			v-model:expandedKeys="expandedKeys"
-			v-model:selectedKeys="selectedKeys"
-			v-model:checkedKeys="checkedKeys"
-		/>
+		<RoleTree v-model:checkedKeys="checkedKeys" :data="data" @check="treeCheck" />
 	</FModal>
 </template>
