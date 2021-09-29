@@ -14,12 +14,13 @@ export const checkAuthUser = <T>(data: T) => {
 
 /**
  * 获取系统权限菜单
+ * 不需要请求参数 后端会在token内获取用户的权限id
  * @param id
  */
-export const getSysMenus = (id: number | string | undefined) => {
+export const getSysMenus = () => {
     return httpRequest({
         method: 'get',
-        path: `/auth/sys/${id}`
+        path: `/auth/sys`
     })
 }
 
@@ -29,7 +30,7 @@ export const getSysMenus = (id: number | string | undefined) => {
 export const getAllSysMenus = () => {
     return httpRequest({
         method: 'get',
-        path: `/auth/sys`
+        path: `/auth/all`
     })
 }
 

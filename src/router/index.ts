@@ -19,6 +19,7 @@ import store from '@/store'
 const routerAuthList = ["HOME:PANEL:VIEW"]
 
 
+
 export const routes: RouteRecordRaw[] = [
     {
         path: "/",
@@ -67,10 +68,9 @@ router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormali
     if (to.path === '/login') {
         next()
     } else {
-        // todo 权限验证在除开登录页之外pages处理
-        // 进行用户id请求权限菜单操作
-        const userInfo: any = JSON.parse(localStorage.getItem("system-user-info") as any)
-        await store.dispatch('sysModule/API_GET_SYS_MENUS', userInfo.id)
+        const menus = store.getters["sysModule/getSysMenus"]
+        // 当未请求过权限菜单时 再进行请求
+        if (!menus) await store.dispatch('sysModule/API_GET_SYS_MENUS')
         next()
     }
     // nprogress start...
