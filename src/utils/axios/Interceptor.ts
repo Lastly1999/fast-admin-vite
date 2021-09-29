@@ -26,9 +26,9 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     requestHandler(response)
     return response.data
 }, (err: any) => {
-    const {data} = err.response
+    console.log(err.response)
     // 错误处理
-    errorsHandler(data)
+    errorsHandler(err.response.data)
     // 异常抛出
     return Promise.reject(err.response)
 })

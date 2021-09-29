@@ -15,12 +15,13 @@ export const checkAuthUser = <T>(data: T): Promise<HttpResponse> => {
 
 /**
  * 获取系统权限菜单
+ * 不需要请求参数 后端会在token内获取用户的权限id
  * @param id
  */
 export const getSysMenus = (id: number | string | undefined): Promise<HttpResponse> => {
     return httpRequest({
         method: 'get',
-        path: `/auth/sys/${id}`
+        path: `/auth/sys`
     })
 }
 
@@ -30,7 +31,7 @@ export const getSysMenus = (id: number | string | undefined): Promise<HttpRespon
 export const getAllSysMenus = (): Promise<HttpResponse> => {
     return httpRequest({
         method: 'get',
-        path: `/auth/sys`
+        path: `/auth/all`
     })
 }
 

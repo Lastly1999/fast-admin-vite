@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from "vue-router"
 import Layout from '@/layout/index.vue'
 
+
 /**
  * role routes config
  * @author lastly
@@ -16,11 +17,20 @@ const roleRoutesConf: RouteRecordRaw = {
     children: [
         {
             path: "permissions",
-            name: "role",
+            name: "role-permissions",
             component: () => import("@/views/Main/Role/Permissions/Permissions.vue"),
             meta: {
                 title: "角色权限",
                 role: "ROLE:ROLE:PERMISSIONS"
+            }
+        },
+        {
+            path: "menus",
+            name: "role-menus",
+            component: () => import("@/views/Main/Role/RoleMenus/RoleMenus.vue"),
+            meta: {
+                title: "菜单权限",
+                role: "ROLE:ROLE:MENUS"
             }
         }
     ]

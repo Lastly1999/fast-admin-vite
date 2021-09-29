@@ -8,7 +8,7 @@ import type { LoginForm, UserInfo } from "@/services/model/response/role"
 
 
 export type SystemState = {
-    sysMenus: [];
+    sysMenus: [] | undefined;
     userInfo: UserInfo;
 }
 
@@ -29,7 +29,7 @@ const systemModule: SysStemModule = {
     namespaced: true,
     state: () => (
         {
-            sysMenus: [],
+            sysMenus: undefined,
             userInfo: {
                 id: 0,
                 userName: '',
@@ -55,7 +55,6 @@ const systemModule: SysStemModule = {
             const { code, data } = await checkAuthUser<LoginForm>(payload)
             if (code === 200) {
                 localStorage.setItem("system-token", data.token)
-                localStorage.setItem("system-user-info", JSON.stringify(data.userInfo))
                 await router.push('/dashboard/panel')
             }
         },
