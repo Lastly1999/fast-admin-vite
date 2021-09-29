@@ -1,10 +1,11 @@
 import httpRequest from "@/utils/axios/service"
+import { HttpResponse } from "../model/request/public"
 
 /**
  * 鉴权登录
  * @param data
  */
-export const checkAuthUser = <T>(data: T) => {
+export const checkAuthUser = <T>(data: T): Promise<HttpResponse> => {
     return httpRequest({
         method: 'post',
         path: '/auth/login',
@@ -16,7 +17,7 @@ export const checkAuthUser = <T>(data: T) => {
  * 获取系统权限菜单
  * @param id
  */
-export const getSysMenus = (id: number | string | undefined) => {
+export const getSysMenus = (id: number | string | undefined): Promise<HttpResponse> => {
     return httpRequest({
         method: 'get',
         path: `/auth/sys/${id}`
@@ -26,7 +27,7 @@ export const getSysMenus = (id: number | string | undefined) => {
 /**
  * 获取全部系统权限菜单
  */
-export const getAllSysMenus = () => {
+export const getAllSysMenus = (): Promise<HttpResponse> => {
     return httpRequest({
         method: 'get',
         path: `/auth/sys`
@@ -37,7 +38,7 @@ export const getAllSysMenus = () => {
  * 获取用户所持系统ids
  * @param userId
  */
-export const getUserMenuIds = (userId: number | string | undefined) => {
+export const getUserMenuIds = (userId: number | string | undefined): Promise<HttpResponse> => {
     return httpRequest({
         method: 'get',
         path: `/auth/menu/${userId}`

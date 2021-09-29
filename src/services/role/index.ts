@@ -1,6 +1,6 @@
 import httpRequest from "@/utils/axios/service";
-import {HttpResponse} from "../model/request/public";
-import {RoleForm, RolePermissionParam} from "../model/response/role"
+import { HttpResponse } from "../model/request/public";
+import { RoleForm, RolePermissionParam } from "../model/response/role"
 
 /**
  * 获取角色列表
@@ -41,7 +41,7 @@ export const delRole = (id: number) => {
  * 添加角色
  * @param data
  */
-export const appendRole = (data: RoleForm) => {
+export const appendRole = (data: RoleForm): Promise<HttpResponse> => {
     return httpRequest({
         method: 'put',
         path: `/role/role`,
@@ -53,7 +53,7 @@ export const appendRole = (data: RoleForm) => {
  * 修改角色菜单
  * @param data
  */
-export const editPermission = (data: RolePermissionParam) => {
+export const editPermission = (data: RolePermissionParam): Promise<HttpResponse> => {
     return httpRequest({
         method: 'put',
         path: `/permission/permission`,

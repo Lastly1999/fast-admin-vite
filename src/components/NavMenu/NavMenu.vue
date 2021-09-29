@@ -1,10 +1,16 @@
 <template>
-    <a-menu v-model:openKeys="openKeys" v-model:selectedKeys="selectedKeys" mode="inline" theme="dark" :inline-collapsed="collapsed" @select="selectMenuItem" @openChange="onOpenChange">
+    <a-menu
+        v-model:openKeys="openKeys"
+        v-model:selectedKeys="selectedKeys"
+        mode="inline"
+        theme="dark"
+        :inline-collapsed="collapsed"
+        @select="selectMenuItem"
+        @openChange="onOpenChange"
+    >
         <template v-for="item in $props.list" :key="item.path">
             <template v-if="!item?.children">
-                <a-menu-item :key="item.path">
-                    {{ item.label }}
-                </a-menu-item>
+                <a-menu-item :key="item.path">{{ item.label }}</a-menu-item>
             </template>
             <template v-else>
                 <sub-menu :menu-info="item" :key="item.path" />
@@ -88,7 +94,7 @@ export default defineComponent({
             (nv, _) => {
                 menuState.selectedKeys = [route.path]
                 // 处理自动展开的需要父级的key值
-                const mapKeys:string = '/' + route.path.split('/')[route.path.split('/').length - 2]
+                const mapKeys: string = '/' + route.path.split('/')[route.path.split('/').length - 2]
                 menuState.openKeys = [mapKeys]
             },
             { deep: true, immediate: true }

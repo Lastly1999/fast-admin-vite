@@ -4,10 +4,11 @@ import Breadcrumb from "./components/Breadcrumb/Breadcrumb.vue"
 import HeaderSetup from "./components/HeaderSetup/HeaderSetup.vue"
 
 </script>
+
 <template>
     <a-layout-header class="system-header">
-        <Breadcrumb/>
-        <HeaderSetup/>
+        <Breadcrumb />
+        <HeaderSetup />
     </a-layout-header>
 </template>
 
