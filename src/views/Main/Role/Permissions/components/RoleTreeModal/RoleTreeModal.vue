@@ -5,7 +5,7 @@ import RoleTree from "@/components/RoleTree/RoleTree.vue"
 import type { PropType } from "vue"
 import type { TreeChecked } from "@/components/RoleTree/RoleTree.vue"
 
-const props = defineProps({
+defineProps({
 	value: {
 		type: Boolean,
 		default: () => false

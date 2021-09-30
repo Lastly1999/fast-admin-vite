@@ -14,6 +14,16 @@ export const checkAuthUser = <T>(data: T): Promise<HttpResponse> => {
 }
 
 /**
+ * 请求图形验证码
+ */
+export const getImgsAuthCode = (): Promise<HttpResponse> => {
+    return httpRequest({
+        method: "get",
+        path: "/auth/code"
+    })
+}
+
+/**
  * 获取系统权限菜单
  * 不需要请求参数 后端会在token内获取用户的权限id
  * @param id

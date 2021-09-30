@@ -56,6 +56,8 @@ const systemModule: SysStemModule = {
             if (code === 200) {
                 localStorage.setItem("system-token", data.token)
                 await router.push('/dashboard/panel')
+            } else {
+                throw new Error(data)
             }
         },
         // 获取权限系统菜单

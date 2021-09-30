@@ -1,7 +1,7 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios"
-import {alertMsg} from '../antd/antd'
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import { alertMsg } from '../antd/antd'
 import router from "@/router"
-import type {HttpResponse} from "@/services/model/request/public"
+import type { HttpResponse } from "@/services/model/request/public"
 
 // axios instance
 const axiosInstance = axios.create({
@@ -26,17 +26,20 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     requestHandler(response)
     return response.data
 }, (err: any) => {
-    console.log(err.response)
-    // 错误处理
-    errorsHandler(err.response.data)
+    if (err.response) {
+        // 错误处理
+        errorsHandler(err)
+    } else {
+        alertMsg("error", "服务器异常：请检查服务器!")
+    }
+
     // 异常抛出
-    return Promise.reject(err.response)
+    return Promise.reject(err)
 })
 
 function serveResponseErrHandler(res: AxiosResponse<HttpResponse>) {
     const statusCode: number = res.data.code
     const errorMsg: string = res.data.data
-    console.log(statusCode)
     if (statusCode !== 200) {
         alertMsg("error", errorMsg)
     }

@@ -1,6 +1,8 @@
 export type LoginForm = {
     userName: string;
     passWord: string;
+    codeAuth: string;
+    code: string;
 }
 
 export type UserInfo = {
