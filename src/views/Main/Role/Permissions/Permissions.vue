@@ -178,7 +178,6 @@ const confirmLoading = ref(false)
 
 const roleCheck = (keys: TreeChecked) => {
     checkedKeys.value = keys.checked
-    // parentKyes.value = checkEvent.halfCheckedKeys as number[]
 }
 
 const roleTreeSubmit = async () => {

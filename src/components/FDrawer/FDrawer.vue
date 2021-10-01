@@ -40,7 +40,7 @@ const onSubmit = () => {
 
 </script>
 <template>
-	<a-drawer :title="title" :width="width" :visible="value" :body-style="bodyStyle">
+	<a-drawer :title="title" :width="width" :visible="value" :body-style="bodyStyle" @close="onClose">
 		<slot></slot>
 		<div class="f-drawer-body">
 			<a-button style="margin-right: 8px" @click="onClose">取消</a-button>
