@@ -1,0 +1,108 @@
+import {Store} from 'vuex'
+import router from "@/router"
+import {listToTree} from "utils/loadsh/data"
+import type {LoginForm, UserInfo} from "@/services/model/response/role"
+
+// apis
+import {checkAuthUser} from "@/services/auth"
+import {getSysMenus} from '@/services/auth'
+
+
+export type AuthState = {
+    sysMenus: [] | undefined;
+    userInfo: UserInfo;
+}
+
+export type AuthModule = {
+    namespaced: boolean;
+    state: () => AuthState;
+    getters: {
+        getSysMenus: (state: AuthState) => [] | undefined;
+        getUserInfo: (state: AuthState) => UserInfo;
+    };
+    actions: {
+        API_POST_SYS_AUTH({commit}: Store<any>, payload: LoginForm): void;
+        API_GET_SYS_MENUS({commit}: Store<any>, id: string | number): void;
+    };
+    mutations: {
+        SET_SYS_MENUS(state: AuthState, payload: []): void;
+        SET_USER_INFO(state: AuthState, payload: UserInfo): void;
+    };
+}
+
+/**
+ * auth config module
+ * @author lastly
+ * @date 2021年8月26日22:57:12
+ */
+const authModule: AuthModule = {
+    namespaced: true,
+    state: () => (
+        {
+            sysMenus: undefined,
+            userInfo: {
+                id: 0,
+                userName: '',
+                userPass: '',
+                userAvatar: '',
+                userSign: '',
+                createDate: '',
+                activatedAt: '',
+                name: '',
+                email: '',
+                birthday: '',
+                age: 0
+            }
+        }
+    ),
+    getters: {
+        getSysMenus: (state: AuthState) => state.sysMenus,
+        getUserInfo: (state: AuthState) => state.userInfo
+    },
+    actions: {
+        /**
+         * 系统登录授权
+         * @param commit
+         * @param payload
+         */
+        async API_POST_SYS_AUTH({commit}: Store<any>, payload: LoginForm) {
+            const {code, data} = await checkAuthUser<LoginForm>(payload)
+            if (code === 200) {
+                localStorage.setItem("auth-token", data.token)
+                await router.push('/dashboard/panel')
+            } else {
+                throw new Error(data)
+            }
+        },
+        /**
+         * 获取权限系统菜单
+         * @param commit
+         * @param id
+         */
+        async API_GET_SYS_MENUS({commit}: Store<any>, id: string | number) {
+            const {code, data} = await getSysMenus(id)
+            // 转换树状结构后commit修改
+            if (code === 200) commit('SET_SYS_MENUS', listToTree(data.menus))
+        }
+    },
+    mutations: {
+        /**
+         * commit 设置系统权限菜单
+         * @param state
+         * @param payload
+         */
+        SET_SYS_MENUS(state: AuthState, payload: []) {
+            state.sysMenus = payload
+        },
+        /**
+         * 设置系统用户信息
+         * @param state
+         * @param payload
+         */
+        SET_USER_INFO(state: AuthState, payload: UserInfo) {
+            state.userInfo = payload
+        }
+    }
+}
+
+export default authModule
