@@ -32,6 +32,9 @@ const rowClassName = (record: any, index: number) => {
         <template #tags="{ text }">
             <slot name="tags" :data="text"></slot>
         </template>
+        <template #icon="{ text }">
+            <slot name="icon" :data="text"></slot>
+        </template>
     </a-table>
 </template>
 

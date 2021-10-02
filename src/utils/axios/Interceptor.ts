@@ -1,7 +1,7 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import { alertMsg } from '../antd/antd'
+import axios, {AxiosRequestConfig, AxiosResponse} from "axios"
+import {alertMsg} from '../antd/antd'
 import router from "@/router"
-import type { HttpResponse } from "@/services/model/request/public"
+import type {HttpResponse} from "@/services/model/request/public"
 
 // axios instance
 const axiosInstance = axios.create({
@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
  * @date 2021年8月9日19:44:07
  */
 axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosRequestConfig => {
-    config.headers['authorization'] = localStorage.getItem("system-token")
+    config.headers['authorization'] = localStorage.getItem("auth-token")
     return config
 })
 
@@ -26,9 +26,10 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
     requestHandler(response)
     return response.data
 }, (err: any) => {
+    console.log(err.response)
     if (err.response) {
         // 错误处理
-        errorsHandler(err)
+        errorsHandler(err.response.data)
     } else {
         alertMsg("error", "服务器异常：请检查服务器!")
     }

@@ -7,7 +7,6 @@ import {
     Router,
     RouteRecordRaw
 } from "vue-router"
-// import { routesConf } from '@/config/router.config'
 import routesStoreModules from "./modules"
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -59,18 +58,14 @@ const authEachArrays = (routesStore: RouteRecordRaw[]) => {
 
 // todo 权限验证在除开登录页之外pages处理
 // 进行用户id请求权限菜单操作
-// await store.dispatch('sysModule/API_GET_SYS_MENUS', 1)
-// const roleMenus = JSON.parse(JSON.stringify(store.getters['sysModule/getSysMenus']))
-// authEachArrays(routesStoreModules)
-
 router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormalized, next: NavigationGuardNext) => {
     // 如果是登录页 默认放行 不进行权限验证
     if (to.path === '/login') {
         next()
     } else {
-        const menus = store.getters["sysModule/getSysMenus"]
+        const menus = store.getters["authModule/getSysMenus"]
         // 当未请求过权限菜单时 再进行请求
-        if (!menus) await store.dispatch('sysModule/API_GET_SYS_MENUS')
+        if (!menus) await store.dispatch('authModule/API_GET_SYS_MENUS')
         next()
     }
     // nprogress start...

@@ -13,21 +13,22 @@
                 <a-menu-item :key="item.path">{{ item.label }}</a-menu-item>
             </template>
             <template v-else>
-                <sub-menu :menu-info="item" :key="item.path" />
+                <sub-menu :menu-info="item" :key="item.path"/>
             </template>
         </template>
     </a-menu>
 </template>
 <script lang="ts">
-import { defineComponent, ref, PropType, watch, reactive, toRefs } from 'vue'
-import {
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    PieChartOutlined,
-    MailOutlined,
-} from '@ant-design/icons-vue'
-import { MenuItem, MenuInfo } from './navMenu'
-import { useRouter, useRoute } from 'vue-router'
+import {defineComponent, PropType, watch, reactive, toRefs} from 'vue'
+import {Icon} from '@/components/FIcon/FIcon'
+import {useRouter, useRoute} from 'vue-router'
+
+export type MenuItem = {
+    path: string;
+    label: string;
+    children: MenuItem[];
+    icon: string;
+}
 
 // you can rewrite it to a single file component, if not, you should config vue alias to vue/dist/vue.esm-bundler.js
 const SubMenu = {
@@ -39,32 +40,38 @@ const SubMenu = {
         },
     },
     template: `
-    <a-sub-menu :key="menuInfo.path">
-      <template #title>{{ menuInfo.label }}</template>
-      <template v-for="item in menuInfo.children" :key="item.path">
-        <template v-if="!item.children">
-          <a-menu-item :key="item.path">
-            {{ item.label }}
-          </a-menu-item>
+        <a-sub-menu :key="menuInfo.path">
+        <template #title>
+            {{ menuInfo.label }}
         </template>
-        <template v-else>
-          <sub-menu :menu-info="item" :key="item.path" />
+        <template #icon>
+            <Icon :icon="menuInfo.icon"></Icon>
         </template>
-      </template>
-    </a-sub-menu>
-  `,
+        <template v-for="item in menuInfo.children" :key="item.path">
+            <template v-if="!item.children">
+                <a-menu-item :key="item.path">
+                    <template #icon>
+                        <Icon :icon="item.icon"></Icon>
+                        <i :class="['fa',item.icon]"></i>
+                    </template>
+                    {{ item.label }}
+                </a-menu-item>
+            </template>
+            <template v-else>
+                <sub-menu :menu-info="item" :key="item.path"/>
+            </template>
+        </template>
+        </a-sub-menu>
+    `,
     components: {
-        PieChartOutlined,
-        MailOutlined,
+        Icon
     },
 }
 
 export default defineComponent({
     components: {
         'sub-menu': SubMenu,
-        MenuFoldOutlined,
-        MenuUnfoldOutlined,
-        PieChartOutlined,
+        Icon
     },
     props: {
         config: {
@@ -74,21 +81,18 @@ export default defineComponent({
             },
         },
         list: {
-            type: Array as PropType<MenuInfo[]>,
+            type: Array as PropType<MenuItem[]>,
             default: () => [],
         },
     },
     setup() {
         const router = useRouter()
-
         const route = useRoute()
-
         const menuState = reactive({
             collapsed: false as boolean,
             selectedKeys: [] as string[],
             openKeys: [] as string[],
         })
-
         watch(
             () => route.path,
             (nv, _) => {
@@ -97,20 +101,12 @@ export default defineComponent({
                 const mapKeys: string = '/' + route.path.split('/')[route.path.split('/').length - 2]
                 menuState.openKeys = [mapKeys]
             },
-            { deep: true, immediate: true }
+            {deep: true, immediate: true}
         )
-
         const selectMenuItem = (item: MenuItem) => {
             router.push(item?.key)
         }
-
         const onOpenChange = (openKeys: any) => {
-            console.log(openKeys)
-            // if (openKeys.length !== 0) {
-            //     openKeys = [openKeys[1]]
-            // } else {
-            //     openKeys = ['']
-            // }
         }
         return {
             ...toRefs(menuState),

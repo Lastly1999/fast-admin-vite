@@ -1,78 +1,51 @@
-import { Store } from 'vuex'
-import { getSysMenus } from 'services/auth'
-import { listToTree } from "utils/loadsh/data"
-import { checkAuthUser } from "@/services/auth"
-import router from "@/router"
-import type { LoginForm, UserInfo } from "@/services/model/response/role"
+import {Store} from "vuex"
 
+// apis
+import {getSystemIcons} from "@/services/system/sys"
 
-
+export type IconItem = {
+    id: number;
+    iconName: string;
+}
 export type SystemState = {
-    sysMenus: [] | undefined;
-    userInfo: UserInfo;
+    iconSelectDataSource: IconItem[]
 }
 
-export type SysStemModule = {
+export type SystemModule = {
     namespaced: boolean;
     state: () => SystemState;
-    getters: {};
-    actions: {};
-    mutations: {};
+    getters: {
+        getSysIcons(state: SystemState): IconItem[]
+    };
+    actions: {
+        API_GET_SYS_ICONS(action: Store<any>): void
+    };
+    mutations: {
+        SET_SYS_ICONS(state: SystemState, payload: IconItem[]): void
+    };
 }
 
-/**
- * system config module
- * @author lastly
- * @date 2021年8月26日22:57:12
- */
-const systemModule: SysStemModule = {
+export const systemModule: SystemModule = {
     namespaced: true,
-    state: () => (
-        {
-            sysMenus: undefined,
-            userInfo: {
-                id: 0,
-                userName: '',
-                userPass: '',
-                userAvatar: '',
-                userSign: '',
-                createDate: '',
-                activatedAt: '',
-                name: '',
-                email: '',
-                birthday: '',
-                age: 0
-            }
+    state: () => {
+        return {
+            iconSelectDataSource: []
         }
-    ),
+    },
     getters: {
-        getSysMenus: (state: SystemState) => state.sysMenus,
-        getUserInfo: (state: SystemState) => state.userInfo
+        getSysIcons(state: SystemState) {
+            return state.iconSelectDataSource
+        }
     },
     actions: {
-        // 系统登录授权
-        async API_POST_SYS_AUTH({ commit }: Store<any>, payload: LoginForm) {
-            const { code, data } = await checkAuthUser<LoginForm>(payload)
-            if (code === 200) {
-                localStorage.setItem("system-token", data.token)
-                await router.push('/dashboard/panel')
-            } else {
-                throw new Error(data)
-            }
-        },
-        // 获取权限系统菜单
-        async API_GET_SYS_MENUS({ commit }: Store<any>, id: string | number) {
-            const { code, data } = await getSysMenus(id)
-            // 转换树状结构后commit修改
-            if (code === 200) commit('SET_SYS_MENUS', listToTree(data.menus))
+        async API_GET_SYS_ICONS({commit}: Store<any>) {
+            const {data, code} = await getSystemIcons()
+            if (code === 200) commit('SET_SYS_ICONS', data.icons)
         }
     },
     mutations: {
-        SET_SYS_MENUS(state: SystemState, payload: []) {
-            state.sysMenus = payload
-        },
-        SET_USER_INFO(state: SystemState, payload: UserInfo) {
-            state.userInfo = payload
+        SET_SYS_ICONS(state: SystemState, payload: IconItem[]) {
+            state.iconSelectDataSource.length === 0 && (state.iconSelectDataSource = payload)
         }
     }
 }

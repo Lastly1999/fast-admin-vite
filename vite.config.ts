@@ -54,19 +54,6 @@ export default defineConfig({ // ...
     },
     plugins: [
         vueJsx(),
-        vue(),
-        // element plus 按需引入配置
-        // 说明见 https://element-plus.gitee.io/#/zh-CN/component/quickstart
-        // styleImport({
-        //     libs: [
-        //         {
-        //             libraryName: 'ant-design-vue',
-        //             esModule: true,
-        //             resolveStyle: (name) => {
-        //                 return `ant-design-vue/es/${name}/style/index`
-        //             }
-        //         }
-        //     ]
-        // }),
+        vue()
     ],
 })

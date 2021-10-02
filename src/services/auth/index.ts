@@ -1,5 +1,6 @@
 import httpRequest from "@/utils/axios/service"
-import { HttpResponse } from "../model/request/public"
+import {HttpResponse} from "../model/request/public"
+import {MenuInfo} from "@/services/model/response/role"
 
 /**
  * 鉴权登录
@@ -53,5 +54,16 @@ export const getUserMenuIds = (userId: number | string | undefined): Promise<Htt
     return httpRequest({
         method: 'get',
         path: `/auth/menu/${userId}`
+    })
+}
+
+/**
+ * 添加系统菜单
+ */
+export const putSystemMenu = (data: MenuInfo) => {
+    return httpRequest({
+        method: "put",
+        path: "/menu/menu",
+        data
     })
 }

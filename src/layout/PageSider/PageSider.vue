@@ -9,7 +9,7 @@ import NavMenu from '@/components/NavMenu/NavMenu.vue'
 const Sider = Layout.Sider
 
 const store = useStore()
-const roleMenus = store.getters['sysModule/getSysMenus']
+const roleMenus = store.getters['authModule/getSysMenus']
 
 </script>
 

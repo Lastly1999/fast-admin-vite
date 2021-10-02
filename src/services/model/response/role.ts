@@ -31,3 +31,11 @@ export interface RolePermissionParam {
     roleId: number | null;
     permissionId: number[];
 }
+
+export type MenuInfo = {
+    menuName: string;
+    menuIcon: string;
+    menuPath: string;
+    menuParentId: number;
+    menuParentName: string;
+}

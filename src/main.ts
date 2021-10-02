@@ -10,6 +10,8 @@ import store from '@/store'
 
 import animate from "animate.css"
 
+import "font-awesome/css/font-awesome.min.css"
+
 // 路由实例
 import router from "@/router"
 
