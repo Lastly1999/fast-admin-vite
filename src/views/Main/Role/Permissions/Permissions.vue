@@ -37,7 +37,7 @@ const roleTableLoading = ref<boolean>(false);
 const getRoleTableList = async () => {
     roleTableLoading.value = true
     const { data } = await getRoles()
-    roleData.value = data.list
+    roleData.value = data.roles
     roleTableLoading.value = false
     visibleRoleInfoDrawer.value = false
 };
@@ -54,7 +54,7 @@ const columns = [
     },
     { title: "角色名称", dataIndex: "roleName", key: "0", width: 120 },
     { title: "角色别名", dataIndex: "describe", key: "1", width: 220 },
-    { title: "创建时间", dataIndex: "createDate", key: "2", width: 280 },
+    { title: "创建时间", dataIndex: "createdAt", key: "2", width: 280 },
     {
         title: "状态",
         key: "3",
@@ -122,7 +122,7 @@ const roleId = ref<number | null>(null)
 // 查看权限树
 const previewRoleTree = (role: RoleForm) => {
     roleId.value = role.roleId
-    getRoleIds(role.roleId)
+    getRoleIds()
     getRoleTreeData()
     visibleRoleTree.value = true
 }
@@ -149,7 +149,7 @@ const visibleRoleTree = ref<boolean>(false)
 const getRoleTreeData = async (): Promise<void> => {
     const body = await getAllSysMenus()
     if (body.code === 200) {
-        roleTreeData.value = body.data ? toTree(body.data, "pId", "id") : []
+        roleTreeData.value = body.data.menus ? toTree(body.data.menus, "pId", "id") : []
     }
 }
 
@@ -161,8 +161,8 @@ const checkedKeys = ref<number[]>([])
 const parentKyes = ref<number[]>([])
 
 // getAllSysMenus
-const getRoleIds = async (id: number | string | undefined): Promise<void> => {
-    const body = await getUserMenuIds(id)
+const getRoleIds = async (): Promise<void> => {
+    const body = await getUserMenuIds()
     if (body.code === 200 && body.data.roleIds) {
         expandedKeys.value = body.data.roleIds
         checkedKeys.value = body.data.roleIds
@@ -204,24 +204,13 @@ const roleTreeSubmit = async () => {
         <PermissionsFilter class="system-box-shadow" @add="addRole" />
         <a-layout-content class="page-content system-box-shadow">
             <!-- 角色列表 -->
-            <FTable
-                bordered
-                size="middle"
-                :loading="roleTableLoading"
-                :columns="columns"
-                :data-source="roleData"
-            >
+            <FTable bordered size="middle" :loading="roleTableLoading" :columns="columns" :data-source="roleData">
                 <template #action="{ data }">
                     <a @click="editRoleDrawer(data)">修改</a>
                     <a-divider type="vertical" />
                     <a @click="previewRoleTree(data)">查看权限树</a>
                     <a-divider type="vertical" />
-                    <a-popconfirm
-                        title="你确定要删除该角色吗?"
-                        ok-text="是的"
-                        cancel-text="算了吧"
-                        @confirm="removeRoleRow(data)"
-                    >
+                    <a-popconfirm title="你确定要删除该角色吗?" ok-text="是的" cancel-text="算了吧" @confirm="removeRoleRow(data)">
                         <a>删除</a>
                     </a-popconfirm>
                 </template>
@@ -242,11 +231,7 @@ const roleTreeSubmit = async () => {
             </FTable>
         </a-layout-content>
     </a-layout>
-    <RoleInfoDrawerForm
-        v-model:value="visibleRoleInfoDrawer"
-        :form="roleInfoForm"
-        @submit="onSubmit"
-    />
+    <RoleInfoDrawerForm v-model:value="visibleRoleInfoDrawer" :form="roleInfoForm" @submit="onSubmit" />
     <RoleTreeModal
         v-model:value="visibleRoleTree"
         v-model:checkedKeys="checkedKeys"

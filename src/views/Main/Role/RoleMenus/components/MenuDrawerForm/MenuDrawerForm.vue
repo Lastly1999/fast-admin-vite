@@ -9,10 +9,10 @@ import FModal from "@/components/FModal/FModal.vue"
 import IconSelect from "@/components/IconSelect/IconSelect.vue"
 
 export type MenuFormOptions = {
-    icon: string;
+    icon?: string;
     id: number;
     label: string;
-    pId: number;
+    pId?: number;
     pName?: string;
     path?: string;
     pPath?: string;
@@ -21,7 +21,7 @@ export type MenuFormOptions = {
 
 const props = defineProps({
     form: {
-        type: Object as PropType<MenuFormOptions>,
+        type: Object as PropType<MenuFormOptions> & never,
         defualt: (): MenuFormOptions => {
             return {
                 icon: undefined,
@@ -136,33 +136,6 @@ const onSubmit = () => {
     </FModal>
 </template>
 
-<style>
-.dialog-title h3:after {
-    position: absolute;
-    content: "";
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    border-radius: 2px;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.5),
-    0 1px 1px rgba(255, 255, 255, 0.3);
-}
-
-.dialog-title h3:after {
-    background: #3bf;
-}
-
-.dialog-title h3 {
-    margin-bottom: 10px;
-    padding: 0 0 0 20px;
-    font-weight: normal;
-    font-weight: 600;
-    color: #000;
-    font-family: "Hammersmith One", sans-serif;
-    position: relative;
-    font-size: 16px;
-    line-height: 20px;
-    font-family: "Questrial", sans-serif;
-}
+<style lang="scss">
+@import "index";
 </style>

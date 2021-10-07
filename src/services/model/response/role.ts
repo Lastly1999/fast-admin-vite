@@ -33,9 +33,15 @@ export interface RolePermissionParam {
 }
 
 export type MenuInfo = {
-    menuName: string;
-    menuIcon: string;
-    menuPath: string;
-    menuParentId: number;
-    menuParentName: string;
+    menuName?: string;
+    menuIcon?: string;
+    menuPath?: string;
+    menuParentId?: number;
+    menuParentName?: string;
+}
+
+export type ApiLogsParams = {
+    timer: string[];
+    page: number;
+    pageSize: number;
 }

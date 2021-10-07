@@ -1,7 +1,12 @@
 <script lang="ts" setup>
-import { onMounted, ref, nextTick } from "vue"
+import {onMounted, ref, nextTick} from "vue"
 
-const tableHeight = ref(0)
+defineProps({
+    pagination: {
+        type: Boolean,
+        default: () => false
+    }
+})
 
 onMounted(() => {
     nextTick(() => {
@@ -11,6 +16,9 @@ onMounted(() => {
         tableHeight.value = document.getElementsByClassName('page-content')[0].clientHeight - document.getElementsByClassName('ant-table-thead')[0].clientHeight
     }
 })
+
+const tableHeight = ref(0)
+
 
 const rowClassName = (record: any, index: number) => {
     return index % 2 === 1 ? 'table-striped' : null
@@ -23,7 +31,7 @@ const rowClassName = (record: any, index: number) => {
         class="ant-table-striped"
         {...$props}
         :pagination="false"
-        :scroll="{ x: 'max-content', y: tableHeight - 10 }"
+        :scroll="{ x: 'max-content', y: tableHeight - (pagination ? 50:10) }"
         :rowClassName="rowClassName"
     >
         <template #action="{ text }">

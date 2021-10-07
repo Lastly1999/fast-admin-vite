@@ -55,8 +55,8 @@ export const appendRole = (data: RoleForm): Promise<HttpResponse> => {
  */
 export const editPermission = (data: RolePermissionParam): Promise<HttpResponse> => {
     return httpRequest({
-        method: 'put',
-        path: `/permission/permission`,
+        method: 'patch',
+        path: `/role/menu`,
         data
     })
 }

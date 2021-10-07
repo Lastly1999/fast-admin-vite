@@ -18,6 +18,11 @@ html,
   overflow: hidden;
 }
 
+.system-pagination{
+  text-align: right;
+  padding: 8px!important;
+}
+
 #nprogress .bar {
   background: #9e9ffa !important; //颜色可修改
 }

@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-import { reactive } from "vue";
-import type { PropType } from "vue";
+import {reactive} from "vue"
+import type {PropType} from "vue"
+import type {Moment} from 'moment'
+import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
 
 export type QueryJsonItem = {
     type?: string;
     label?: string;
-    placeholder?: string;
+    placeholder?: string | string[];
     required?: boolean;
     prop?: any;
 } & JsonButton &
@@ -17,6 +19,8 @@ export type JsonButton = {
     buttonType?: string;
     text?: string;
     fun?: (data?: any) => void;
+    change?: (value: Moment[], dateString: string[]) => void;
+    ok?: (data: any) => void;
 };
 
 const props = defineProps({
@@ -26,7 +30,8 @@ const props = defineProps({
     },
     form: {
         type: Object as any,
-        default: () => { }
+        default: () => {
+        }
     }
 });
 
@@ -48,6 +53,16 @@ const resetFields = () => {
     emit("reset");
 };
 
+const rangeDateOk = (value: Moment[], jsonItem: QueryJsonItem) => {
+    console.log(jsonItem)
+    jsonItem.ok && jsonItem.ok(value)
+}
+
+const rangeDateChange = (value: Moment[], dateString: string[], jsonItem: QueryJsonItem) => {
+    jsonItem.change && jsonItem.change(value, dateString)
+}
+
+
 const modelRef = reactive({
     name: "",
     region: undefined,
@@ -56,26 +71,25 @@ const modelRef = reactive({
 </script>
 <template>
     <div class="permissions-fillter">
-        <a-form layout="inline">
+        <a-form layout="inline" :modal="form">
             <a-form-item v-for="jsonItem in jsonData" :label="jsonItem.label" :required="jsonItem.required">
-                <a-input v-if="jsonItem.type === 'input'" v-model:value="form[jsonItem.prop]" :placeholder="jsonItem.placeholder" />
-                <a-button v-if="jsonItem.type === 'button'" :type="jsonItem.buttonType" @click.prevent="() => jsonItem.fun && jsonItem.fun()">{{ jsonItem.text }}</a-button>
+                <a-input v-if="jsonItem.type === 'input'" v-model:value="form[jsonItem.prop]"
+                         :placeholder="jsonItem.placeholder"/>
+                <a-button v-if="jsonItem.type === 'button'" :type="jsonItem.buttonType"
+                          @click.prevent="() => jsonItem.fun && jsonItem.fun()">{{ jsonItem.text }}
+                </a-button>
+                <a-range-picker
+                    v-if="jsonItem.type === 'rangePicker'"
+                    v-model:value="form[jsonItem.prop]"
+                    :show-time="{ format: 'YYY-MM-DD HH:MM:SS' }"
+                    format="YYYY-MM-DD HH:mm:ss"
+                    :placeholder="jsonItem.placeholder"
+                    showToday
+                    :locale="locale"
+                    @change="(value, dateString) => jsonItem.change && jsonItem.change(value,dateString)"
+                    @ok="(value) => jsonItem.ok && jsonItem.ok(value)"
+                />
             </a-form-item>
-            <!-- <a-form-item label="Activity name" required>
-        <a-input v-model:value="modelRef.name" />
-      </a-form-item>
-      <a-form-item label="Activity zone" required>
-        <a-select v-model:value="modelRef.region" placeholder="please select your zone">
-          <a-select-option value="shanghai">Zone one</a-select-option>
-          <a-select-option value="beijing">Zone two</a-select-option>
-        </a-select>
-      </a-form-item>
-            <!---->
-            <!-- <a-form-item class="error-infos">
-        <a-button type="primary" @click.prevent="append">新增</a-button>
-        <a-button style="margin-left: 10px" type="primary" @click.prevent="search">查询</a-button>
-        <a-button style="margin-left: 10px" @click="resetFields">重置</a-button>
-            </a-form-item>-->
         </a-form>
     </div>
 </template>

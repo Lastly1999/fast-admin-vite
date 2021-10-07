@@ -32,7 +32,7 @@ export const getImgsAuthCode = (): Promise<HttpResponse> => {
 export const getSysMenus = (id: number | string | undefined): Promise<HttpResponse> => {
     return httpRequest({
         method: 'get',
-        path: `/auth/sys`
+        path: `/auth/menu`
     })
 }
 
@@ -42,7 +42,7 @@ export const getSysMenus = (id: number | string | undefined): Promise<HttpRespon
 export const getAllSysMenus = (): Promise<HttpResponse> => {
     return httpRequest({
         method: 'get',
-        path: `/auth/all`
+        path: `/menu/menu`
     })
 }
 
@@ -50,10 +50,10 @@ export const getAllSysMenus = (): Promise<HttpResponse> => {
  * 获取用户所持系统ids
  * @param userId
  */
-export const getUserMenuIds = (userId: number | string | undefined): Promise<HttpResponse> => {
+export const getUserMenuIds = (): Promise<HttpResponse> => {
     return httpRequest({
         method: 'get',
-        path: `/auth/menu/${userId}`
+        path: `/auth/menuids`
     })
 }
 
@@ -65,5 +65,15 @@ export const putSystemMenu = (data: MenuInfo) => {
         method: "put",
         path: "/menu/menu",
         data
+    })
+}
+
+/**
+ * 删除系统菜单
+ */
+export const deleteSystemMenu = (menuId: number) => {
+    return httpRequest({
+        method: "delete",
+        path: `/menu/menu/${menuId}`
     })
 }

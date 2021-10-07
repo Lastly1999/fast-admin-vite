@@ -1,4 +1,4 @@
-import { RouteRecordRaw } from "vue-router"
+import {RouteRecordRaw} from "vue-router"
 import Layout from '@/layout/index.vue'
 
 
@@ -32,7 +32,16 @@ const roleRoutesConf: RouteRecordRaw = {
                 title: "菜单权限",
                 role: "ROLE:ROLE:MENUS"
             }
-        }
+        },
+        {
+            path: "user",
+            name: "role-user",
+            component: () => import("@/views/Main/Role/RoleUser/RoleUser.vue"),
+            meta: {
+                title: "用户管理",
+                role: "ROLE:ROLE:USER"
+            }
+        },
     ]
 }
 

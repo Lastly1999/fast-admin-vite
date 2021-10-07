@@ -19,7 +19,7 @@ const httpRequest = <T>(options: HttpRequestOptions<T>): Promise<any> => {
         interceptor({
             method: options.method,
             url: `${api_url}${options.path}`,
-            data: options.data
+            data: options.data,
         }).then((res: AxiosResponse<any>) => {
             resolve(res)
         }).catch((err: any) => {
