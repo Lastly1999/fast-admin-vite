@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {onMounted, ref, nextTick} from "vue"
+import { onMounted, ref, nextTick } from "vue"
 
 defineProps({
     pagination: {
@@ -27,11 +27,11 @@ const rowClassName = (record: any, index: number) => {
 </script>
 <template>
     <a-table
-        style="word-break: break-all"
+        style="word-break: break-all;"
         class="ant-table-striped"
         {...$props}
         :pagination="false"
-        :scroll="{ x: 'max-content', y: tableHeight - (pagination ? 50:10) }"
+        :scroll="{ x: 'max-content', y: tableHeight - (pagination ? 50 : 10) }"
         :rowClassName="rowClassName"
     >
         <template #action="{ text }">

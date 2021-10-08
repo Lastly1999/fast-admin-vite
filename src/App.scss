@@ -18,9 +18,9 @@ html,
   overflow: hidden;
 }
 
-.system-pagination{
+.system-pagination {
   text-align: right;
-  padding: 8px!important;
+  padding: 8px !important;
 }
 
 #nprogress .bar {
@@ -44,6 +44,7 @@ html,
 }
 
 .ant-table-body {
+  overflow: auto !important;
   &::-webkit-scrollbar {
     width: 6px; /*高宽分别对应横竖滚动条的尺寸*/
     height: 6px;

@@ -34,7 +34,7 @@ export interface RolePermissionParam {
 
 export type MenuInfo = {
     menuName?: string;
-    menuIcon?: string;
+    menuIcon?: string | null;
     menuPath?: string;
     menuParentId?: number;
     menuParentName?: string;

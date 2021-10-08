@@ -1,6 +1,6 @@
 import httpRequest from "@/utils/axios/service"
-import {HttpResponse} from "../model/request/public"
-import {MenuInfo} from "@/services/model/response/role"
+import { HttpResponse } from "../model/request/public"
+import { MenuInfo } from "@/services/model/response/role"
 
 /**
  * 鉴权登录
@@ -50,10 +50,10 @@ export const getAllSysMenus = (): Promise<HttpResponse> => {
  * 获取用户所持系统ids
  * @param userId
  */
-export const getUserMenuIds = (): Promise<HttpResponse> => {
+export const getUserMenuIds = (id: number): Promise<HttpResponse> => {
     return httpRequest({
         method: 'get',
-        path: `/auth/menuids`
+        path: `/auth/menuids/${id}`
     })
 }
 

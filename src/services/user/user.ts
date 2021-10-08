@@ -9,7 +9,8 @@ import {listParams} from "@/services/model/response/public"
  */
 export const getUsers = (data: listParams): Promise<HttpResponse> => {
     return httpRequest({
-        method: "get",
-        path: "/user/user"
+        method: "post",
+        path: "/user/user",
+        data
     })
 }

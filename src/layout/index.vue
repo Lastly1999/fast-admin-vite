@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import {Layout} from "ant-design-vue"
+import { Layout } from "ant-design-vue"
 import PageHeader from './PageHeader/PageHeader.vue'
 import PageContent from './PageContent/PageContent.vue'
 import PageSider from './PageSider/PageSider.vue'
-import {onMounted} from "vue"
-import {useStore} from "vuex"
+import { onMounted } from "vue"
+import { useStore } from "vuex"
 
 onMounted(() => {
     loadSystemConf()
@@ -23,7 +23,7 @@ const loadSystemConf = () => {
 </script>
 <template>
     <Layout class="system-container">
-        <PageSider/>
+        <PageSider />
         <Layout>
             <PageHeader></PageHeader>
             <PageContent></PageContent>

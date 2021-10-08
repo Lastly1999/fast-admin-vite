@@ -81,45 +81,45 @@ const queryForm = ref({
     name: ""
 })
 // table loading状态
-const menuTableLoading = ref(false)
+const menuTableLoading = ref<boolean>(false)
 // 表格菜单数据源
-const menuData = ref([])
+const menuData = ref<[]>([])
 // 表格头数据
 const columns = [
     {
         title: '菜单序号',
         dataIndex: 'id',
         key: 'id',
-        width: "10%"
+        width: 150
     },
     {
         title: '菜单名称',
         dataIndex: 'label',
         key: 'label',
-        width: "13%"
+        width: 150
     },
     {
         title: "菜单图标",
-        width: "14%",
+        width: 200,
         slots: { customRender: "icon" },
     },
     {
         title: '父级菜单序号',
         dataIndex: 'pId',
         key: 'pId',
-        width: "10%"
+        width: 150
     },
     {
         title: '父级菜单名称',
         dataIndex: 'pName',
         key: 'pName',
-        width: "13%"
+        width: 150
     },
     {
         title: '路由路径',
         dataIndex: 'path',
         key: 'path',
-        width: "13%"
+        width: 150
     },
     {
         title: "操作",
@@ -204,16 +204,14 @@ const formSubmit = async (form: MenuFormOptions) => {
                     {{ data.icon }}
                 </template>
                 <template #action="{ data }">
-                    <a @click="appendChildren(data)">
-                        <PlusOutlined />添加子菜单
-                    </a>
+                    <a @click="appendChildren(data)">添加子菜单</a>
                     <a-divider type="vertical" />
                     <a-popconfirm title="你确定要删除该菜单吗?删除后无法恢复!" ok-text="是的" cancel-text="算了吧" @confirm="removeMenu(data)">
                         <a>删除</a>
                     </a-popconfirm>
                 </template>
             </FTable>
+            <MenuDrawerForm v-model:visible="showMenuDrawer" v-model:title="showMenuTitle" v-model:loading="menuFormloading" :form="menuModalForm" @submit="formSubmit" />
         </template>
     </FContainer>
-    <MenuDrawerForm v-model:visible="showMenuDrawer" v-model:title="showMenuTitle" v-model:loading="menuFormloading" :form="menuModalForm" @submit="formSubmit" />
 </template>

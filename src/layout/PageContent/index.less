@@ -26,12 +26,19 @@
   background-color: #9093994d;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
+/* 可以设置不同的进入和离开动画   */
+/* 设置持续时间和动画函数        */
+.slide-fade-enter-active {
+  transition: all 0.7s ease-out;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.slide-fade-leave-active {
+  transition: all 0.4s cubic-bezier(0.8, 0.5, 0.8, 0.8);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transition: all 0.41s ease-out;
+  transform: translateX(40px);
   opacity: 0;
 }

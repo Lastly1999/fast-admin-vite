@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-const prop = defineProps({
+defineProps({
 	value: {
 		type: Boolean,
 		default: () => false

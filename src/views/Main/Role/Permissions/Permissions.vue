@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { onMounted, ref } from "vue"
+import { onMounted, ref, reactive, inject } from "vue"
 
 // typings
 import type { RolePermissionParam } from "@/services/model/response/role"
 import type { RoleForm } from "@/services/model/response/role"
 import type { TreeChecked } from "@/components/RoleTree/RoleTree.vue"
+import type { QueryJsonItem } from "@/components/QueryGroup/QueryGroup.vue"
 
 // apis
 import { appendRole, delRole, editRole, getRoles, editPermission } from "@/services/role"
@@ -12,19 +13,67 @@ import { getAllSysMenus, getUserMenuIds } from "@/services/auth"
 import { toTree } from "@/utils/loadsh/data"
 
 // components
-
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons-vue'
 import { alertMsg } from "@/utils/antd/antd"
 import FTable from "@/components/FTable/FTable.vue"
 import RoleInfoDrawerForm from "./components/RoleInfoDrawerForm/RoleInfoDrawerForm.vue"
-import PermissionsFilter from "./components/PermissionsFilter/PermissionsFilter.vue"
 import RoleTreeModal from "./components/RoleTreeModal/RoleTreeModal.vue"
-
+import FContainer from "@/components/FContainer/FContainer.vue"
 
 
 onMounted(() => {
     getRoleTableList()
     getRoleTreeData()
+})
+
+const moment = inject<any>("moment")
+
+// queryGroup append  新增角色
+const append = (): void => {
+    roleInfoForm.value = {
+        roleId: 0,
+        roleName: "",
+        describe: "",
+        createDate: moment().format(),
+    }
+    visibleRoleInfoDrawer.value = true;
+}
+
+// queryGroup search
+const search = (): void => {
+
+}
+
+// queryGroup reset
+const reset = (): void => {
+
+}
+
+// 查询组件渲染数据源
+const queryJsonData = reactive<QueryJsonItem[]>([
+    {
+        type: "button",
+        buttonType: "primary",
+        text: "新增角色",
+        fun: append
+    },
+    {
+        type: "button",
+        buttonType: "primary",
+        text: "查询",
+        fun: search
+    },
+    {
+        type: "button",
+        buttonType: "default",
+        text: "重置",
+        fun: reset
+    }
+])
+
+// 查询的表单
+const queryForm = ref({
+    name: ""
 })
 
 // 角色列表
@@ -47,20 +96,14 @@ const columns = [
     {
         title: "序号",
         align: "center",
-        width: 100,
+        width: 120,
         customRender: (data: any) => {
             return data.index + 1;
         },
     },
-    { title: "角色名称", dataIndex: "roleName", key: "0", width: 120 },
-    { title: "角色别名", dataIndex: "describe", key: "1", width: 220 },
-    { title: "创建时间", dataIndex: "createdAt", key: "2", width: 280 },
-    {
-        title: "状态",
-        key: "3",
-        width: 110,
-        slots: { customRender: "tags" },
-    },
+    { title: "角色名称", dataIndex: "roleName", key: "0", width: 150 },
+    { title: "角色别名", dataIndex: "describe", key: "1", width: 150 },
+    { title: "创建时间", dataIndex: "createdAt", key: "2", width: 230 },
     {
         title: "操作",
         key: "4",
@@ -122,22 +165,11 @@ const roleId = ref<number | null>(null)
 // 查看权限树
 const previewRoleTree = (role: RoleForm) => {
     roleId.value = role.roleId
-    getRoleIds()
+    getRoleIds(role.roleId)
     getRoleTreeData()
     visibleRoleTree.value = true
 }
 
-// 新增角色
-const addRole = () => {
-    roleInfoForm.value = {
-        roleId: 0,
-        roleName: "",
-        describe: "",
-        createDate: "",
-        state: 1,
-    }
-    visibleRoleInfoDrawer.value = true;
-}
 
 // 权限树数据源
 const roleTreeData = ref([])
@@ -154,15 +186,15 @@ const getRoleTreeData = async (): Promise<void> => {
 }
 
 // 权限tree展开keys
-const expandedKeys = ref([])
+const expandedKeys = ref<number[]>([])
 // 权限tree选中keys
 const checkedKeys = ref<number[]>([])
 // 权限tree半选keys
 const parentKyes = ref<number[]>([])
 
 // getAllSysMenus
-const getRoleIds = async (): Promise<void> => {
-    const body = await getUserMenuIds()
+const getRoleIds = async (id: number): Promise<void> => {
+    const body = await getUserMenuIds(id)
     if (body.code === 200 && body.data.roleIds) {
         expandedKeys.value = body.data.roleIds
         checkedKeys.value = body.data.roleIds
@@ -195,14 +227,14 @@ const roleTreeSubmit = async () => {
     alertMsg(check ? "success" : "error", check ? "修改角色权限菜单成功!" : "修改失败 o(╥﹏╥)o")
 }
 
-
 </script>
 
 <template>
-    <a-layout style="height: 100%; overflow: hidden">
-        <!-- 角色列表筛选 -->
-        <PermissionsFilter class="system-box-shadow" @add="addRole" />
-        <a-layout-content class="page-content system-box-shadow">
+    <FContainer>
+        <template v-slot:header>
+            <QueryGroup v-model:jsonData="queryJsonData" v-model:form="queryForm" />
+        </template>
+        <template v-slot:main>
             <!-- 角色列表 -->
             <FTable bordered size="middle" :loading="roleTableLoading" :columns="columns" :data-source="roleData">
                 <template #action="{ data }">
@@ -229,17 +261,17 @@ const roleTreeSubmit = async () => {
                     </a-tag>
                 </template>
             </FTable>
-        </a-layout-content>
-    </a-layout>
-    <RoleInfoDrawerForm v-model:value="visibleRoleInfoDrawer" :form="roleInfoForm" @submit="onSubmit" />
-    <RoleTreeModal
-        v-model:value="visibleRoleTree"
-        v-model:checkedKeys="checkedKeys"
-        :data="roleTreeData"
-        :confirmLoading="confirmLoading"
-        @submit="roleTreeSubmit"
-        @check="roleCheck"
-    />
+            <RoleInfoDrawerForm v-model:value="visibleRoleInfoDrawer" :form="roleInfoForm" @submit="onSubmit" />
+            <RoleTreeModal
+                v-model:value="visibleRoleTree"
+                v-model:checkedKeys="checkedKeys"
+                :data="roleTreeData"
+                :confirmLoading="confirmLoading"
+                @submit="roleTreeSubmit"
+                @check="roleCheck"
+            />
+        </template>
+    </FContainer>
 </template>
 
 <style scoped>

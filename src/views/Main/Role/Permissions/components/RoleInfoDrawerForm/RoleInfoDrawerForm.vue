@@ -89,9 +89,6 @@ const rules = {
       <a-form-item label="创建时间" name="createDate">
         <a-date-picker v-model:value="form.createDate" :mode="form.createDate" show-time placeholder="请选择" />
       </a-form-item>
-      <a-form-item label="是否启用" name="state">
-        <a-switch checked-children="启用" un-checked-children="禁用" :checkedValue="1" :unCheckedValue="2" v-model:checked="form.state" />
-      </a-form-item>
     </a-form>
   </FDrawer>
 </template>
