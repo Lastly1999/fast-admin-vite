@@ -19,6 +19,7 @@ import FTable from "@/components/FTable/FTable.vue"
 import RoleInfoDrawerForm from "./components/RoleInfoDrawerForm/RoleInfoDrawerForm.vue"
 import RoleTreeModal from "./components/RoleTreeModal/RoleTreeModal.vue"
 import FContainer from "@/components/FContainer/FContainer.vue"
+import { MOM_ENT } from "@/symbol"
 
 
 onMounted(() => {
@@ -26,7 +27,7 @@ onMounted(() => {
     getRoleTreeData()
 })
 
-const moment = inject<any>("moment")
+const moment = inject<any>(MOM_ENT)
 
 // queryGroup append  新增角色
 const append = (): void => {

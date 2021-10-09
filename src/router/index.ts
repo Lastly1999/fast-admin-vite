@@ -17,8 +17,6 @@ import store from '@/store'
 // 路由白名单表
 const routerAuthList = ["HOME:PANEL:VIEW"]
 
-
-
 export const routes: RouteRecordRaw[] = [
     {
         path: "/",
@@ -64,7 +62,7 @@ router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormali
         next()
     } else {
         const menus = store.getters["authModule/getSysMenus"]
-        // 当未请求过权限菜单时 再进行请求
+        // 当未请求过权限菜单时 再进行请求 拉取权限
         if (!menus) await store.dispatch('authModule/API_GET_SYS_MENUS')
         next()
     }

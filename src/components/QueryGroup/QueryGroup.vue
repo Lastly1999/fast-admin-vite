@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import {reactive} from "vue"
-import type {PropType} from "vue"
-import type {Moment} from 'moment'
+import type { PropType } from "vue"
+import type { Moment } from 'moment'
 import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
 
 export type QueryJsonItem = {
@@ -23,7 +22,7 @@ export type JsonButton = {
     ok?: (data: any) => void;
 };
 
-const props = defineProps({
+defineProps({
     jsonData: {
         type: Array as PropType<QueryJsonItem[]>,
         default: () => [],
@@ -35,49 +34,13 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits<{
-    (event: "add"): void;
-    (event: "search"): void;
-    (event: "reset"): void;
-}>();
-
-const append = (): void => {
-    emit("add");
-};
-
-const search = (): void => {
-    emit("search");
-};
-
-const resetFields = () => {
-    emit("reset");
-};
-
-const rangeDateOk = (value: Moment[], jsonItem: QueryJsonItem) => {
-    console.log(jsonItem)
-    jsonItem.ok && jsonItem.ok(value)
-}
-
-const rangeDateChange = (value: Moment[], dateString: string[], jsonItem: QueryJsonItem) => {
-    jsonItem.change && jsonItem.change(value, dateString)
-}
-
-
-const modelRef = reactive({
-    name: "",
-    region: undefined,
-    type: [],
-});
 </script>
 <template>
     <div class="permissions-fillter">
         <a-form layout="inline" :modal="form">
             <a-form-item v-for="jsonItem in jsonData" :label="jsonItem.label" :required="jsonItem.required">
-                <a-input v-if="jsonItem.type === 'input'" v-model:value="form[jsonItem.prop]"
-                         :placeholder="jsonItem.placeholder"/>
-                <a-button v-if="jsonItem.type === 'button'" :type="jsonItem.buttonType"
-                          @click.prevent="() => jsonItem.fun && jsonItem.fun()">{{ jsonItem.text }}
-                </a-button>
+                <a-input v-if="jsonItem.type === 'input'" v-model:value="form[jsonItem.prop]" :placeholder="jsonItem.placeholder" />
+                <a-button v-if="jsonItem.type === 'button'" :type="jsonItem.buttonType" @click.prevent="() => jsonItem.fun && jsonItem.fun()">{{ jsonItem.text }}</a-button>
                 <a-range-picker
                     v-if="jsonItem.type === 'rangePicker'"
                     v-model:value="form[jsonItem.prop]"
@@ -86,7 +49,7 @@ const modelRef = reactive({
                     :placeholder="jsonItem.placeholder"
                     showToday
                     :locale="locale"
-                    @change="(value, dateString) => jsonItem.change && jsonItem.change(value,dateString)"
+                    @change="(value, dateString) => jsonItem.change && jsonItem.change(value, dateString)"
                     @ok="(value) => jsonItem.ok && jsonItem.ok(value)"
                 />
             </a-form-item>

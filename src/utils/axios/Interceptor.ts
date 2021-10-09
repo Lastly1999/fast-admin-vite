@@ -1,7 +1,7 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios"
-import {alertMsg} from '../antd/antd'
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import { alertMsg } from '../antd/antd'
 import router from "@/router"
-import type {HttpResponse} from "@/services/model/request/public"
+import type { HttpResponse } from "@/services/model/request/public"
 
 // axios instance
 const axiosInstance = axios.create({
@@ -22,11 +22,11 @@ axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosReques
  * @date 2021年8月9日19:44:12
  */
 axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse => {
+    console.log(response)
     serveResponseErrHandler(response)
     requestHandler(response)
     return response.data
 }, (err: any) => {
-    console.log(err.response)
     if (err.response) {
         // 错误处理
         errorsHandler(err.response.data)
@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
 
 function serveResponseErrHandler(res: AxiosResponse<HttpResponse>) {
     const statusCode: number = res.data.code
-    const errorMsg: string = res.data.data
+    const errorMsg: string = res.data.msg
     if (statusCode !== 200) {
         alertMsg("error", errorMsg)
     }
@@ -57,7 +57,7 @@ function requestHandler(response: AxiosResponse<HttpResponse>) {
  * @param data
  */
 function errorsHandler(data: any) {
-    let errorMsg = null
+    let errorMsg = "服务器异常"
     switch (data.code) {
         case 20001:
             errorMsg = data.data
@@ -67,8 +67,10 @@ function errorsHandler(data: any) {
             router.push('/login').then(r => r)
         case 500:
             errorMsg = data.data
+        default:
+            errorMsg = "服务器异常，未知错误"
     }
-    alertMsg("error", data.data)
+    alertMsg("error", errorMsg)
 }
 
 export default axiosInstance

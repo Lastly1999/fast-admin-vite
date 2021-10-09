@@ -27,7 +27,7 @@ import router from "@/router"
 function installGlobalComponents(app: any) {
     // global components installs 
     app.component('QueryGroup', QueryGroup)
-    // app.component("FModal", FModal)
+    app.component(MOM_ENT, FModal)
 }
 
 function bootstrap() {

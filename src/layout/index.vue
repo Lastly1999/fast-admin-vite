@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import { onMounted } from "vue"
+import { useStore } from "vuex"
 import { Layout } from "ant-design-vue"
+
 import PageHeader from './PageHeader/PageHeader.vue'
 import PageContent from './PageContent/PageContent.vue'
 import PageSider from './PageSider/PageSider.vue'
-import { onMounted } from "vue"
-import { useStore } from "vuex"
+
 
 onMounted(() => {
     loadSystemConf()
@@ -18,6 +20,8 @@ const store = useStore()
 const loadSystemConf = () => {
     // 系统图标下拉列表参数
     store.dispatch("systemModule/API_GET_SYS_ICONS")
+    // 系统菜单树
+    store.dispatch("systemModule/API_GET_SYS_MENUS")
 }
 
 </script>

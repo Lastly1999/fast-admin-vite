@@ -16,7 +16,7 @@ const roleMenus = store.getters['authModule/getSysMenus']
 <template>
     <Sider theme="dark" class="system-sider" width="220" collapsible>
         <div class="logo">
-            <div class="logo-container" style>
+            <div class="logo-container">
                 <img width="50" height="50" :src="config.logo" />
             </div>
             <div class="logo-title">Fast Admin</div>

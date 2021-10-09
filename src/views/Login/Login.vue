@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import {ref, onMounted} from "vue"
-import {useStore, Store} from "vuex"
+import { ref, onMounted } from "vue"
+import { useStore, Store } from "vuex"
 import LoginFormContainer from './components/LoginFormContainer/LoginFormContainer.vue'
-import type {AutCodeOptions} from './components/LoginFormContainer/LoginFormContainer.vue'
-import type {LoginForm} from '@/services/model/response/role'
+import type { AutCodeOptions } from './components/LoginFormContainer/LoginFormContainer.vue'
+import type { LoginForm } from '@/services/model/response/role'
 
 // apis
-import {getImgsAuthCode} from "@/services/auth"
+import { getImgsAuthCode } from "@/services/auth"
 
 
 onMounted(() => {
@@ -22,7 +22,7 @@ const formLoading = ref(false)
 const loginAction = async (form: LoginForm): Promise<any> => {
     formLoading.value = true
     try {
-        await store.dispatch("authModule/API_POST_SYS_AUTH", {...form, codeAuth: authCodeParams.value.code})
+        await store.dispatch("authModule/API_POST_SYS_AUTH", { ...form, codeAuth: authCodeParams.value.code })
     } catch {
         await getAuthImg()
     } finally {
@@ -38,7 +38,7 @@ const authCodeParams = ref<AutCodeOptions>({
 
 // 获取图形验证码
 const getAuthImg = async () => {
-    const {code, data} = await getImgsAuthCode()
+    const { code, data } = await getImgsAuthCode()
     if (code === 200) {
         authCodeParams.value = {
             ...data
@@ -51,12 +51,12 @@ const getAuthImg = async () => {
 <template>
     <div class="login-container">
         <div class="element-container-left">
-            <img src="@/assets/login/element1.png"/>
+            <img src="@/assets/login/element1.png" />
         </div>
         <div class="element-container-right">
-            <img src="@/assets/login/element2.png"/>
+            <img src="@/assets/login/element2.png" />
         </div>
-        <LoginFormContainer @change="loginAction" :formLoading="formLoading" :authCode="authCodeParams"/>
+        <LoginFormContainer :formLoading="formLoading" :authCode="authCodeParams" @change="loginAction" />
     </div>
 </template>
 

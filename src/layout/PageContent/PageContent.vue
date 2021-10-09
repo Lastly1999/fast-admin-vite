@@ -1,17 +1,6 @@
 
 <script lang="ts" setup>
-// import { ref } from "vue"
-// import { onBeforeRouteUpdate } from "vue-router"
 
-// const transitionName = ref('slide-left')
-// onBeforeRouteUpdate((to, from) => {
-//     const { index: toIndex } = to.meta
-//     const { index: fromIndex } = from.meta
-//     console.log(toIndex, fromIndex, toIndex < fromIndex)
-//     transitionName.value = toIndex < fromIndex ? 'slide-right' : 'slide-left'
-//     console.log(transitionName.value)
-//     isname.value = to.name
-// })
 </script>
 
 <template>
