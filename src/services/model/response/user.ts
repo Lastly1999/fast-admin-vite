@@ -2,7 +2,7 @@ export type UserSystem = {
     id: number;
     userName: string;
     userAvatar: string;
-    roleIds: number[];
+    roleIds: string[];
     userSign: string;
     createDate: string;
     activatedAt: string;
@@ -14,7 +14,7 @@ export type UserSystem = {
 }
 
 export type UserChilRole = {
-    roleId: number;
+    roleId: string;
     roleName: string;
     describe: string;
     status: boolean;
@@ -25,7 +25,9 @@ export type UserChilRole = {
 }
 
 export type RegisterUserForm = {
+    id?: number | null;
     userName: string;
     passWord?: string;
     nikeName: string;
+    roleId: string | null;
 }

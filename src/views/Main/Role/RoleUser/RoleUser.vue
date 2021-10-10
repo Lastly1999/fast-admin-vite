@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from "vue"
+import { onMounted, reactive, ref, computed } from "vue"
 import { useStore } from "vuex"
 
 // components
@@ -12,9 +12,11 @@ import type { QueryJsonItem } from "@/components/QueryGroup/QueryGroup.vue"
 import type { RegisterUserForm, UserSystem } from "@/services/model/response/user"
 import type { listParams } from "@/services/model/response/public"
 import type { UserForm } from "./components/RoleUserModalForm/RoleUserModalForm.vue"
+import type { RoleItem } from "@/store/modules/system"
+
 
 // apis
-import { getUsers, createSystemUser, deleteSystemUser } from "@/services/user/user"
+import { getUsers, createSystemUser, deleteSystemUser, editSystemUser } from "@/services/user/user"
 import { alertMsg } from "@/utils/antd/antd"
 
 
@@ -27,8 +29,10 @@ const store = useStore()
 // 修改用户信息
 const editUserRow = (data: UserForm): void => {
     userForm.value = {
-        ...data
+        ...data,
+        roleId: data.roleId === "" ? null : data.roleId
     }
+    userModalTitle.value = "修改用户信息"
     userModalVisible.value = true
 }
 
@@ -39,9 +43,11 @@ const append = () => {
         userName: "",
         nikeName: "",
         userAvatar: "",
+        roleId: null,
         CreatedAt: "",
         UpdatedAt: ""
     }
+    userModalTitle.value = "新增用户"
     userModalVisible.value = true
 }
 
@@ -140,6 +146,7 @@ const userForm = ref<UserForm>({
     nikeName: "",
     passWord: "",
     userAvatar: "",
+    roleId: null,
     CreatedAt: "",
     UpdatedAt: ""
 })
@@ -150,10 +157,25 @@ const addFormRequest = async () => {
         userName: userForm.value.userName,
         passWord: userForm.value.passWord,
         nikeName: userForm.value.nikeName,
+        roleId: userForm.value.roleId,
     }
     const { code } = await createSystemUser(param)
     if (code === 200) {
-        alertMsg("success", "新增成功")
+        alertMsg("success", "新增成功!")
+    }
+    await getSystemUsers()
+}
+
+const updateFormRequest = async () => {
+    const param: RegisterUserForm = {
+        id: userForm.value.id,
+        userName: userForm.value.userName,
+        nikeName: userForm.value.nikeName,
+        roleId: userForm.value.roleId,
+    }
+    const { code } = await editSystemUser(param)
+    if (code === 200) {
+        alertMsg("success", "修改成功!")
     }
     await getSystemUsers()
 }
@@ -161,7 +183,7 @@ const addFormRequest = async () => {
 const submitForm = async (): Promise<void> => {
     console.log(userForm.value)
     if (userForm.value.id) {
-
+        updateFormRequest()
     } else {
         addFormRequest()
     }
@@ -198,7 +220,7 @@ const delSystemUser = async (id: number): Promise<void> => {
     await getSystemUsers()
 }
 
-const options = ref(store.getters["getSysMenus"])
+const roleOptions = computed<RoleItem[]>(() => store.getters["systemModule/getSysRoles"])
 
 </script>
 <template>
@@ -209,11 +231,8 @@ const options = ref(store.getters["getSysMenus"])
         <template v-slot:main>
             <FTable bordered size="middle" :loading="userTableLoading" :columns="columns" :data-source="userData" rowKey="id">
                 <template #tags="{ data }">
-                    <a-select mode="multiple" style="width: 100%" placeholder="请选择" option-label-prop="label" :options="options">
-                        <template #option="{ value: val, label, icon }">
-                            <span role="img" :aria-label="val">{{ icon }}</span>
-                            &nbsp;&nbsp;{{ label }}
-                        </template>
+                    <a-select v-model:value="data.roleIds" mode="multiple" style="width: 100%" placeholder="暂无配置角色" option-label-prop="label">
+                        <a-select-option v-for="item in roleOptions" :value="item.roleId" :label="item.roleName">&nbsp;&nbsp;{{ item.roleName }}</a-select-option>
                     </a-select>
                 </template>
                 <template #action="{ data }">

@@ -22,7 +22,6 @@ axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosReques
  * @date 2021年8月9日19:44:12
  */
 axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse => {
-    console.log(response)
     serveResponseErrHandler(response)
     requestHandler(response)
     return response.data

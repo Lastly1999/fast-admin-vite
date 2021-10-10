@@ -3,6 +3,8 @@ import { Store } from "vuex"
 // apis
 import { getSystemIcons } from "@/services/system/sys"
 import { getAllSysMenus } from "@/services/auth"
+import { getRoles } from "@/services/role"
+import { toRaw } from "vue"
 
 export type IconItem = {
     id: number;
@@ -21,9 +23,18 @@ export type MenuItem = {
     path: string;
 }
 
+export type RoleItem = {
+    roleId: number;
+    roleName: string;
+    describe: string;
+    createDate: string;
+    state?: number;
+}
+
 export type SystemState = {
     iconSelectDataSource: IconItem[],
-    systemMenus: MenuItem[]
+    systemMenus: MenuItem[],
+    systemRoles: RoleItem[]
 }
 
 export type SystemModule = {
@@ -31,16 +42,19 @@ export type SystemModule = {
     state: () => SystemState;
     getters: {
         getSysIcons(state: SystemState): IconItem[],
-        getSysMenus(state: SystemState): MenuItem[]
+        getSysMenus(state: SystemState): MenuItem[],
+        getSysRoles(state: SystemState): RoleItem[],
     };
     actions: {
         API_GET_SYS_ICONS(action: Store<any>): void,
-        API_GET_SYS_MENUS(action: Store<any>): void
+        API_GET_SYS_MENUS(action: Store<any>): void,
+        API_GET_SYS_ROLES(action: Store<any>): void
     };
     mutations: {
         SET_SYS_ICONS(state: SystemState, payload: IconItem[]): void,
-        SET_SYS_MENUS(state: SystemState, payload: MenuItem[]): void
-    };
+        SET_SYS_MENUS(state: SystemState, payload: MenuItem[]): void,
+        SET_SYS_ROLES(state: SystemState, payload: RoleItem[]): void,
+    }
 }
 
 export const systemModule: SystemModule = {
@@ -48,7 +62,8 @@ export const systemModule: SystemModule = {
     state: () => {
         return {
             iconSelectDataSource: [],
-            systemMenus: []
+            systemMenus: [],
+            systemRoles: []
         }
     },
     getters: {
@@ -57,6 +72,9 @@ export const systemModule: SystemModule = {
         },
         getSysMenus(state: SystemState) {
             return state.systemMenus
+        },
+        getSysRoles(state: SystemState) {
+            return state.systemRoles
         }
     },
     actions: {
@@ -74,8 +92,16 @@ export const systemModule: SystemModule = {
          */
         async API_GET_SYS_MENUS({ commit }: Store<any>) {
             const { data, code } = await getAllSysMenus()
-            if (code === 200) commit('SET_SYS_ICONS', data.icons)
+            if (code === 200) commit('SET_SYS_ICONS', data.menus)
         },
+        /**
+         * 请求系统角色列表
+         * @param param0 
+         */
+        async API_GET_SYS_ROLES({ commit }: Store<any>) {
+            const { data, code } = await getRoles()
+            if (code === 200) commit('SET_SYS_ROLES', data.roles)
+        }
     },
     mutations: {
         // set icons
@@ -85,6 +111,10 @@ export const systemModule: SystemModule = {
         // set menus
         SET_SYS_MENUS(state: SystemState, payload: MenuItem[]) {
             state.systemMenus.length === 0 && (state.systemMenus = payload)
+        },
+        // set roles
+        SET_SYS_ROLES(state: SystemState, payload: RoleItem[]) {
+            state.systemRoles = payload
         }
     }
 }

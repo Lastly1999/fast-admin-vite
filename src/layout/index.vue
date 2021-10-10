@@ -22,6 +22,8 @@ const loadSystemConf = () => {
     store.dispatch("systemModule/API_GET_SYS_ICONS")
     // 系统菜单树
     store.dispatch("systemModule/API_GET_SYS_MENUS")
+    // 系统角色列表
+    store.dispatch("systemModule/API_GET_SYS_ROLES")
 }
 
 </script>

@@ -1,8 +1,14 @@
 <script lang="ts" setup>
-import { ref } from "vue"
+import { computed, ref, watch } from "vue"
+import { useStore } from "vuex"
 import FModal from "@/components/FModal/FModal.vue"
-import type { PropType } from 'vue'
 import { ValidateErrorEntity } from "ant-design-vue/es/form/interface"
+
+// apis
+import { getSystemUserRoles } from "@/services/user/user"
+
+import type { PropType } from 'vue'
+import type { RoleItem } from "@/store/modules/system"
 
 
 export type UserForm = {
@@ -11,9 +17,12 @@ export type UserForm = {
   userAvatar: string;
   passWord?: string;
   nikeName: string;
+  roleId: string | null;
   CreatedAt: string;
   UpdatedAt: string;
 }
+
+const store = useStore()
 
 const props = defineProps({
   loading: {
@@ -43,6 +52,24 @@ const emit = defineEmits<{
   (event: 'update:visible', show: boolean): void
 }>()
 
+watch(() => props.form.id, () => {
+  if (props.form.id) {
+    getRoles(props.form.id)
+  } else {
+    roles.value = storeRoles.value
+  }
+}, { deep: true })
+
+const getRoles = async (id: number) => {
+  const { code, data } = await getSystemUserRoles(id)
+  if (code === 200) {
+    roles.value = data.roles
+  }
+}
+const roles = ref<RoleItem[]>([])
+
+const storeRoles = computed<RoleItem[]>(() => store.getters["systemModule/getSysRoles"])
+
 const userFormRef = ref()
 
 const onSubmit = (): void => {
@@ -61,6 +88,7 @@ const rules = {
   userAvatar: [{ required: true, message: '请输入' }],
   passWord: [{ required: true, message: '请输入' }],
   nikeName: [{ required: true, message: '请输入' }],
+  roleId: [{ required: true, message: '请选择' }],
   CreatedAt: [{ required: true, message: '请选择' }],
   UpdatedAt: [{ required: true, message: '请选择' }]
 }
@@ -83,6 +111,11 @@ const rules = {
       </a-form-item>
       <a-form-item v-if="!form.id" label="账户密码" name="passWord">
         <a-input v-model:value="form.passWord" placeholder="请输入" />
+      </a-form-item>
+      <a-form-item label="角色" name="roleId">
+        <a-select v-model:value="form.roleId" style="width: 100%" placeholder="暂无配置角色" option-label-prop="label">
+          <a-select-option v-for="item in roles" :value="item.roleId" :label="item.roleName">&nbsp;&nbsp;{{ item.roleName }}</a-select-option>
+        </a-select>
       </a-form-item>
       <a-form-item v-if="form.id" label="创建时间" name="CreatedAt">
         <a-input disabled v-model:value="form.CreatedAt" placeholder="请输入" />

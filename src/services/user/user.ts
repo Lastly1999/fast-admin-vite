@@ -39,3 +39,27 @@ export const deleteSystemUser = (userId: number) => {
         path: `/user/user/${userId}`
     })
 }
+
+/**
+ * 修改系统用户信息
+ * @param data 
+ * @returns 
+ */
+export const editSystemUser = (data: RegisterUserForm) => {
+    return httpRequest({
+        method: "patch",
+        path: `/user/user`,
+        data
+    })
+}
+
+/**
+ * 获取系统用户角色列表
+ * @param userId 
+ */
+export const getSystemUserRoles = (userId: number) => {
+    return httpRequest({
+        method: "get",
+        path: `/user/role/${userId}`,
+    })
+}
