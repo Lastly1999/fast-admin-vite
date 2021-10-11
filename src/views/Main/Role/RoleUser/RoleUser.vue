@@ -9,14 +9,14 @@ import FTable from "@/components/FTable/FTable.vue"
 import RoleUserModalForm from "./components/RoleUserModalForm/RoleUserModalForm.vue"
 
 import type { QueryJsonItem } from "@/components/QueryGroup/QueryGroup.vue"
-import type { RegisterUserForm, UserSystem } from "@/services/model/response/user"
+import type { RegisterUserForm, UserAsRoleParams, UserSystem } from "@/services/model/response/user"
 import type { listParams } from "@/services/model/response/public"
 import type { UserForm } from "./components/RoleUserModalForm/RoleUserModalForm.vue"
 import type { RoleItem } from "@/store/modules/system"
 
 
 // apis
-import { getUsers, createSystemUser, deleteSystemUser, editSystemUser } from "@/services/user/user"
+import { getUsers, createSystemUser, deleteSystemUser, editSystemUser, PatchUserAsRole } from "@/services/user/user"
 import { alertMsg } from "@/utils/antd/antd"
 
 
@@ -28,6 +28,7 @@ const store = useStore()
 
 // 修改用户信息
 const editUserRow = (data: UserForm): void => {
+    console.log(data)
     userForm.value = {
         ...data,
         roleId: data.roleId === "" ? null : data.roleId
@@ -37,7 +38,7 @@ const editUserRow = (data: UserForm): void => {
 }
 
 // 新增用户信息
-const append = () => {
+const append = (): void => {
     userForm.value = {
         id: null,
         userName: "",
@@ -51,11 +52,11 @@ const append = () => {
     userModalVisible.value = true
 }
 
-const search = () => {
+const search = (): void => {
 
 }
 
-const reset = () => {
+const reset = (): void => {
 
 }
 
@@ -105,7 +106,7 @@ const columns = [
         width: 130,
     },
     {
-        title: "用户角色",
+        title: "所有角色",
         width: 300,
         slots: { customRender: "tags" },
     },
@@ -127,19 +128,28 @@ const columns = [
         slots: { customRender: "action" },
     },
 ]
+// 用户列表加载状态
 const userTableLoading = ref(false)
 
+// 用户列表数据源
 const userData = ref<UserSystem[]>()
 
+// queryGroup 查询表单
 const queryForm = ref<listParams>({
     keyWords: "",
     pageSize: 10,
     page: 1
 })
+// 用户修改/新增表单按钮加载状态
+const formLoading = ref<boolean>(false)
 
+// 用户修改modal标题
 const userModalTitle = ref<string>('新增用户')
+
+// 用户修改modal显示状态
 const userModalVisible = ref<boolean>(false)
 
+// 用户修改modal表单数据
 const userForm = ref<UserForm>({
     id: null,
     userName: "",
@@ -151,45 +161,49 @@ const userForm = ref<UserForm>({
     UpdatedAt: ""
 })
 
+// 提交用户操作 添加/修改
+const submitForm = async (): Promise<void> => {
+    formLoading.value = true
+    if (userForm.value.id) {
+        await updateFormRequest()
+    } else {
+        await addFormRequest()
+    }
+    userModalVisible.value = false
+    await getSystemUsers()
+    formLoading.value = false
+}
 
-const addFormRequest = async () => {
+// 请求新增用户
+const addFormRequest = async (): Promise<void> => {
     const param: RegisterUserForm = {
         userName: userForm.value.userName,
         passWord: userForm.value.passWord,
         nikeName: userForm.value.nikeName,
         roleId: userForm.value.roleId,
+        roleIds: userForm.value.roleIds,
     }
     const { code } = await createSystemUser(param)
     if (code === 200) {
         alertMsg("success", "新增成功!")
     }
-    await getSystemUsers()
 }
 
-const updateFormRequest = async () => {
+// 请求修改用户信息
+const updateFormRequest = async (): Promise<void> => {
     const param: RegisterUserForm = {
         id: userForm.value.id,
         userName: userForm.value.userName,
         nikeName: userForm.value.nikeName,
         roleId: userForm.value.roleId,
+        roleIds: userForm.value.roleIds,
     }
     const { code } = await editSystemUser(param)
     if (code === 200) {
         alertMsg("success", "修改成功!")
     }
-    await getSystemUsers()
 }
 
-const submitForm = async (): Promise<void> => {
-    console.log(userForm.value)
-    if (userForm.value.id) {
-        updateFormRequest()
-    } else {
-        addFormRequest()
-    }
-    userModalVisible.value = false
-    await getSystemUsers()
-}
 // 请求系统用户列表
 const getSystemUsers = async (): Promise<void> => {
     userTableLoading.value = true
@@ -202,7 +216,7 @@ const getSystemUsers = async (): Promise<void> => {
 }
 
 // 需要的角色id
-const eachRoleIds = () => {
+const eachRoleIds = (): void => {
     userData.value!.map((item: UserSystem) => {
         item.roleIds = []
         item.role.map(roleItem => {
@@ -231,9 +245,17 @@ const roleOptions = computed<RoleItem[]>(() => store.getters["systemModule/getSy
         <template v-slot:main>
             <FTable bordered size="middle" :loading="userTableLoading" :columns="columns" :data-source="userData" rowKey="id">
                 <template #tags="{ data }">
-                    <a-select v-model:value="data.roleIds" mode="multiple" style="width: 100%" placeholder="暂无配置角色" option-label-prop="label">
+                    <a-tag v-for="item in data.role" color="green">{{ item.roleName }}</a-tag>
+                    <!-- <a-select
+                        v-model:value="data.roleIds"
+                        mode="multiple"
+                        style="width: 100%"
+                        placeholder="暂无配置角色"
+                        option-label-prop="label"
+                        @change="rolePatchChange(data)"
+                    >
                         <a-select-option v-for="item in roleOptions" :value="item.roleId" :label="item.roleName">&nbsp;&nbsp;{{ item.roleName }}</a-select-option>
-                    </a-select>
+                    </a-select>-->
                 </template>
                 <template #action="{ data }">
                     <a @click="editUserRow(data)">修改</a>
@@ -243,7 +265,7 @@ const roleOptions = computed<RoleItem[]>(() => store.getters["systemModule/getSy
                     </a-popconfirm>
                 </template>
             </FTable>
-            <RoleUserModalForm v-model:visible="userModalVisible" v-model:title="userModalTitle" :form="userForm" @submit="submitForm" />
+            <RoleUserModalForm v-model:loading="formLoading" v-model:visible="userModalVisible" v-model:title="userModalTitle" :form="userForm" @submit="submitForm" />
         </template>
     </FContainer>
 </template>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import {ref} from "vue"
-import {useStore} from "vuex"
-import {Icon} from "@/components/FIcon/FIcon.ts"
+import { ref, computed } from "vue"
+import { useStore } from "vuex"
+import { Icon } from "@/components/FIcon/FIcon.ts"
 
 export type IconsItem = {
     id: number;
@@ -21,11 +21,11 @@ const props = defineProps({
 const store = useStore()
 
 // 图标列表
-const options = ref<IconsItem[]>(store.getters["systemModule/getSysIcons"])
+const options = computed<IconsItem[]>(() => store.getters["systemModule/getSysIcons"])
 
 const emit = defineEmits<{
     (event: "change"): void,
-    (event: 'update:value', event): void
+    (event: 'update:value', e: string): void
 }>()
 
 const handleChange = (event: string) => {
@@ -37,10 +37,10 @@ const handleChange = (event: string) => {
 <template>
     <a-select v-model:value="value" style="width: 100%" placeholder="请选择" @change="handleChange">
         <a-select-option v-for="item in options" :value="item.iconName">
-                            <span>
-                                <Icon :icon="item.iconName"></Icon>
-                                {{ item.iconName }}
-                            </span>
+            <span>
+                <Icon :icon="item.iconName"></Icon>
+                {{ item.iconName }}
+            </span>
         </a-select-option>
     </a-select>
 </template>

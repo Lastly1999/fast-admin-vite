@@ -32,7 +32,7 @@ const cancel = () => {
 
 </script>
 <template>
-	<a-modal v-model:visible="value" :title="title" @ok="handleOk" @cancel="cancel" :confirmLoading="confirmLoading">
+	<a-modal v-model:visible="value" ok-text="保存" cancel-text="取消" :title="title" :confirmLoading="confirmLoading" @ok="handleOk" @cancel="cancel">
 		<slot></slot>
 	</a-modal>
 </template>

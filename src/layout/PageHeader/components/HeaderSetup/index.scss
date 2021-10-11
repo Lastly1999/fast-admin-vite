@@ -1,31 +1,33 @@
 .system-setup {
-    .ant-popover-inner-content {
-        padding: 0;
-        .setup-select-item {
-            padding: 6px 0 6px 16px;
-            transition: 0.2s linear;
-            .setup-select-item-title {
-                margin-left: 4px;
-            }
-            &:hover {
-                cursor: pointer;
-                background-color: #f0f2f5;
-            }
-        }
+  .ant-popover-inner-content {
+    padding: 0;
+  }
+  .setup-item {
+    width: 40px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    transition: 0.2s linear;
+    float: right;
+    &:hover {
+      cursor: pointer;
+      background-color: #f0f2f5;
     }
-    .setup-item {
-        width: 40px;
-        height: 50px;
-        line-height: 50px;
-        text-align: center;
-        transition: 0.2s linear;
-        float: right;
-        &:hover {
-            cursor: pointer;
-            background-color: #f0f2f5;
-        }
-    }
+  }
 }
 .setup-select-title {
-    margin-left: 5px;
+  margin-left: 5px;
+}
+
+.setup-select-item {
+  user-select: none;
+  padding: 6px 0 6px 16px;
+  transition: 0.2s linear;
+  .setup-select-item-title {
+    margin-left: 10px;
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: #f0f2f5;
+  }
 }

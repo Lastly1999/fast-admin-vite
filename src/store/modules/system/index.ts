@@ -4,7 +4,6 @@ import { Store } from "vuex"
 import { getSystemIcons } from "@/services/system/sys"
 import { getAllSysMenus } from "@/services/auth"
 import { getRoles } from "@/services/role"
-import { toRaw } from "vue"
 
 export type IconItem = {
     id: number;
@@ -24,10 +23,10 @@ export type MenuItem = {
 }
 
 export type RoleItem = {
-    roleId: number;
-    roleName: string;
-    describe: string;
-    createDate: string;
+    roleId?: string;
+    roleName?: string;
+    describe?: string;
+    createDate?: string;
     state?: number;
 }
 

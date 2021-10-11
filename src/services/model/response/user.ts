@@ -30,4 +30,10 @@ export type RegisterUserForm = {
     passWord?: string;
     nikeName: string;
     roleId: string | null;
+    roleIds?: string[];
+}
+
+export type UserAsRoleParams = {
+    id: number;
+    roleIds: string[];
 }

@@ -1,6 +1,15 @@
 <script lang="ts" setup>
+import { ref } from "vue"
+import { useRouter } from "vue-router"
 import { SettingOutlined, ExpandOutlined, SearchOutlined, PoweroffOutlined } from '@ant-design/icons-vue';
-import "./index.scss"
+
+const router = useRouter()
+const visible = ref<boolean>(false)
+const hide = () => {
+    localStorage.removeItem('auth-token')
+    router.push("/login")
+    visible.value = false;
+}
 
 </script>
 <template>
@@ -11,12 +20,14 @@ import "./index.scss"
         <div class="setup-item">
             <SearchOutlined />
         </div>
-        <a-popover placement="bottom">
+        <a-popover v-model:visible="visible" placement="bottom" trigger="click">
             <template #content>
-                <div class="setup-select-item">
-                    <PoweroffOutlined />
-                    <span class="setup-select-item-title">注销系统</span>
-                </div>
+                <a-popconfirm title="你确认要注销系统吗？" ok-text="是的" cancel-text="算了吧" @confirm="hide">
+                    <div class="setup-select-item">
+                        <PoweroffOutlined />
+                        <span class="setup-select-item-title">注销系统</span>
+                    </div>
+                </a-popconfirm>
             </template>
             <template #title>
                 <div>
@@ -30,6 +41,6 @@ import "./index.scss"
         </a-popover>
     </div>
 </template>
-<style lang="scss">
-@import url("./index.scss") 
+<style lang="scss" scoped>
+@import "./index.scss";
 </style>
