@@ -1,11 +1,11 @@
-import {Store} from 'vuex'
+import { Store } from 'vuex'
 import router from "@/router"
-import {listToTree} from "utils/loadsh/data"
-import type {LoginForm, UserInfo} from "@/services/model/response/role"
+import { listToTree } from "utils/loadsh/data"
+import type { LoginForm, UserInfo } from "@/services/model/response/role"
 
 // apis
-import {checkAuthUser} from "@/services/auth"
-import {getSysMenus} from '@/services/auth'
+import { checkAuthUser } from "@/services/auth"
+import { getSysMenus, getSystemUserInfo } from '@/services/auth'
 
 
 export type AuthState = {
@@ -21,8 +21,10 @@ export type AuthModule = {
         getUserInfo: (state: AuthState) => UserInfo;
     };
     actions: {
-        API_POST_SYS_AUTH({commit}: Store<any>, payload: LoginForm): void;
-        API_GET_SYS_MENUS({commit}: Store<any>, id: string | number): void;
+        API_POST_SYS_AUTH({ commit }: Store<any>, payload: LoginForm): void;
+        API_GET_SYS_MENUS({ commit }: Store<any>, id: string | number): void;
+        API_GET_SYS_USER_INFO({ commit }: Store<any>): void;
+        reLogin({ commit }: Store<any>): void;
     };
     mutations: {
         SET_SYS_MENUS(state: AuthState, payload: []): void;
@@ -42,16 +44,11 @@ const authModule: AuthModule = {
             sysMenus: undefined,
             userInfo: {
                 id: 0,
-                userName: '',
-                userPass: '',
+                nikeName: '',
+                role: [],
+                roleId: '',
                 userAvatar: '',
-                userSign: '',
-                createDate: '',
-                activatedAt: '',
-                name: '',
-                email: '',
-                birthday: '',
-                age: 0
+                userName: '',
             }
         }
     ),
@@ -65,8 +62,8 @@ const authModule: AuthModule = {
          * @param commit
          * @param payload
          */
-        async API_POST_SYS_AUTH({commit}: Store<any>, payload: LoginForm) {
-            const {code, data} = await checkAuthUser<LoginForm>(payload)
+        async API_POST_SYS_AUTH({ commit }: Store<any>, payload: LoginForm) {
+            const { code, data } = await checkAuthUser<LoginForm>(payload)
             if (code === 200) {
                 localStorage.setItem("auth-token", data.token)
                 await router.push('/dashboard/panel')
@@ -75,14 +72,31 @@ const authModule: AuthModule = {
             }
         },
         /**
+         * 注销登录
+         * @param param0 
+         * @param id 
+         */
+        async reLogin({ commit }: Store<any>) {
+            localStorage.removeItem("user-token")
+            localStorage.removeItem("user-info")
+            commit('SET_SYS_MENUS', [])
+        },
+        /**
          * 获取权限系统菜单
          * @param commit
          * @param id
          */
-        async API_GET_SYS_MENUS({commit}: Store<any>, id: string | number) {
-            const {code, data} = await getSysMenus(id)
-            // 转换树状结构后commit修改
+        async API_GET_SYS_MENUS({ commit }: Store<any>, id: string | number) {
+            const { code, data } = await getSysMenus(id)
             if (code === 200) commit('SET_SYS_MENUS', listToTree(data.menus))
+        },
+        /**
+         * 获取系统用户信息
+         * @param param
+         */
+        async API_GET_SYS_USER_INFO({ commit }: Store<any>) {
+            const { code, data } = await getSystemUserInfo()
+            if (code === 200) localStorage.setItem('user-info', JSON.stringify(data.userInfo))
         }
     },
     mutations: {

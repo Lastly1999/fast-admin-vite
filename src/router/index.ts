@@ -57,13 +57,16 @@ const authEachArrays = (routesStore: RouteRecordRaw[]) => {
 // todo 权限验证在除开登录页之外pages处理
 // 进行用户id请求权限菜单操作
 router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormalized, next: NavigationGuardNext) => {
+    console.log(to)
     // 如果是登录页 默认放行 不进行权限验证
     if (to.path === '/login') {
         next()
     } else {
         const menus = store.getters["authModule/getSysMenus"]
-        // 当未请求过权限菜单时 再进行请求 拉取权限
-        if (!menus) await store.dispatch('authModule/API_GET_SYS_MENUS')
+        if (!menus || menus.length === 0) {
+            await store.dispatch('authModule/API_GET_SYS_MENUS')
+            await store.dispatch("authModule/API_GET_SYS_USER_INFO") // 系统用户信息
+        }
         next()
     }
     // nprogress start...

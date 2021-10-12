@@ -9,7 +9,7 @@ import FTable from "@/components/FTable/FTable.vue"
 import RoleUserModalForm from "./components/RoleUserModalForm/RoleUserModalForm.vue"
 
 import type { QueryJsonItem } from "@/components/QueryGroup/QueryGroup.vue"
-import type { RegisterUserForm, UserAsRoleParams, UserSystem } from "@/services/model/response/user"
+import type { RegisterUserForm, UserSystem } from "@/services/model/response/user"
 import type { listParams } from "@/services/model/response/public"
 import type { UserForm } from "./components/RoleUserModalForm/RoleUserModalForm.vue"
 import type { RoleItem } from "@/store/modules/system"

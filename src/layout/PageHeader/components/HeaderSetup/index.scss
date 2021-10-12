@@ -1,7 +1,4 @@
 .system-setup {
-  .ant-popover-inner-content {
-    padding: 0;
-  }
   .setup-item {
     width: 40px;
     height: 50px;
@@ -15,8 +12,22 @@
     }
   }
 }
+
+.setup-item-active {
+  cursor: pointer;
+  background-color: #f0f2f5 !important;
+}
+
+.menu-item-title {
+  padding: 2px 5px 2px 5px;
+  user-select: none;
+  border-bottom: 1px solid #eee;
+}
+
 .setup-select-title {
+  user-select: none;
   margin-left: 5px;
+  font-family: 500;
 }
 
 .setup-select-item {

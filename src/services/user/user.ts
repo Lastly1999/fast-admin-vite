@@ -19,7 +19,6 @@ export const getUsers = (data: listParams): Promise<HttpResponse> => {
 /**
  * 新增系统用户
  * @param data 
- * @returns 
  */
 export const createSystemUser = (data: RegisterUserForm): Promise<HttpResponse> => {
     return httpRequest({
@@ -43,7 +42,6 @@ export const deleteSystemUser = (userId: number) => {
 /**
  * 修改系统用户信息
  * @param data 
- * @returns 
  */
 export const editSystemUser = (data: RegisterUserForm) => {
     return httpRequest({

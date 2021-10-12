@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {onMounted, ref} from "vue"
+import { onMounted, ref } from "vue"
 // components
 import WorkInfoPanel from './components/WorkInfoPanel/WorkInfoPanel.vue'
 import TodoPanel from "./components/TodoPanel/TodoPanel.vue"
@@ -18,21 +18,25 @@ onMounted(() => {
 </script>
 
 <template>
-  <a-skeleton active :loading="panelLoading">
-    <a-row :gutter="[10, 10]" justify="start" :wrap="true">
-      <a-col :span="18">
-        <a-skeleton active :loading="panelLoading">
-          <WorkInfoPanel/>
-          <TodoPanel/>
-          <TimeLinePanel/>
-        </a-skeleton>
-      </a-col>
-      <a-col :span="6">
-        <a-skeleton active :loading="panelLoading">
-          <WorkBannerPanel/>
-        </a-skeleton>
-        <QuickMenusPanel/>
-      </a-col>
-    </a-row>
-  </a-skeleton>
+  <a-row :gutter="[10, 10]" justify="start" :wrap="true">
+    <a-col :span="18">
+      <a-skeleton active :loading="panelLoading">
+        <WorkInfoPanel />
+      </a-skeleton>
+      <a-skeleton active :loading="panelLoading">
+        <TodoPanel />
+      </a-skeleton>
+      <a-skeleton active :loading="panelLoading">
+        <TimeLinePanel />
+      </a-skeleton>
+    </a-col>
+    <a-col :span="6">
+      <a-skeleton active :loading="panelLoading">
+        <WorkBannerPanel />
+      </a-skeleton>
+      <a-skeleton active :loading="panelLoading">
+        <QuickMenusPanel />
+      </a-skeleton>
+    </a-col>
+  </a-row>
 </template>

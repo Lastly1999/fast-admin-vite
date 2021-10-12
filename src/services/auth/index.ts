@@ -1,10 +1,10 @@
 import httpRequest from "@/utils/axios/service"
 import { HttpResponse } from "../model/request/public"
 import { MenuInfo } from "@/services/model/response/role"
+import { UpdateSystemUserRoleParams } from "@/services/model/response/auth"
 
 /**
  * 鉴权登录
- * @param data
  */
 export const checkAuthUser = <T>(data: T): Promise<HttpResponse> => {
     return httpRequest({
@@ -75,5 +75,26 @@ export const deleteSystemMenu = (menuId: number) => {
     return httpRequest({
         method: "delete",
         path: `/menu/menu/${menuId}`
+    })
+}
+
+/**
+ * 获取系统用户信息
+ */
+export const getSystemUserInfo = () => {
+    return httpRequest({
+        method: "get",
+        path: `/auth/user`
+    })
+}
+
+/**
+ * 更新系统用户默认权限
+ */
+export const updateUserRole = (data: UpdateSystemUserRoleParams) => {
+    return httpRequest({
+        method: 'patch',
+        path: '/auth/user',
+        data
     })
 }

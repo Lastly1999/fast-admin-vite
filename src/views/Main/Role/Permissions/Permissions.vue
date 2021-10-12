@@ -19,7 +19,7 @@ import FTable from "@/components/FTable/FTable.vue"
 import RoleInfoDrawerForm from "./components/RoleInfoDrawerForm/RoleInfoDrawerForm.vue"
 import RoleTreeModal from "./components/RoleTreeModal/RoleTreeModal.vue"
 import FContainer from "@/components/FContainer/FContainer.vue"
-import { MOM_ENT } from "@/symbol"
+import { MOM_ENT } from "@/symbol/global"
 
 
 onMounted(() => {

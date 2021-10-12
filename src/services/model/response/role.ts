@@ -1,3 +1,5 @@
+import { RoleItem } from "@/store/modules/system"
+
 export type LoginForm = {
     userName: string;
     passWord: string;
@@ -7,16 +9,11 @@ export type LoginForm = {
 
 export type UserInfo = {
     id: number;
-    userName: string;
-    userPass: string;
+    nikeName: string;
+    role: RoleItem[];
+    roleId: string;
     userAvatar: string;
-    userSign: string;
-    createDate: string;
-    activatedAt: string;
-    name: string;
-    email: string;
-    birthday: string;
-    age: number;
+    userName: string;
 }
 
 export interface RoleForm {

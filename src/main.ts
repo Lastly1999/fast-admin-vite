@@ -16,7 +16,7 @@ import "font-awesome/css/font-awesome.min.css"
 import { processChromeConole } from "./runtime.console"
 
 // symbols
-import { MOM_ENT } from "@/symbol"
+import { MOM_ENT } from "@/symbol/global"
 
 import QueryGroup from "@/components/QueryGroup/QueryGroup.vue"
 import FModal from "@/components/FModal/FModal.vue"
@@ -27,12 +27,11 @@ import router from "@/router"
 function installGlobalComponents(app: any) {
     // global components installs 
     app.component('QueryGroup', QueryGroup)
-    app.component(MOM_ENT, FModal)
 }
 
 function bootstrap() {
     const app = createApp(App)
-    app.provide("moment", moment)
+    app.provide(MOM_ENT, moment)
     installGlobalComponents(app)
     app.use(router)
     app.use(Antd)

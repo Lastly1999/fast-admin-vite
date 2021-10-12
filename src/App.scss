@@ -58,3 +58,14 @@ html,
     background: transparent;
   }
 }
+
+/*菜单栏设置popover 样式重写*/
+.setup-popover {
+  .ant-popover-content {
+    .ant-popover-inner {
+      .ant-popover-inner-content {
+        padding: 0 !important;
+      }
+    }
+  }
+}
