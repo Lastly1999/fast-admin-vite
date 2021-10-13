@@ -4,6 +4,7 @@ import vue from "@vitejs/plugin-vue"
 // jsx plugin
 import vueJsx from "@vitejs/plugin-vue-jsx"
 import path from "path"
+import themePreprocessorPlugin from "@zougt/vite-plugin-theme-preprocessor";
 
 // const api_url = 'http://159.75.22.114:5600/'
 const api_url = 'http://127.0.0.1:5600/'
@@ -54,6 +55,19 @@ export default defineConfig({ // ...
     },
     plugins: [
         vueJsx(),
-        vue()
+        vue(),
+        themePreprocessorPlugin({
+            less: {
+                multipleScopeVars: [
+                    {
+                        scopeName: "default-theme",
+                        path: path.resolve('src/theme/default.less')
+                    }
+                ],
+                defaultScopeName: "default-theme",
+                extract: false
+            },
+
+        })
     ],
 })

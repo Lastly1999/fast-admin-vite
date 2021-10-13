@@ -3,7 +3,7 @@ import App from "./App"
 
 // antd
 import Antd from 'ant-design-vue'
-import "./theme/fast-theme.less"
+// import "./theme/fast-theme.less"
 
 // vuex
 import store from '@/store'

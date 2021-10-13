@@ -23,15 +23,13 @@ html,
   padding: 8px !important;
 }
 
-#nprogress .bar {
-  background: #9e9ffa !important; //颜色可修改
-}
-
 .system-box-shadow {
   box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
 }
 
 .ant-layout-header {
+  height: 50px !important;
+  background-color: #fff !important;
   padding: 0 20px 0 30px !important;
 }
 
