@@ -1,4 +1,4 @@
-import {RouteRecordRaw} from "vue-router"
+import { RouteRecordRaw } from "vue-router"
 
 // router modules
 import dashboardRoutesConf from "@/router/modules/dashboard/dashboard"
@@ -8,7 +8,7 @@ import systemRoutesConf from "@/router/modules/system/system"
 const basicRoutes: RouteRecordRaw[] = [
     roleRoutesConf,
     dashboardRoutesConf,
-    systemRoutesConf
+    systemRoutesConf,
 ]
 
 export default basicRoutes

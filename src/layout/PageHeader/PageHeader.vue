@@ -3,12 +3,20 @@
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb.vue"
 import HeaderSetup from "./components/HeaderSetup/HeaderSetup.vue"
 
+const emit = defineEmits<{
+    (event: "show"): void
+}>()
+
+const show = (): void => {
+    emit("show")
+}
+
 </script>
 
 <template>
     <a-layout-header class="system-header">
         <Breadcrumb />
-        <HeaderSetup />
+        <HeaderSetup @show="show" />
     </a-layout-header>
 </template>
 
