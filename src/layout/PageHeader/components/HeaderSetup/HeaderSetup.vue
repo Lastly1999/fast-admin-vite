@@ -91,6 +91,7 @@ const hide = () => {
             <template #content>
                 <div
                     v-for="item in userInfo.role"
+                    :key="item.roleId"
                     :class="['setup-select-item', item.roleId === currentInfo?.roleId ? 'setup-item-active' : '']"
                     @click="item.roleId !== currentInfo?.roleId ? roleHide(item.roleId) : isCurrentRoleMsg()"
                 >

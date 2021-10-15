@@ -40,9 +40,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse
 function serveResponseErrHandler(res: AxiosResponse<HttpResponse>) {
     const statusCode: number = res.data.code
     const errorMsg: string = res.data.msg
-    if (statusCode !== 200) {
-        alertMsg("error", errorMsg)
-    }
+    if (statusCode !== 200) alertMsg("error", errorMsg)
 }
 
 function requestHandler(response: AxiosResponse<HttpResponse>) {

@@ -19,7 +19,7 @@ onMounted(() => {
 
 <template>
   <a-row :gutter="[10, 10]" justify="start" :wrap="true">
-    <a-col :span="18">
+    <a-col :xl="18" :md="24" :sm="24">
       <a-skeleton active :loading="panelLoading">
         <WorkInfoPanel />
       </a-skeleton>
@@ -30,7 +30,7 @@ onMounted(() => {
         <TimeLinePanel />
       </a-skeleton>
     </a-col>
-    <a-col :span="6">
+    <a-col :xl="6" :md="24" :sm="24">
       <a-skeleton active :loading="panelLoading">
         <WorkBannerPanel />
       </a-skeleton>

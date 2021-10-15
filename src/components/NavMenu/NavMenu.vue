@@ -13,15 +13,15 @@
                 <a-menu-item :key="item.path">{{ item.label }}</a-menu-item>
             </template>
             <template v-else>
-                <sub-menu :menu-info="item" :key="item.path"/>
+                <sub-menu :menu-info="item" :key="item.path" />
             </template>
         </template>
     </a-menu>
 </template>
 <script lang="ts">
-import {defineComponent, PropType, watch, reactive, toRefs} from 'vue'
-import {Icon} from '@/components/FIcon/FIcon'
-import {useRouter, useRoute} from 'vue-router'
+import { defineComponent, PropType, watch, reactive, toRefs } from 'vue'
+import { Icon } from '@/components/FIcon/FIcon'
+import { useRouter, useRoute } from 'vue-router'
 
 export type MenuItem = {
     path: string;
@@ -101,7 +101,7 @@ export default defineComponent({
                 const mapKeys: string = '/' + route.path.split('/')[route.path.split('/').length - 2]
                 menuState.openKeys = [mapKeys]
             },
-            {deep: true, immediate: true}
+            { deep: true, immediate: true }
         )
         const selectMenuItem = (item: MenuItem) => {
             router.push(item?.key)

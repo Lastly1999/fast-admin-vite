@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PropType } from "vue"
-import type { TreeDataItem, CheckEvent } from 'ant-design-vue/es/tree/Tree'
+import type { TreeDataItem } from 'ant-design-vue/es/tree/Tree'
 
 export type TreeChecked = {
 	checked: number[];
@@ -35,13 +35,5 @@ const treeSelect = (checkedKeys: TreeChecked) => {
 </script>
 
 <template>
-	<a-tree
-		checkable
-		checkStrictly
-		defaultExpandAll
-		:replaceFields="replaceFields"
-		:tree-data="data"
-		v-model:checkedKeys="checkedKeys"
-		@check="treeSelect"
-	></a-tree>
+	<a-tree checkable checkStrictly defaultExpandAll :replaceFields="replaceFields" :tree-data="data" v-model:checkedKeys="checkedKeys" @check="treeSelect"></a-tree>
 </template>

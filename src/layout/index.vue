@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import { useStore } from "vuex"
 import { Layout } from "ant-design-vue"
 
@@ -10,6 +10,9 @@ import PageSider from './PageSider/PageSider.vue'
 // 系统配置抽屉
 import SystemSetupDrawer from "@/components/SystemSetupDrawer/SystemSetupDrawer.vue"
 
+onMounted(() => {
+    loadSystemConf()
+})
 
 const store = useStore()
 
@@ -26,7 +29,6 @@ const loadSystemConf = () => {
     // 系统图标下拉列表参数
     store.dispatch("systemModule/API_GET_SYS_ICONS")
 }
-loadSystemConf()
 </script>
 <template>
     <Layout class="system-container">

@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { UserOutlined } from '@ant-design/icons-vue'
+
+</script>
 <template>
     <div class="user-info-panel">
         <div>
@@ -9,25 +13,12 @@
         </div>
     </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { UserOutlined } from '@ant-design/icons-vue'
-export default defineComponent({
-    components: {
-        UserOutlined,
-    },
-    setup() {
-        return {}
-    },
-})
-</script>
 <style scoped>
 .user-info-panel {
     border-radius: 6px;
     background: #fff;
     display: flex;
-    padding:15px;
+    padding: 15px;
     box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
 }
 </style>
