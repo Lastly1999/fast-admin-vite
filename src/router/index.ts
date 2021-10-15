@@ -64,7 +64,8 @@ router.beforeEach(async (to: RouteLocationNormalized, form: RouteLocationNormali
     } else {
         const menus = store.getters["authModule/getSysMenus"]
         if (!menus || menus.length === 0) {
-            await store.dispatch('authModule/API_GET_SYS_MENUS')
+            await store.dispatch("systemModule/API_GET_SYS_ROLES")
+            await store.dispatch("authModule/API_GET_SYS_MENUS") // 全部系统菜单
             await store.dispatch("authModule/API_GET_SYS_USER_INFO") // 系统用户信息
         }
         next()

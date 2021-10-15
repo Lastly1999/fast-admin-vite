@@ -3,7 +3,7 @@ import { Store } from "vuex"
 // apis
 import { getSystemIcons } from "@/services/system/sys"
 import { getAllSysMenus } from "@/services/auth"
-import { getSystemUserRoles } from "@/services/user/user"
+import { getRoles } from "@/services/role"
 
 export type IconItem = {
     id: number;
@@ -97,8 +97,8 @@ export const systemModule: SystemModule = {
          * 请求系统角色列表
          * @param param
          */
-        async API_GET_SYS_ROLES({ commit }: Store<any>, userId: number) {
-            const { data, code } = await getSystemUserRoles(userId)
+        async API_GET_SYS_ROLES({ commit }: Store<any>) {
+            const { data, code } = await getRoles()
             if (code === 200) commit('SET_SYS_ROLES', data.roles)
         }
     },

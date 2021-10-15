@@ -14,6 +14,11 @@ import { alertMsg } from "@/utils/antd/antd"
 // apis
 import { updateUserRole } from "@/services/auth"
 
+const emit = defineEmits<{
+    (event: 'show'): void
+}>()
+
+
 const router = useRouter()
 const store = useStore()
 
@@ -58,11 +63,18 @@ const updateRole = async (roleId: string) => {
 const isCurrentRoleMsg = () => {
     alertMsg('warning', '你现在已经是这个角色啦！不要误操作')
 }
+
+// 显示系统配置抽屉
+const showSystemSetup = () => {
+    visible.value = false
+    emit("show")
+}
+
 // 注销系统
 const hide = () => {
     store.dispatch('authModule/reLogin')
     router.push("/login")
-    visible.value = false;
+    visible.value = false
 }
 
 </script>
@@ -99,7 +111,7 @@ const hide = () => {
         <!-- 系统设置 -->
         <a-popover overlayClassName="setup-popover" v-model:visible="visible" placement="bottom" trigger="click">
             <template #content>
-                <div class="setup-select-item">
+                <div class="setup-select-item" @click="showSystemSetup">
                     <BgColorsOutlined />
                     <span class="setup-select-item-title">个性设置</span>
                 </div>
