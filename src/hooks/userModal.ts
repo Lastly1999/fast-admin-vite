@@ -1,9 +1,9 @@
 import { ref } from "vue"
 
 
-export default function () {
-  const title = ref('')
-  const visible = ref(false)
+export default function (title: string, show: boolean) {
+  const modalTitle = ref(title)
+  const visible = ref(show)
 
   const showModal = (): void => {
     visible.value = true
@@ -14,7 +14,7 @@ export default function () {
   }
 
   return {
-    title,
+    modalTitle,
     visible,
     showModal,
     closeModal
