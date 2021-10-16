@@ -3,7 +3,7 @@
         v-model:openKeys="openKeys"
         v-model:selectedKeys="selectedKeys"
         mode="inline"
-        theme="dark"
+        :theme="sysTheme"
         :inline-collapsed="collapsed"
         @select="selectMenuItem"
         @openChange="onOpenChange"
@@ -19,7 +19,8 @@
     </a-menu>
 </template>
 <script lang="ts">
-import { defineComponent, PropType, watch, reactive, toRefs } from 'vue'
+import { defineComponent, PropType, watch, reactive, toRefs, onMounted, computed } from 'vue'
+import { useStore } from "vuex"
 import { Icon } from '@/components/FIcon/FIcon'
 import { useRouter, useRoute } from 'vue-router'
 
@@ -29,6 +30,8 @@ export type MenuItem = {
     children: MenuItem[];
     icon: string;
 }
+
+export type Theme = "dark" | "light"
 
 // you can rewrite it to a single file component, if not, you should config vue alias to vue/dist/vue.esm-bundler.js
 const SubMenu = {
@@ -86,13 +89,18 @@ export default defineComponent({
         },
     },
     setup() {
+        onMounted(() => {
+            loadInitSystemTheme()
+        })
         const router = useRouter()
         const route = useRoute()
+        const store = useStore()
         const menuState = reactive({
             collapsed: false as boolean,
             selectedKeys: [] as string[],
             openKeys: [] as string[],
         })
+        // watch system 路由栈
         watch(
             () => route.path,
             (nv, _) => {
@@ -103,13 +111,26 @@ export default defineComponent({
             },
             { deep: true, immediate: true }
         )
-        const selectMenuItem = (item: MenuItem) => {
-            router.push(item?.key)
+        // 系统主题
+        const sysTheme = computed<Theme>(() => store.getters["configModule/getSystemTheme"])
+        // 初始化主题配置
+        const loadInitSystemTheme = (): void => {
+            console.log(sysTheme.value)
+            const cache = localStorage.getItem("sys-theme") as Theme
+            if (cache) {
+                store.dispatch("configModule/SET_SYSTEM_THEME", cache)
+            }
         }
+        // 打开菜单item
+        const selectMenuItem = (item: any) => {
+            router.push(item!.key)
+        }
+        // 打开菜单
         const onOpenChange = (openKeys: any) => {
         }
         return {
             ...toRefs(menuState),
+            sysTheme,
             onOpenChange,
             selectMenuItem,
         }

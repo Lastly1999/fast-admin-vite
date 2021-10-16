@@ -86,9 +86,9 @@ const rules = {
       <a-form-item label="角色别名" name="describe">
         <a-input v-model:value="form.describe" placeholder="请输入" />
       </a-form-item>
-      <a-form-item label="创建时间" name="createDate">
+      <!-- <a-form-item label="创建时间" name="createDate">
         <a-date-picker v-model:value="form.createDate" :mode="form.createDate" show-time placeholder="请选择" />
-      </a-form-item>
+      </a-form-item> -->
     </a-form>
   </FDrawer>
 </template>
