@@ -32,7 +32,7 @@ export const createSystemUser = (data: RegisterUserForm): Promise<HttpResponse> 
  * 删除系统用户
  * @param userId 
  */
-export const deleteSystemUser = (userId: number) => {
+export const deleteSystemUser = (userId: number): Promise<HttpResponse> => {
     return httpRequest({
         method: "delete",
         path: `/user/user/${userId}`
@@ -43,7 +43,7 @@ export const deleteSystemUser = (userId: number) => {
  * 修改系统用户信息
  * @param data 
  */
-export const editSystemUser = (data: RegisterUserForm) => {
+export const editSystemUser = (data: RegisterUserForm): Promise<HttpResponse> => {
     return httpRequest({
         method: "patch",
         path: `/user/user`,
@@ -55,7 +55,7 @@ export const editSystemUser = (data: RegisterUserForm) => {
  * 获取系统用户角色列表
  * @param userId 
  */
-export const getSystemUserRoles = (userId: number) => {
+export const getSystemUserRoles = (userId: number): Promise<HttpResponse> => {
     return httpRequest({
         method: "get",
         path: `/user/role/${userId}`,
@@ -66,7 +66,7 @@ export const getSystemUserRoles = (userId: number) => {
  * 新增用户关联角色
  * @param data 
  */
-export const PatchUserAsRole = (data: UserAsRoleParams) => {
+export const PatchUserAsRole = (data: UserAsRoleParams): Promise<HttpResponse> => {
     return httpRequest({
         method: "patch",
         path: `/user/role`,

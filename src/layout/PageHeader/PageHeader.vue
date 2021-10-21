@@ -22,7 +22,7 @@ const show = (): void => {
 
 <style lang="scss">
 .system-header {
-    z-index: 9998;
+    z-index: 998;
     justify-content: space-between;
     height: 50px;
     display: flex;

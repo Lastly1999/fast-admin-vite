@@ -10,7 +10,12 @@
     >
         <template v-for="item in $props.list" :key="item.path">
             <template v-if="!item?.children">
-                <a-menu-item :key="item.path">{{ item.label }}</a-menu-item>
+                <a-menu-item :key="item.path">
+                    <template #icon>
+                        <Icon :icon="item.icon"></Icon>
+                    </template>
+                    {{ item.label }}
+                </a-menu-item>
             </template>
             <template v-else>
                 <sub-menu :menu-info="item" :key="item.path" />
