@@ -35,7 +35,7 @@ const systemTheme = computed<SystemTheme>(() => store.getters["configModule/getS
 <style lang="scss" scoped>
 .system-sider {
     box-shadow: 0 0 10px 0px #cbc9d2;
-    z-index: 9999;
+    z-index: 999;
     .logo {
         padding: 10px;
         text-align: center;
