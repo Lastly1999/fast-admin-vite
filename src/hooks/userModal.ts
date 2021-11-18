@@ -19,4 +19,4 @@ export default function (title: string, show: boolean) {
     showModal,
     closeModal
   }
-}
+} 

@@ -16,7 +16,7 @@ const dashboardRoutesConf: RouteRecordRaw = {
     children: [
         {
             path: "panel",
-            name: "dashboard-index",
+            name: "panel-index",
             component: () => import("@/views/Main/dashboard/Panel/Panel.vue"),
             meta: {
                 title: "面板",
