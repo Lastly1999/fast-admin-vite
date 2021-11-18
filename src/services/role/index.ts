@@ -30,7 +30,7 @@ export const editRole = (data: RoleForm): Promise<HttpResponse> => {
  * 删除角色信息
  * @param id
  */
-export const delRole = (id: number) => {
+export const delRole = (id: number | null) => {
     return httpRequest({
         method: 'delete',
         path: `/role/role/${id}`

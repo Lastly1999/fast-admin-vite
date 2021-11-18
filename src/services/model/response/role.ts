@@ -1,4 +1,4 @@
-import { RoleItem } from "@/store/modules/system"
+import {RoleItem} from "@/store/modules/system"
 
 export type LoginForm = {
     userName: string;
@@ -17,7 +17,7 @@ export type UserInfo = {
 }
 
 export interface RoleForm {
-    roleId: number;
+    roleId: number | null;
     roleName: string;
     describe: string;
     createDate: string;

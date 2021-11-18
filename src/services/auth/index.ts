@@ -48,9 +48,9 @@ export const getAllSysMenus = (): Promise<HttpResponse> => {
 
 /**
  * 获取用户所持系统ids
- * @param userId
+ * @param id
  */
-export const getUserMenuIds = (id: number): Promise<HttpResponse> => {
+export const getUserMenuIds = (id: number | null): Promise<HttpResponse> => {
     return httpRequest({
         method: 'get',
         path: `/auth/menuids/${id}`

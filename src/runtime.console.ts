@@ -3,9 +3,9 @@
  * @description 没什么用 作为系统的标识
  * @date 2021年10月7日23:16:44
  */
-export const processChromeConole = () => {
-  console.log(
-    `%c
+export const processChromeConole = (): void => {
+    console.log(
+        `%c
      ______   ________   ______   _________  
     /_____/\\ /_______/\\ /_____/\\ /________/\\ 
     \\::::_\\/_\\::: _  \\ \\\\::::_\\/_\\__.::.__\\/ 
@@ -18,5 +18,5 @@ export const processChromeConole = () => {
      
      by:lastly 2021年10月4日16:32:54
     `, "color:green"
-  )
+    )
 }

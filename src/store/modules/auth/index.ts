@@ -6,6 +6,7 @@ import type { LoginForm, UserInfo } from "@/services/model/response/role"
 // apis
 import { checkAuthUser } from "@/services/auth"
 import { getSysMenus, getSystemUserInfo } from '@/services/auth'
+import {createMd5Pass} from "@/utils/md5/md5";
 
 
 export type AuthState = {

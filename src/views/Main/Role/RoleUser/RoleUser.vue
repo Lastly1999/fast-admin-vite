@@ -1,24 +1,25 @@
 <script lang="ts" setup>
-import { onMounted, reactive, ref, computed } from "vue"
-import { useStore } from "vuex"
+import {computed, onMounted, reactive, ref} from "vue"
+import {useStore} from "vuex"
 
+import type {QueryJsonItem} from "@/components/QueryGroup/QueryGroup.vue"
 // components
 import QueryGroup from "@/components/QueryGroup/QueryGroup.vue"
 import FContainer from "@/components/FContainer/FContainer.vue"
 import FTable from "@/components/FTable/FTable.vue"
+import type {UserForm} from "./components/RoleUserModalForm/RoleUserModalForm.vue"
 import RoleUserModalForm from "./components/RoleUserModalForm/RoleUserModalForm.vue"
-
-import type { QueryJsonItem } from "@/components/QueryGroup/QueryGroup.vue"
-import type { RegisterUserForm, UserSystem } from "@/services/model/response/user"
-import type { listParams } from "@/services/model/response/public"
-import type { UserForm } from "./components/RoleUserModalForm/RoleUserModalForm.vue"
-import type { RoleItem } from "@/store/modules/system"
+import type {RegisterUserForm, UserSystem} from "@/services/model/response/user"
+import type {listParams} from "@/services/model/response/public"
+import type {RoleItem} from "@/store/modules/system"
 
 
 // apis
-import { getUsers, createSystemUser, deleteSystemUser, editSystemUser, PatchUserAsRole } from "@/services/user/user"
-import { alertMsg } from "@/utils/antd/antd"
+import {createSystemUser, deleteSystemUser, editSystemUser, getUsers} from "@/services/user/user"
 
+// utils
+import {alertMsg} from "@/utils/antd/antd"
+import {createMd5Pass} from "@/utils/md5/md5"
 
 onMounted(() => {
     getSystemUsers()
@@ -108,7 +109,7 @@ const columns = [
     {
         title: "所有角色",
         width: 300,
-        slots: { customRender: "tags" },
+        slots: {customRender: "tags"},
     },
     {
         title: '创建时间',
@@ -125,7 +126,7 @@ const columns = [
     {
         title: "操作",
         fixed: "right",
-        slots: { customRender: "action" },
+        slots: {customRender: "action"},
     },
 ]
 // 用户列表加载状态
@@ -183,7 +184,7 @@ const addFormRequest = async (): Promise<void> => {
         roleId: userForm.value.roleId,
         roleIds: userForm.value.roleIds,
     }
-    const { code } = await createSystemUser(param)
+    const {code} = await createSystemUser(param)
     if (code === 200) {
         alertMsg("success", "新增成功!")
     }
@@ -198,7 +199,7 @@ const updateFormRequest = async (): Promise<void> => {
         roleId: userForm.value.roleId,
         roleIds: userForm.value.roleIds,
     }
-    const { code } = await editSystemUser(param)
+    const {code} = await editSystemUser(param)
     if (code === 200) {
         alertMsg("success", "修改成功!")
     }
@@ -207,7 +208,7 @@ const updateFormRequest = async (): Promise<void> => {
 // 请求系统用户列表
 const getSystemUsers = async (): Promise<void> => {
     userTableLoading.value = true
-    const { code, data } = await getUsers(queryForm.value)
+    const {code, data} = await getUsers(queryForm.value)
     if (code === 200) {
         userData.value = data.users
         eachRoleIds()
@@ -227,7 +228,7 @@ const eachRoleIds = (): void => {
 
 // 请求删除系统用户
 const delSystemUser = async (id: number): Promise<void> => {
-    const { code } = await deleteSystemUser(id)
+    const {code} = await deleteSystemUser(id)
     if (code === 200) {
         alertMsg("success", "删除成功")
     }
@@ -240,10 +241,11 @@ const roleOptions = computed<RoleItem[]>(() => store.getters["systemModule/getSy
 <template>
     <FContainer>
         <template v-slot:header>
-            <QueryGroup v-model:jsonData="queryJsonData" v-model:form="queryForm" />
+            <QueryGroup v-model:jsonData="queryJsonData" v-model:form="queryForm"/>
         </template>
         <template v-slot:main>
-            <FTable bordered size="middle" :loading="userTableLoading" :columns="columns" :data-source="userData" rowKey="id">
+            <FTable bordered size="middle" :loading="userTableLoading" :columns="columns" :data-source="userData"
+                    rowKey="id">
                 <template #tags="{ data }">
                     <a-tag v-for="item in data.role" color="green">{{ item.roleName }}</a-tag>
                     <!-- <a-select
@@ -259,13 +261,15 @@ const roleOptions = computed<RoleItem[]>(() => store.getters["systemModule/getSy
                 </template>
                 <template #action="{ data }">
                     <a @click="editUserRow(data)">修改</a>
-                    <a-divider type="vertical" />
-                    <a-popconfirm title="你确定要删除该菜单吗?删除后无法恢复!" ok-text="是的" cancel-text="算了吧" @confirm="delSystemUser(data.id)">
+                    <a-divider type="vertical"/>
+                    <a-popconfirm title="你确定要删除该菜单吗?删除后无法恢复!" ok-text="是的" cancel-text="算了吧"
+                                  @confirm="delSystemUser(data.id)">
                         <a>删除</a>
                     </a-popconfirm>
                 </template>
             </FTable>
-            <RoleUserModalForm v-model:loading="formLoading" v-model:visible="userModalVisible" v-model:title="userModalTitle" :form="userForm" @submit="submitForm" />
+            <RoleUserModalForm v-model:loading="formLoading" v-model:visible="userModalVisible"
+                               v-model:title="userModalTitle" :form="userForm" @submit="submitForm"/>
         </template>
     </FContainer>
 </template>
