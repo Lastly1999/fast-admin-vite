@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref, computed } from "vue"
-import { useStore } from "vuex"
-import { Icon } from "@/components/FIcon/FIcon.ts"
+import {ref, computed} from "vue"
+import {useStore} from "vuex"
+import {Icon} from "@/components/FIcon/FIcon.ts"
 
 export type IconsItem = {
     id: number;
@@ -33,9 +33,14 @@ const handleChange = (event: string) => {
     emit('update:value', event)
 }
 
+const filterOption = (input: string, option: any) => {
+    return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+};
+
 </script>
 <template>
-    <a-select v-model:value="value" style="width: 100%" placeholder="请选择" @change="handleChange">
+    <a-select v-model:value="value" show-search style="width: 100%" placeholder="请选择" @change="handleChange"
+              :filter-option="filterOption">
         <a-select-option v-for="item in options" :value="item.iconName">
             <span>
                 <Icon :icon="item.iconName"></Icon>

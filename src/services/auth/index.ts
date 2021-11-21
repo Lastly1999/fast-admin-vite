@@ -1,7 +1,8 @@
 import httpRequest from "@/utils/axios/service"
-import { HttpResponse } from "../model/request/public"
-import { MenuInfo } from "@/services/model/response/role"
-import { UpdateSystemUserRoleParams } from "@/services/model/response/auth"
+import {HttpResponse} from "../model/request/public"
+import {MenuInfo} from "@/services/model/response/role"
+import {UpdateSystemUserRoleParams} from "@/services/model/response/auth"
+import {UpdateBaseMenuParams} from "@/services/model/request/auth";
 
 /**
  * 鉴权登录
@@ -98,3 +99,25 @@ export const updateUserRole = (data: UpdateSystemUserRoleParams) => {
         data
     })
 }
+
+/**
+ * 编辑系统菜单信息
+ */
+export const updateBaseMenuInfo = (data: UpdateBaseMenuParams) => {
+    return httpRequest({
+        method: 'PATCH',
+        path: "/menu/menu",
+        data
+    })
+}
+
+/**
+ * 获取系统菜单详情
+ */
+export const getBaseMenuInfo = (id: string) => {
+    return httpRequest({
+        method: 'GET',
+        path: `/menu/menu/${id}`
+    })
+}
+

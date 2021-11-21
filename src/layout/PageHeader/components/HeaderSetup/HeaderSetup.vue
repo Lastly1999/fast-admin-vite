@@ -61,7 +61,7 @@ const updateRole = async (roleId: string) => {
 }
 // 当前角色警告
 const isCurrentRoleMsg = () => {
-    alertMsg('warning', '你现在已经是这个角色啦！不要误操作')
+    alertMsg('warning', '你现在已经是这个角色啦！')
 }
 
 // 显示系统配置抽屉
