@@ -24,6 +24,7 @@
     "nprogress": "^0.2.0",
     "sass": "^1.37.5",
     "sass-loader": "^12.1.0",
+    "screenfull": "^6.0.0",
     "vite-plugin-element-plus": "^0.0.9",
     "vue": "^3.0.5",
     "vue-router": "4",

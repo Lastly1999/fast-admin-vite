@@ -53,33 +53,22 @@ const append = (): void => {
     userModalVisible.value = true
 }
 
-const search = (): void => {
-
-}
-
-const reset = (): void => {
-
-}
-
 // 查询组件渲染数据源
 const queryJsonData = reactive<QueryJsonItem[]>([
+    {
+        type: "input",
+        placeholder: "请输入姓名、账户名称"
+    },
+    {
+        type: "rangePicker",
+        placeholder: "清选择时间",
+        size: "default"
+    },
     {
         type: "button",
         buttonType: "primary",
         text: "新增用户",
         fun: append
-    },
-    {
-        type: "button",
-        buttonType: "primary",
-        text: "查询",
-        fun: search
-    },
-    {
-        type: "button",
-        buttonType: "default",
-        text: "重置",
-        fun: reset
     }
 ])
 
@@ -131,7 +120,6 @@ const columns = [
 ]
 // 用户列表加载状态
 const userTableLoading = ref(false)
-
 // 用户列表数据源
 const userData = ref<UserSystem[]>()
 
@@ -248,16 +236,6 @@ const roleOptions = computed<RoleItem[]>(() => store.getters["systemModule/getSy
                     rowKey="id">
                 <template #tags="{ data }">
                     <a-tag v-for="item in data.role" color="green">{{ item.roleName }}</a-tag>
-                    <!-- <a-select
-                        v-model:value="data.roleIds"
-                        mode="multiple"
-                        style="width: 100%"
-                        placeholder="暂无配置角色"
-                        option-label-prop="label"
-                        @change="rolePatchChange(data)"
-                    >
-                        <a-select-option v-for="item in roleOptions" :value="item.roleId" :label="item.roleName">&nbsp;&nbsp;{{ item.roleName }}</a-select-option>
-                    </a-select>-->
                 </template>
                 <template #action="{ data }">
                     <a @click="editUserRow(data)">修改</a>

@@ -1,18 +1,29 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, createVNode } from "vue"
-import { useStore } from 'vuex'
-import { useRouter } from "vue-router"
+import {ref, computed, onMounted, createVNode} from "vue"
+import {useStore} from 'vuex'
+import {useRouter} from "vue-router"
 
-import type { UpdateSystemUserRoleParams } from "@/services/model/response/auth"
-import type { RoleItem } from "@/store/modules/system"
+import type {UpdateSystemUserRoleParams} from "@/services/model/response/auth"
+import type {RoleItem} from "@/store/modules/system"
+
+
+import screenfull from 'screenfull'
 
 // components
-import { Modal } from 'ant-design-vue'
-import { SettingOutlined, ExpandOutlined, SearchOutlined, PoweroffOutlined, UserSwitchOutlined, ExclamationCircleOutlined, BgColorsOutlined } from '@ant-design/icons-vue'
-import { alertMsg } from "@/utils/antd/antd"
+import {Modal} from 'ant-design-vue'
+import {
+    SettingOutlined,
+    ExpandOutlined,
+    SearchOutlined,
+    PoweroffOutlined,
+    UserSwitchOutlined,
+    ExclamationCircleOutlined,
+    BgColorsOutlined
+} from '@ant-design/icons-vue'
+import {alertMsg} from "@/utils/antd/antd"
 
 // apis
-import { updateUserRole } from "@/services/auth"
+import {updateUserRole} from "@/services/auth"
 
 const emit = defineEmits<{
     (event: 'show'): void
@@ -49,10 +60,10 @@ const roleHide = (roleId: string) => {
 // 请求更新角色默认角色
 const updateRole = async (roleId: string) => {
     const param: UpdateSystemUserRoleParams = {
-        roleId: roleId,
+        roleId: String(roleId),
         userId: userInfo.value.id
     }
-    const { code } = await updateUserRole(param)
+    const {code} = await updateUserRole(param)
     if (code === 200) {
         alertMsg("success", "切换成功")
     }
@@ -77,14 +88,22 @@ const hide = () => {
     visible.value = false
 }
 
+const scrrent = () => {
+    if (screenfull.isEnabled) {
+        screenfull.toggle()
+    }
+}
+
 </script>
 <template>
     <div class="system-setup">
-        <div class="setup-item">
-            <ExpandOutlined />
+        <!-- 全屏设置 -->
+        <div class="setup-item" @click="scrrent">
+            <ExpandOutlined/>
         </div>
+        <!-- 搜索设置 todo -->
         <div class="setup-item">
-            <SearchOutlined />
+            <SearchOutlined/>
         </div>
         <!-- 用户角色切换 -->
         <a-popover overlayClassName="setup-popover" v-model:visible="roleVisible" placement="bottom" trigger="click">
@@ -95,42 +114,42 @@ const hide = () => {
                     :class="['setup-select-item', item.roleId === currentInfo?.roleId ? 'setup-item-active' : '']"
                     @click="item.roleId !== currentInfo?.roleId ? roleHide(item.roleId) : isCurrentRoleMsg()"
                 >
-                    <PoweroffOutlined />
+                    <PoweroffOutlined/>
                     <span class="setup-select-item-title">{{ item.roleName }}</span>
                 </div>
             </template>
             <template #title>
                 <div>
-                    <UserSwitchOutlined />
+                    <UserSwitchOutlined/>
                     <span class="setup-select-title">当前角色：{{ currentInfo?.roleName }}</span>
                 </div>
             </template>
             <div class="setup-item">
-                <UserSwitchOutlined />
+                <UserSwitchOutlined/>
             </div>
         </a-popover>
         <!-- 系统设置 -->
         <a-popover overlayClassName="setup-popover" v-model:visible="visible" placement="bottom" trigger="click">
             <template #content>
                 <div class="setup-select-item" @click="showSystemSetup">
-                    <BgColorsOutlined />
+                    <BgColorsOutlined/>
                     <span class="setup-select-item-title">个性设置</span>
                 </div>
                 <a-popconfirm title="你确认要注销系统吗？" ok-text="是的" cancel-text="算了吧" @confirm="hide">
                     <div class="setup-select-item">
-                        <PoweroffOutlined />
+                        <PoweroffOutlined/>
                         <span class="setup-select-item-title">注销系统</span>
                     </div>
                 </a-popconfirm>
             </template>
             <template #title>
                 <div>
-                    <SettingOutlined />
+                    <SettingOutlined/>
                     <span class="setup-select-title">系统设置</span>
                 </div>
             </template>
             <div class="setup-item">
-                <SettingOutlined />
+                <SettingOutlined/>
             </div>
         </a-popover>
     </div>

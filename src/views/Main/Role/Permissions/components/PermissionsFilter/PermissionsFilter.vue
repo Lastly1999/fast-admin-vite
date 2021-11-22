@@ -46,10 +46,3 @@ const modelRef = reactive({
     </a-form>
   </div>
 </template>
-<style>
-.permissions-fillter {
-  padding: 10px;
-  background-color: #fff;
-  margin-bottom: 10px;
-}
-</style>

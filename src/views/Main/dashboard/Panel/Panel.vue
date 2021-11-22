@@ -19,7 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <a-row :gutter="[10, 10]" justify="start" :wrap="true">
+  <a-row :gutter="[10, 10]" justify="start" :wrap="true" style="padding: 15px">
     <a-col :xl="18" :md="24" :sm="24">
       <a-skeleton active :loading="panelLoading">
         <WorkInfoPanel />

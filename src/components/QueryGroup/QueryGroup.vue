@@ -1,16 +1,19 @@
 <script lang="ts" setup>
-import type { PropType } from "vue"
-import type { Moment } from 'moment'
+import type {PropType} from "vue"
+import type {Moment} from 'moment'
 import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
 
+export type JsonCompType = "input" | "button" | "rangePicker"
+
 export type QueryJsonItem = {
-    type?: string;
+    type?: JsonCompType;
     label?: string;
     placeholder?: string | string[];
     required?: boolean;
     prop?: any;
 } & JsonButton &
-    JsonInput;
+    JsonInput &
+    JsonRangePicker;
 
 export type JsonInput = {};
 
@@ -21,6 +24,12 @@ export type JsonButton = {
     change?: (value: Moment[], dateString: string[]) => void;
     ok?: (data: any) => void;
 };
+
+export type RangePickerSize = "size" | "default" | "small"
+
+export type JsonRangePicker = {
+    size?: RangePickerSize
+}
 
 defineProps({
     jsonData: {
@@ -39,14 +48,19 @@ defineProps({
     <div class="permissions-fillter">
         <a-form layout="inline" :modal="form">
             <a-form-item v-for="jsonItem in jsonData" :label="jsonItem.label" :required="jsonItem.required">
-                <a-input v-if="jsonItem.type === 'input'" v-model:value="form[jsonItem.prop]" :placeholder="jsonItem.placeholder" />
-                <a-button v-if="jsonItem.type === 'button'" :type="jsonItem.buttonType" @click.prevent="() => jsonItem.fun && jsonItem.fun()">{{ jsonItem.text }}</a-button>
+                <!-- 输入框 -->
+                <a-input v-if="jsonItem.type === 'input'" v-model:value="form[jsonItem.prop]"
+                         :placeholder="jsonItem.placeholder"/>
+                <!-- 按钮 -->
+                <a-button v-if="jsonItem.type === 'button'" :type="jsonItem.buttonType"
+                          @click.prevent="() => jsonItem.fun && jsonItem.fun()">{{ jsonItem.text }}
+                </a-button>
+                <!-- 时间选择器 -->
                 <a-range-picker
                     v-if="jsonItem.type === 'rangePicker'"
                     v-model:value="form[jsonItem.prop]"
-                    :show-time="{ format: 'YYY-MM-DD HH:MM:SS' }"
-                    format="YYYY-MM-DD HH:mm:ss"
                     :placeholder="jsonItem.placeholder"
+                    :size="jsonItem.size"
                     showToday
                     :locale="locale"
                     @change="(value, dateString) => jsonItem.change && jsonItem.change(value, dateString)"
@@ -56,10 +70,3 @@ defineProps({
         </a-form>
     </div>
 </template>
-<style>
-.permissions-fillter {
-    padding: 10px;
-    background-color: #fff;
-    margin-bottom: 10px;
-}
-</style>

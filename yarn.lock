@@ -2480,6 +2480,11 @@ sax@^1.2.4:
   resolved "https://registry.npmjs.org/sax/-/sax-1.2.4.tgz"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
+screenfull@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/screenfull/-/screenfull-6.0.0.tgz#6f7f37bfe19c5ee50931ac438c1fe380d5b5ff44"
+  integrity sha512-LGY0nhNQkC4FX4DT4pZdJ5cZH5EOz9Gfh9KcVMl779pS677k4IV1Wv7sY/CwC9VKFT21fYgCh7zkTVVefi5XKA==
+
 scroll-into-view-if-needed@^2.2.25:
   version "2.2.28"
   resolved "https://registry.npmjs.org/scroll-into-view-if-needed/-/scroll-into-view-if-needed-2.2.28.tgz"

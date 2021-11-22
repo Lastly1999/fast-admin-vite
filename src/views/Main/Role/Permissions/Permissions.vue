@@ -55,18 +55,6 @@ const queryJsonData = reactive<QueryJsonItem[]>([
         buttonType: "primary",
         text: "新增角色",
         fun: append
-    },
-    {
-        type: "button",
-        buttonType: "primary",
-        text: "查询",
-        fun: search
-    },
-    {
-        type: "button",
-        buttonType: "default",
-        text: "重置",
-        fun: reset
     }
 ])
 
