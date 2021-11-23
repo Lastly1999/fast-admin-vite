@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { UserOutlined } from '@ant-design/icons-vue'
+import {UserOutlined} from '@ant-design/icons-vue'
 
 </script>
 <template>
@@ -7,7 +7,7 @@ import { UserOutlined } from '@ant-design/icons-vue'
         <div>
             <a-avatar :size="64">
                 <template #icon>
-                    <UserOutlined />
+                    <UserOutlined/>
                 </template>
             </a-avatar>
         </div>

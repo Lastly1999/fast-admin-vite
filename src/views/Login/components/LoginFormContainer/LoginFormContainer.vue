@@ -4,6 +4,9 @@ import {ref} from 'vue'
 import type {LoginForm} from "@/services/model/response/role"
 import {ValidateErrorEntity} from 'ant-design-vue/es/form/interface'
 
+//components
+import {UserOutlined, LockOutlined} from '@ant-design/icons-vue'
+
 
 export type AutCodeOptions = {
     code: string;
@@ -53,13 +56,13 @@ const rules = {
 
 const onSubmit = () => {
     formRef.value
-        .validate()
-        .then(() => {
-            emit("change", loginForm.value);
-        })
-        .catch((error: ValidateErrorEntity<LoginForm>) => {
-            console.log('error', error);
-        });
+    .validate()
+    .then(() => {
+        emit("change", loginForm.value);
+    })
+    .catch((error: ValidateErrorEntity<LoginForm>) => {
+        console.log('error', error);
+    });
 
 }
 </script>
