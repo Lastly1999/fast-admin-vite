@@ -64,8 +64,10 @@ function errorsHandler(data: any) {
             router.push('/login').then(r => r)
         case 500:
             errorMsg = data.data
+        case 401:
+            errorMsg = data.msg
         default:
-            errorMsg = "服务器异常，未知错误"
+            errorMsg = data.msg
     }
     alertMsg("error", errorMsg)
 }

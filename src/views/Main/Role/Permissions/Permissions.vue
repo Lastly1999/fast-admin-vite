@@ -125,13 +125,13 @@ const onSubmit = async (form: RoleForm) => {
     if (form.roleId) {
         const body = await editRole(form);
         if (body.code === 200) {
-            alertMsg("success", "新增成功！");
+            alertMsg("success", "修改角色信息成功！");
             await getRoleTableList();
         }
     } else {
         const body = await appendRole(form);
         if (body.code === 200) {
-            alertMsg("success", "修改成功！");
+            alertMsg("success", "添加角色成功！");
             await getRoleTableList();
         }
     }
