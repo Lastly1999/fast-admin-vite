@@ -15,20 +15,12 @@ const dashboardRoutesConf: RouteRecordRaw = {
     },
     children: [
         {
-            path: "panel",
+            path: "",
             name: "panel-index",
             component: () => import("@/views/Main/dashboard/Panel/Panel.vue"),
             meta: {
-                title: "面板",
+                title: "",
                 role: "HOME:PANEL:VIEW"
-            }
-        },
-        {
-            path: "info",
-            name: "dashboard-info",
-            component: () => import("@/views/Main/dashboard/Info/Info.vue"),
-            meta: {
-                title: "控制台"
             }
         }
     ]
